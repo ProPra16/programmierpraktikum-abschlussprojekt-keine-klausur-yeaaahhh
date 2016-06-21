@@ -3,3 +3,8 @@
 .idea/
 *.iml
 out/
+
+# gradle files
+
+.gradle/
+build/
