@@ -1,0 +1,14 @@
+group 'de.hhu.propra16'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.8.2'
+    compile group: 'de.hhu.stups', name: 'virtual-kata-lib', version: '1.0.0'
+}
