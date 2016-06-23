@@ -1,3 +1,3 @@
 # keine-klausur-yeaaahhh TTDT
 
-https://travis-ci.org/ProPra16/programmierpraktikum-abschlussprojekt-keine-klausur-yeaaahhh.svg?branch=master
+[![Build Status](https://travis-ci.org/ProPra16/programmierpraktikum-abschlussprojekt-keine-klausur-yeaaahhh.svg?branch=master)](https://travis-ci.org/ProPra16/programmierpraktikum-abschlussprojekt-keine-klausur-yeaaahhh)
