@@ -1,4 +1,4 @@
-package de.hhu.propra16.tddt.exercise;
+package de.hhu.propra16.tddt.sourcecode;
 
 /**
  * Created by felix on 6/25/16.
