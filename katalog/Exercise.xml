@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <exercises>
     <exercise name="Römische Zahlen">
-        <description>Konvertiert arabische in römische Zahlen.</description>
+        <description>
+            Konvertiert arabische in römische Zahlen.
+        </description>
         <classes>
             <class name="RomanNumberConverter">
                 public class RomanNumberConverter{
@@ -12,8 +14,9 @@
             <test name="RomanNumberConverterTest">
                 import static org.junit.Assert.*;
                 import org.junit.Test;
+
                 public class RomanNumbersTest {
-                @Test
+                    @Test
                     public void testSomething() {
                     }
                 }
@@ -26,7 +29,9 @@
     </exercise>
 
     <exercise name="Römische Zahlen">
-        <description>Konvertiert arabische in römische Zahlen.</description>
+        <description>
+            Konvertiert arabische in römische Zahlen.
+        </description>
         <classes>
             <class name="RomanNumberConverter">
                 public class RomanNumberConverter {
