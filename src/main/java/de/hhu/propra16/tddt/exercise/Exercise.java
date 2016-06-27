@@ -23,7 +23,7 @@ public class Exercise {
     private final String name;
     private final String description;
 
-    public Exercise(SourceCode sources, String name, String description) {
+    Exercise(SourceCode sources, String name, String description) {
         this.sources = sources;
         this.name = name;
         this.description = description;
