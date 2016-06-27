@@ -13,7 +13,7 @@ import java.nio.file.Paths;
 public class ExerciseLoader {
 
 
-    private static void loadFile(Path p){
+    private static void loadFile(Path p) {
         try {
             SAXParserFactory factory = SAXParserFactory.newInstance();
             SAXParser saxParser = factory.newSAXParser();
