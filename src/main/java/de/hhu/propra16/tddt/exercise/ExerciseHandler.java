@@ -10,25 +10,26 @@ import java.util.List;
 class ExerciseHandler extends DefaultHandler {
 
     private String current = "";
-    private Exercise exercise;
+    private ExerciseBuilder exercise;
     private List<Exercise> exercises = new ArrayList<>();
 
     @Override
     public void startElement(String URI, String localName, String qName, Attributes atts){
         if(qName.equals("exercise")){
-            exercise = new Exercise(getAttribute(atts, "name", 0));
+            exercise = new ExerciseBuilder(getAttribute(atts, "name", 0));
         }
         if(qName.equals("class")){
             exercise.setClassName(getAttribute(atts,"name", 0));
         }
         if(qName.equals("test")){
-            exercise.setTestname(getAttribute(atts, "name",0));
+            exercise.setTestName(getAttribute(atts, "name",0));
         }
         if(qName.equals("babysteps")){
-            exercise.setBabysteps(getAttribute(atts, "value", 0).toLowerCase().equals("true"));
-            if(exercise.getBabysteps()) {
-                exercise.setTimer(getAttribute(atts, "time", 1));
-            }
+            exercise.setBabySteps(getAttribute(atts, "value", 0).toLowerCase().equals("true"));
+//            TODO add time parser
+//            if(exercise.getBabysteps()) {
+//                exercise.setTimer(getAttribute(atts, "time", 1));
+//            }
 
         }
     }
@@ -52,7 +53,7 @@ class ExerciseHandler extends DefaultHandler {
 
         }
 
-        if(qName.equals("exercise")) exercises.add(exercise);
+        if(qName.equals("exercise")) exercises.add(exercise.build());
         current = "";
     }
 
