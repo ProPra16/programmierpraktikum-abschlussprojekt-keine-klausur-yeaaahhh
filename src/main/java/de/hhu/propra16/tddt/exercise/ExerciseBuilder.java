@@ -3,6 +3,8 @@ package de.hhu.propra16.tddt.exercise;
 import de.hhu.propra16.tddt.sourcecode.SourceCodeBuilder;
 import vk.core.api.CompilationUnit;
 
+import java.time.Duration;
+
 public class ExerciseBuilder {
 
     private final String name;
@@ -12,6 +14,7 @@ public class ExerciseBuilder {
     private boolean babySteps = false;
     private boolean tracking = false;
     private final SourceCodeBuilder sourceBuilder = new SourceCodeBuilder();
+    private Duration time;
 
     public ExerciseBuilder setDescription(String description) {
         if (description == null) throw new NullPointerException("Description must not be null.");
@@ -60,7 +63,7 @@ public class ExerciseBuilder {
     }
 
     public Exercise build() {
-        return new Exercise(name, description, sourceBuilder.build(), new Options(tracking, babySteps));
+        return new Exercise(name, description, sourceBuilder.build(), new Options(tracking, babySteps, time));
     }
 
 
@@ -68,4 +71,8 @@ public class ExerciseBuilder {
         this.name = name;
     }
 
+    public void setTime(Duration time) {
+        if(time == null) throw new NullPointerException("Time must not be null.");
+        this.time = time;
+    }
 }

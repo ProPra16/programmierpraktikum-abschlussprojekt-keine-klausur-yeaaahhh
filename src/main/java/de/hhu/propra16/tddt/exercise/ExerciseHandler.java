@@ -3,8 +3,10 @@ package de.hhu.propra16.tddt.exercise;
 import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+
 
 
 class ExerciseHandler extends DefaultHandler {
@@ -25,12 +27,14 @@ class ExerciseHandler extends DefaultHandler {
             exercise.setTestName(getAttribute(atts, "name", 0));
         }
         if (qName.equals("babysteps")) {
-            exercise.setBabySteps(getAttribute(atts, "value", 0).toLowerCase().equals("true"));
-//            TODO add time parser
-//            if(exercise.getBabysteps()) {
-//                exercise.setTimer(getAttribute(atts, "time", 1));
-//            }
-
+            boolean condition = getAttribute(atts, "value", 0).toLowerCase().equals("true");
+            exercise.setBabySteps(condition);
+            if(condition) {
+                exercise.setTime(parseTime(getAttribute(atts,"time", 1)));
+            }
+        }
+        if (qName.equals("timetracking")){
+            exercise.setTracking(getAttribute(atts, "value", 0).toLowerCase().equals("true"));
         }
     }
 
@@ -45,12 +49,11 @@ class ExerciseHandler extends DefaultHandler {
         if (qName.equals("class")) {
             exercise.setClassCode(current);
             System.out.println(current);
-
         }
+
         if (qName.equals("test")) {
             exercise.setTestCode(current);
             System.out.println(current);
-
         }
 
         if (qName.equals("exercise")) exercises.add(exercise.build());
@@ -92,5 +95,14 @@ class ExerciseHandler extends DefaultHandler {
         String result = "";
         if (atts.getLocalName(index).equals(equation)) result = atts.getValue(index);
         return result;
+    }
+
+    private Duration parseTime(String time){
+        Duration dTime = null;
+        if(time.contains(":")) {
+            String[] timeSections = time.split(":");
+            dTime = Duration.parse("PT"+timeSections[0]+"M"+timeSections[1]+"S");
+        }
+        return dTime;
     }
 }
