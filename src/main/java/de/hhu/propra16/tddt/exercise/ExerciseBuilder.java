@@ -3,9 +3,6 @@ package de.hhu.propra16.tddt.exercise;
 import de.hhu.propra16.tddt.sourcecode.SourceCodeBuilder;
 import vk.core.api.CompilationUnit;
 
-/**
- * Created by felix on 6/27/16.
- */
 public class ExerciseBuilder {
 
     private final String name;
