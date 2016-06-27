@@ -22,10 +22,12 @@ public class Exercise {
     private final SourceCode sources;
     private final String name;
     private final String description;
+    private final Options options;
 
-    Exercise(SourceCode sources, String name, String description) {
+    Exercise(String name, String description, SourceCode sources, Options options) {
         this.sources = sources;
         this.name = name;
         this.description = description;
+        this.options = options;
     }
 }

@@ -12,6 +12,8 @@ public class ExerciseBuilder {
     private String description = "No description available";
     private String className;
     private String testName;
+    private boolean babySteps = false;
+    private boolean tracking = false;
     private final SourceCodeBuilder sourceBuilder = new SourceCodeBuilder();
 
     public ExerciseBuilder setDescription(String description) {
@@ -50,8 +52,18 @@ public class ExerciseBuilder {
         return this;
     }
 
+    public ExerciseBuilder setBabySteps(boolean babySteps) {
+        this.babySteps = babySteps;
+        return this;
+    }
+
+    public ExerciseBuilder setTracking(boolean tracking) {
+        this.tracking = tracking;
+        return this;
+    }
+
     public Exercise build() {
-        return new Exercise(sourceBuilder.build(), name, description);
+        return new Exercise(name, description, sourceBuilder.build(), new Options(tracking, babySteps));
     }
 
 
