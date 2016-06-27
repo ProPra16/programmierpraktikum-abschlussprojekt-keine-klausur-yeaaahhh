@@ -14,7 +14,7 @@ public class ExerciseBuilder {
     private final SourceCodeBuilder sourceBuilder = new SourceCodeBuilder();
 
     public ExerciseBuilder setDescription(String description) {
-        if (description == null) throw new NullPointerException("Desctipion must not be null.");
+        if (description == null) throw new NullPointerException("Description must not be null.");
         this.description = description;
         return this;
     }
