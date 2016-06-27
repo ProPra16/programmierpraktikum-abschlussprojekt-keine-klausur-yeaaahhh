@@ -3,9 +3,6 @@ package de.hhu.propra16.tddt.exercise;
 import de.hhu.propra16.tddt.sourcecode.SourceCodeBuilder;
 import vk.core.api.CompilationUnit;
 
-/**
- * Created by felix on 6/27/16.
- */
 public class ExerciseBuilder {
 
     private final String name;
@@ -17,7 +14,7 @@ public class ExerciseBuilder {
     private final SourceCodeBuilder sourceBuilder = new SourceCodeBuilder();
 
     public ExerciseBuilder setDescription(String description) {
-        if (description == null) throw new NullPointerException("Desctipion must not be null.");
+        if (description == null) throw new NullPointerException("Description must not be null.");
         this.description = description;
         return this;
     }

@@ -2,9 +2,6 @@ package de.hhu.propra16.tddt.exercise;
 
 import java.time.Duration;
 
-/**
- * Created by felix on 6/27/16.
- */
 public class Options {
 
     private static final Duration DEFAULT_TIME = Duration.ZERO.plusMinutes(2);

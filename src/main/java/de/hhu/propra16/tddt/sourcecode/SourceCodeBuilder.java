@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by felix on 6/26/16.
+ * Builder for SourceCode
  */
 public class SourceCodeBuilder {
 

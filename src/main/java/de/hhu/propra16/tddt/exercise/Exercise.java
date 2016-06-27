@@ -2,9 +2,6 @@ package de.hhu.propra16.tddt.exercise;
 
 import de.hhu.propra16.tddt.sourcecode.SourceCode;
 
-/**
- * Created by felix on 6/27/16.
- */
 public class Exercise {
 
     public SourceCode getSources() {

@@ -5,7 +5,8 @@ import vk.core.api.CompilationUnit;
 import java.util.List;
 
 /**
- * Created by felix on 6/25/16.
+ * Contains test classes as well as normal classes
+ * WIP
  */
 public class SourceCode {
 
