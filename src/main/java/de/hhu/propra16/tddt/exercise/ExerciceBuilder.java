@@ -40,7 +40,7 @@ public class ExerciceBuilder {
     public void setTestCode(String testCode) {
         if (testName == null) throw new IllegalStateException("Test name is not set.");
         if (testCode == null) throw new NullPointerException("Test code must no be null.");
-        CompilationUnit unit = new CompilationUnit(className, testCode, true);
+        CompilationUnit unit = new CompilationUnit(testName, testCode, true);
         sourceBuilder.add(unit);
         testName = null;
     }
