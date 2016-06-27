@@ -6,7 +6,7 @@ import vk.core.api.CompilationUnit;
 /**
  * Created by felix on 6/27/16.
  */
-public class ExerciceBuilder {
+public class ExerciseBuilder {
 
     private final String name;
     private String description = "No description available";
@@ -50,7 +50,7 @@ public class ExerciceBuilder {
     }
 
 
-    public ExerciceBuilder(String name) {
+    public ExerciseBuilder(String name) {
         this.name = name;
     }
 
