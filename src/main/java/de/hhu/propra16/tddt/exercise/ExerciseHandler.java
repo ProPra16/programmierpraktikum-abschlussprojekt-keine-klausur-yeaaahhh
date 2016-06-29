@@ -20,23 +20,25 @@ class ExerciseHandler extends DefaultHandler {
     public void startElement(String URI, String localName, String qName, Attributes atts) {
         qName = qName.toLowerCase();
         if(qName.equals("exercises")) bExs = true;
-        if (bExs && qName.equals("exercise")) {
-            exercise = new ExerciseBuilder(getAttribute(atts, "name", 0));
+        else if (bExs && qName.equals("exercise")) {
+            String name = "";
+            if(atts.getLength() > 0) name = getAttribute(atts, "name", 0);
+            exercise = new ExerciseBuilder(name);
         }
-        if (bExs && qName.equals("class")) {
+        else if (bExs && qName.equals("class")) {
             exercise.setClassName(getAttribute(atts, "name", 0));
         }
-        if (bExs && qName.equals("test")) {
+        else if (bExs && qName.equals("test")) {
             exercise.setTestName(getAttribute(atts, "name", 0));
         }
-        if (bExs && qName.equals("babysteps")) {
+        else if (bExs && qName.equals("babysteps")) {
             boolean condition = getAttribute(atts, "value", 0).toLowerCase().equals("true");
             exercise.setBabySteps(condition);
             if(condition) {
                 exercise.setTime(parseTime(getAttribute(atts,"time", 1)));
             }
         }
-        if (bExs && qName.equals("timetracking")){
+        else if (bExs && qName.equals("timetracking")){
             exercise.setTracking(getAttribute(atts, "value", 0).toLowerCase().equals("true"));
         }
     }
@@ -45,22 +47,22 @@ class ExerciseHandler extends DefaultHandler {
     public void endElement(String URI, String localeName, String qName) {
         qName = qName.toLowerCase();
         trim();
-        if (qName.equals("description")) {
+        if (bExs && qName.equals("description")) {
             exercise.setDescription(current);
             System.out.println(current);
 
         }
-        if (qName.equals("class")) {
+        if (bExs && qName.equals("class")) {
             exercise.setClassCode(current);
             System.out.println(current);
         }
 
-        if (qName.equals("test")) {
+        if (bExs && qName.equals("test")) {
             exercise.setTestCode(current);
             System.out.println(current);
         }
 
-        if (qName.equals("exercise")) exercises.add(exercise.build());
+        if (bExs && qName.equals("exercise")) exercises.add(exercise.build());
         current = "";
 
         if(qName.equals("exercises")) bExs = false;

@@ -26,7 +26,7 @@ public class ExerciseLoader {
             list = handler.getExercises();
 
         } catch (ParserConfigurationException | SAXException | IOException e) {
-            e.printStackTrace();
+            System.out.println("Input has to be in correct format!");
         }
         return list;
     }
