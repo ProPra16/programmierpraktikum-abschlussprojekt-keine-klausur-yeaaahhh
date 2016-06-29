@@ -2,10 +2,12 @@ package de.hhu.propra16.tddt.exercise;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.theories.DataPoint;
 import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
 
+import java.time.Duration;
 import java.util.function.BiConsumer;
 
 @RunWith(Theories.class)
@@ -18,9 +20,18 @@ public class ExerciseBuilderTest {
         builder = new ExerciseBuilder("Name");
     }
 
+    @DataPoint
+    public static BiConsumer<ExerciseBuilder, String> classNameSetter = ExerciseBuilder::setClassName;
+    @DataPoint
+    public static BiConsumer<ExerciseBuilder, String> testNameSetter = ExerciseBuilder::setTestName;
+    @DataPoint
+    public static BiConsumer<ExerciseBuilder, String> descriptionSetter = ExerciseBuilder::setDescription;
+    @DataPoint
+    public static BiConsumer<ExerciseBuilder, Duration> timeSetter = ExerciseBuilder::setTime;
+
     @Theory
     @Test(expected = NullPointerException.class)
-    public void setClassNameNullFail(BiConsumer setter) {
+    public void setterFailWithNull(BiConsumer setter) {
         setter.accept(builder, null);
     }
 
