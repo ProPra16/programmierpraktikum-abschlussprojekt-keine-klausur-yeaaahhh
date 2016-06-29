@@ -105,4 +105,8 @@ class ExerciseHandler extends DefaultHandler {
         }
         return dTime;
     }
+
+    public List<Exercise> getExercises(){
+        return exercises;
+    }
 }
