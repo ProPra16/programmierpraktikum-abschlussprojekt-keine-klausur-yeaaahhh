@@ -16,7 +16,7 @@ import java.util.List;
 public class ExerciseLoader {
 
 
-    private static List<Exercise> loadFile(InputSource is) {
+    public static List<Exercise> loadFile(InputSource is) {
         List<Exercise> list = new ArrayList<>();
         try {
             SAXParserFactory factory = SAXParserFactory.newInstance();
@@ -33,7 +33,6 @@ public class ExerciseLoader {
 
     public static void main(String[] args) throws FileNotFoundException {
         Path p = Paths.get("katalog/Exercise.xml");
-        //Reader input = new StringReader("<exercises><exercise name=\"Test\"></exercise></exercises>");
         InputSource in = new InputSource(p.toString());
         loadFile(in);
     }

@@ -8,38 +8,42 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
 class ExerciseHandler extends DefaultHandler {
 
     private String current = "";
     private ExerciseBuilder exercise;
     private List<Exercise> exercises = new ArrayList<>();
 
+
+    private boolean bExs;
     @Override
     public void startElement(String URI, String localName, String qName, Attributes atts) {
-        if (qName.equals("exercise")) {
+        qName = qName.toLowerCase();
+        if(qName.equals("exercises")) bExs = true;
+        if (bExs && qName.equals("exercise")) {
             exercise = new ExerciseBuilder(getAttribute(atts, "name", 0));
         }
-        if (qName.equals("class")) {
+        if (bExs && qName.equals("class")) {
             exercise.setClassName(getAttribute(atts, "name", 0));
         }
-        if (qName.equals("test")) {
+        if (bExs && qName.equals("test")) {
             exercise.setTestName(getAttribute(atts, "name", 0));
         }
-        if (qName.equals("babysteps")) {
+        if (bExs && qName.equals("babysteps")) {
             boolean condition = getAttribute(atts, "value", 0).toLowerCase().equals("true");
             exercise.setBabySteps(condition);
             if(condition) {
                 exercise.setTime(parseTime(getAttribute(atts,"time", 1)));
             }
         }
-        if (qName.equals("timetracking")){
+        if (bExs && qName.equals("timetracking")){
             exercise.setTracking(getAttribute(atts, "value", 0).toLowerCase().equals("true"));
         }
     }
 
     @Override
     public void endElement(String URI, String localeName, String qName) {
+        qName = qName.toLowerCase();
         trim();
         if (qName.equals("description")) {
             exercise.setDescription(current);
@@ -58,6 +62,8 @@ class ExerciseHandler extends DefaultHandler {
 
         if (qName.equals("exercise")) exercises.add(exercise.build());
         current = "";
+
+        if(qName.equals("exercises")) bExs = false;
     }
 
     @Override
@@ -106,7 +112,7 @@ class ExerciseHandler extends DefaultHandler {
         return dTime;
     }
 
-    public List<Exercise> getExercises(){
+    List<Exercise> getExercises(){
         return exercises;
     }
 }

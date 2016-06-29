@@ -26,24 +26,29 @@ public class ExerciseBuilderTester {
     public void TestClassNameNullInput(){
         exb.setClassName(null);
     }
+
     @Test(expected=IllegalStateException.class)
     public void TestClassCodeNameNotSet(){
         exb.setClassCode(null);
     }
+
     @Test(expected=NullPointerException.class)
     public void TestClassCodeNullInput(){
         exb.setClassName("class");
         exb.setClassCode(null);
     }
+
     @Test(expected=IllegalStateException.class)
     public void TestTestCodeNameNotSet(){
         exb.setTestCode(null);
     }
+
     @Test(expected=NullPointerException.class)
     public void TestTestCodeNullInput(){
         exb.setClassName("test");
         exb.setClassCode(null);
     }
+
     @Test(expected=NullPointerException.class)
     public void TestTimeNullInput(){
         exb.setTime(null);
