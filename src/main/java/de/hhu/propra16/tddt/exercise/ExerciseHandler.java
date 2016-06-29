@@ -40,7 +40,7 @@ class ExerciseHandler extends DefaultHandler {
 
     @Override
     public void endElement(String URI, String localeName, String qName) {
-        trim(getWhitespace(current));
+        trim();
         if (qName.equals("description")) {
             exercise.setDescription(current);
             System.out.println(current);
@@ -65,29 +65,29 @@ class ExerciseHandler extends DefaultHandler {
         current += new String(ch, start, length);
     }
 
-    private int getWhitespace(String objective) {
-        int counter = 0;
-        int length = objective.length();
+    private String getWhitespace() {
+        String whitespace = "";
+        int length = current.length();
         for (int i = 0; i < length; i++) {
-            char test = objective.charAt(i);
+            char test = current.charAt(i);
             if (test != ' ' && test != '\n') {
                 break;
             }
-            if (test == '\n') counter = 0;
-            counter++;
+            if (test == '\n'){
+                current = current.substring(i+1);
+                length = current.length();
+            }
+            whitespace += " ";
         }
-        return (counter / 4) * 4;
+        return whitespace;
     }
 
-    private void trim(int spaces) {
-        String whitespaces = "";
-        for (int i = 0; i < spaces; i++) {
-            whitespaces += " ";
-        }
+    private void trim() {
+        String whitespaces = getWhitespace();
         String[] parts = current.split(whitespaces);
         current = "";
-        for (int i = 1; i < parts.length; i++) {
-            current += parts[i];
+        for (String part : parts) {
+            current += part;
         }
     }
 
