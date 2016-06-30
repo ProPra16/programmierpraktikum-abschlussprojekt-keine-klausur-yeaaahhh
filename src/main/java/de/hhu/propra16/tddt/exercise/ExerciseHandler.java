@@ -6,40 +6,47 @@ import org.xml.sax.helpers.DefaultHandler;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 
 class ExerciseHandler extends DefaultHandler {
 
     private String current = "";
-    private ExerciseBuilder exercise;
+    private Supplier<ExerciseBuilder> exerciseBuilderFactory;
+    private ExerciseBuilder exerciseBuilder;
     private List<Exercise> exercises = new ArrayList<>();
-
-
     private boolean bExs;
+
+
+    public ExerciseHandler(Supplier<ExerciseBuilder> exerciseBuilderFactory) {
+        this.exerciseBuilderFactory = exerciseBuilderFactory;
+    }
+
     @Override
     public void startElement(String URI, String localName, String qName, Attributes atts) {
         qName = qName.toLowerCase();
         if(qName.equals("exercises")) bExs = true;
         else if (bExs && qName.equals("exercise")) {
-            String name = "";
+            String name = null;
             if(atts.getLength() > 0) name = getAttribute(atts, "name", 0);
-            exercise = new ExerciseBuilder(name);
+            exerciseBuilder = exerciseBuilderFactory.get();
+            exerciseBuilder.setName(name);
         }
         else if (bExs && qName.equals("class")) {
-            exercise.setClassName(getAttribute(atts, "name", 0));
+            exerciseBuilder.setClassName(getAttribute(atts, "name", 0));
         }
         else if (bExs && qName.equals("test")) {
-            exercise.setTestName(getAttribute(atts, "name", 0));
+            exerciseBuilder.setTestName(getAttribute(atts, "name", 0));
         }
         else if (bExs && qName.equals("babysteps")) {
             boolean condition = getAttribute(atts, "value", 0).toLowerCase().equals("true");
-            exercise.setBabySteps(condition);
+            exerciseBuilder.setBabySteps(condition);
             if(condition) {
-                exercise.setTime(parseTime(getAttribute(atts,"time", 1)));
+                exerciseBuilder.setTime(parseTime(getAttribute(atts, "time", 1)));
             }
         }
         else if (bExs && qName.equals("timetracking")){
-            exercise.setTracking(getAttribute(atts, "value", 0).toLowerCase().equals("true"));
+            exerciseBuilder.setTracking(getAttribute(atts, "value", 0).toLowerCase().equals("true"));
         }
     }
 
@@ -48,18 +55,17 @@ class ExerciseHandler extends DefaultHandler {
         qName = qName.toLowerCase();
         trim();
         if (bExs && qName.equals("description")) {
-            exercise.setDescription(current);
+            exerciseBuilder.setDescription(current);
             System.out.println(current);
         }
         else if (bExs && qName.equals("class")) {
-            exercise.setClassCode(current);
+            exerciseBuilder.setClassCode(current);
             System.out.println(current);
         }
         else if (bExs && qName.equals("test")) {
-            exercise.setTestCode(current);
+            exerciseBuilder.setTestCode(current);
             System.out.println(current);
-        }
-        else if (bExs && qName.equals("exercise")) exercises.add(exercise.build());
+        } else if (bExs && qName.equals("exercise")) exercises.add(exerciseBuilder.build());
         else if(qName.equals("exercises")) bExs = false;
 
         current = "";

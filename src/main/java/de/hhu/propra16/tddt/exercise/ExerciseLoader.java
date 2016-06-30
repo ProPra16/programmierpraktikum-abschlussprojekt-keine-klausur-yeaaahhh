@@ -21,7 +21,7 @@ public class ExerciseLoader {
         try {
             SAXParserFactory factory = SAXParserFactory.newInstance();
             SAXParser saxParser = factory.newSAXParser();
-            ExerciseHandler handler = new ExerciseHandler();
+            ExerciseHandler handler = new ExerciseHandler(ExerciseBuilder::new);
             saxParser.parse(is, handler);
             list = handler.getExercises();
 
