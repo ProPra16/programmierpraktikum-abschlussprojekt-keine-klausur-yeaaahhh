@@ -7,7 +7,7 @@ import java.time.Duration;
 
 public class ExerciseBuilder {
 
-    private final String name;
+    private String name;
     private String description = "No description available";
     private String className;
     private String testName;
@@ -66,8 +66,8 @@ public class ExerciseBuilder {
         return new Exercise(name, description, sourceBuilder.build(), new Options(tracking, babySteps, time));
     }
 
-
-    public ExerciseBuilder(String name) {
+    public void setName(String name) {
+        if (name == null) throw new NullPointerException("Name must not be null.");
         this.name = name;
     }
 
