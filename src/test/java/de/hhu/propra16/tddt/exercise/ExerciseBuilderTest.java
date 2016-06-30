@@ -35,4 +35,25 @@ public class ExerciseBuilderTest {
         setter.accept(builder, null);
     }
 
+    @Test(expected = IllegalStateException.class)
+    public void classCodeWihoutName() {
+        builder.setClassCode("public class foo { }");
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void testCodeWithoutName() {
+        builder.setTestCode("public class fooTest { }");
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void setClassCodeNullFail() {
+        builder.setClassName("Foo").setClassCode(null);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void setTestCodeNullFail() {
+        builder.setTestName("Foo").setTestCode(null);
+    }
+
+
 }
