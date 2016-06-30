@@ -15,7 +15,7 @@ class ExerciseHandler extends DefaultHandler {
     private Supplier<ExerciseBuilder> exerciseBuilderFactory;
     private ExerciseBuilder exerciseBuilder;
     private List<Exercise> exercises = new ArrayList<>();
-    private boolean bExs;
+    private boolean hasExercises;
 
 
     public ExerciseHandler(Supplier<ExerciseBuilder> exerciseBuilderFactory) {
@@ -25,27 +25,23 @@ class ExerciseHandler extends DefaultHandler {
     @Override
     public void startElement(String URI, String localName, String qName, Attributes atts) {
         qName = qName.toLowerCase();
-        if(qName.equals("exercises")) bExs = true;
-        else if (bExs && qName.equals("exercise")) {
+        if (qName.equals("exercises")) hasExercises = true;
+        else if (hasExercises && qName.equals("exercise")) {
             String name = null;
             if(atts.getLength() > 0) name = getAttribute(atts, "name", 0);
             exerciseBuilder = exerciseBuilderFactory.get();
             exerciseBuilder.setName(name);
-        }
-        else if (bExs && qName.equals("class")) {
+        } else if (hasExercises && qName.equals("class")) {
             exerciseBuilder.setClassName(getAttribute(atts, "name", 0));
-        }
-        else if (bExs && qName.equals("test")) {
+        } else if (hasExercises && qName.equals("test")) {
             exerciseBuilder.setTestName(getAttribute(atts, "name", 0));
-        }
-        else if (bExs && qName.equals("babysteps")) {
+        } else if (hasExercises && qName.equals("babysteps")) {
             boolean condition = getAttribute(atts, "value", 0).toLowerCase().equals("true");
             exerciseBuilder.setBabySteps(condition);
             if(condition) {
                 exerciseBuilder.setTime(parseTime(getAttribute(atts, "time", 1)));
             }
-        }
-        else if (bExs && qName.equals("timetracking")){
+        } else if (hasExercises && qName.equals("timetracking")) {
             exerciseBuilder.setTracking(getAttribute(atts, "value", 0).toLowerCase().equals("true"));
         }
     }
@@ -54,19 +50,17 @@ class ExerciseHandler extends DefaultHandler {
     public void endElement(String URI, String localeName, String qName) {
         qName = qName.toLowerCase();
         trim();
-        if (bExs && qName.equals("description")) {
+        if (hasExercises && qName.equals("description")) {
             exerciseBuilder.setDescription(current);
             System.out.println(current);
-        }
-        else if (bExs && qName.equals("class")) {
+        } else if (hasExercises && qName.equals("class")) {
             exerciseBuilder.setClassCode(current);
             System.out.println(current);
-        }
-        else if (bExs && qName.equals("test")) {
+        } else if (hasExercises && qName.equals("test")) {
             exerciseBuilder.setTestCode(current);
             System.out.println(current);
-        } else if (bExs && qName.equals("exercise")) exercises.add(exerciseBuilder.build());
-        else if(qName.equals("exercises")) bExs = false;
+        } else if (hasExercises && qName.equals("exercise")) exercises.add(exerciseBuilder.build());
+        else if (qName.equals("exercises")) hasExercises = false;
 
         current = "";
     }

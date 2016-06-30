@@ -39,6 +39,4 @@ public class ExerciseHandlerTest {
         handler.startElement("", "", "exercise", atts);
         verify(builder, times(1)).setName("Test");
     }
-
-
 }
