@@ -1,18 +1,17 @@
 package de.hhu.propra16.tddt.sourcecode;
 
-import vk.core.api.CompilationUnit;
-import vk.core.api.CompilerFactory;
-import vk.core.internal.InternalCompiler;
+import vk.core.api.*;
 import vk.core.internal.InternalResult;
-
+import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
  * Contains test classes as well as normal classes
  * WIP
  */
-public class SourceCode {
+public class SourceCode{
 
     private final List<CompilationUnit> units;
     private final List<CompilationUnit> tests = new ArrayList<>();
@@ -32,18 +31,24 @@ public class SourceCode {
         });
     }
 
-    public void compile() {
-        List<InternalResult> result = new ArrayList<>();
+    // CompilerResult
+    public List<CompilerResult> compile() {
+        List<CompilerResult> result = new ArrayList<>();
         synchronized (units) {
-            units.forEach((element) -> {
-                InternalCompiler IC = (InternalCompiler) CompilerFactory.getCompiler(element);
-                IC.compileAndRunTests();
-                result.add((InternalResult) IC.getTestResult());
-            });
+            CompilationUnit[] array = (CompilationUnit[]) units.toArray();
+            JavaStringCompiler JSC = CompilerFactory.getCompiler(array);
+            JSC.compileAndRunTests();
+            result.add(JSC.getCompilerResult());
         }
+        return result;
     }
 
-    // Methode bekommt einen Klassennamen und gibt den SourceCode als String zurück
+    //
+    public List<String> getTestResult() {
+        return null;
+    }
+
+    //Methode bekommt einen Klassennamen und gibt den SourceCode als String zurück
     public String getStringCode(String Klassenname) {
         for (int i=0; i<units.size(); i++) {
             if (units.get(i).getClassName().equals(Klassenname))
@@ -72,28 +77,16 @@ public class SourceCode {
         return stringCode;
     }
 
-
-    // Methode wird vom Trainer aufgerufen; Trainer weiß in welcher Phase wir uns befinden
-    // className: getClassName() , String aus Textfield für Content, boolean je nach Phase
-    //public void addCompilationUnit(CompilationUnit cu) {units.add(cu);}
-
     public static void main(String[] args) {
-        CompilationUnit a = new CompilationUnit("Beispiel", "public class bla{static void blaa{Beispiel2.do(2)}}", true);
-        CompilationUnit b = new CompilationUnit("Beispiel2", "public class blubb{ static void blub{}} ", false);
-        CompilationUnit c = new CompilationUnit("bsp", "public blaaa ", true);
+        CompilationUnit a = new CompilationUnit("bla", "public class bla{static void blaa{Beispiel2.do(2)}}", true);
+        CompilationUnit b = new CompilationUnit("blubb", "public class blubb{ static void blub{}} ", false);
+        CompilationUnit c = new CompilationUnit("bsp", "public bsp{} ", true);
         List<CompilationUnit> liste = new ArrayList<>();
         liste.add(a);
         liste.add(b);
         liste.add(c);
         SourceCode sc = new SourceCode(liste);
-      sc.compile();
-        List<String> bb = new ArrayList<>();
-        bb = sc.getNameCode();
-        for (int i = 0; i<bb.size(); i++)
-            System.out.println(bb.get(i));
-
-
-        //System.out.println(sc.getStringCode("Beispiel2"));
+        sc.compile();
     }
 
 }
