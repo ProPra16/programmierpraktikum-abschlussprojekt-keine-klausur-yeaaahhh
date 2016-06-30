@@ -8,56 +8,64 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
 class ExerciseHandler extends DefaultHandler {
 
     private String current = "";
     private ExerciseBuilder exercise;
     private List<Exercise> exercises = new ArrayList<>();
 
+
+    private boolean bExs;
     @Override
     public void startElement(String URI, String localName, String qName, Attributes atts) {
-        if (qName.equals("exercise")) {
-            exercise = new ExerciseBuilder(getAttribute(atts, "name", 0));
+        qName = qName.toLowerCase();
+        if(qName.equals("exercises")) bExs = true;
+        else if (bExs && qName.equals("exercise")) {
+            String name = "";
+            if(atts.getLength() > 0) name = getAttribute(atts, "name", 0);
+            exercise = new ExerciseBuilder(name);
         }
-        if (qName.equals("class")) {
+        else if (bExs && qName.equals("class")) {
             exercise.setClassName(getAttribute(atts, "name", 0));
         }
-        if (qName.equals("test")) {
+        else if (bExs && qName.equals("test")) {
             exercise.setTestName(getAttribute(atts, "name", 0));
         }
-        if (qName.equals("babysteps")) {
+        else if (bExs && qName.equals("babysteps")) {
             boolean condition = getAttribute(atts, "value", 0).toLowerCase().equals("true");
             exercise.setBabySteps(condition);
             if(condition) {
                 exercise.setTime(parseTime(getAttribute(atts,"time", 1)));
             }
         }
-        if (qName.equals("timetracking")){
+        else if (bExs && qName.equals("timetracking")){
             exercise.setTracking(getAttribute(atts, "value", 0).toLowerCase().equals("true"));
         }
     }
 
     @Override
     public void endElement(String URI, String localeName, String qName) {
-        trim(getWhitespace(current));
-        if (qName.equals("description")) {
+        qName = qName.toLowerCase();
+        trim();
+        if (bExs && qName.equals("description")) {
             exercise.setDescription(current);
             System.out.println(current);
 
         }
-        if (qName.equals("class")) {
+        if (bExs && qName.equals("class")) {
             exercise.setClassCode(current);
             System.out.println(current);
         }
 
-        if (qName.equals("test")) {
+        if (bExs && qName.equals("test")) {
             exercise.setTestCode(current);
             System.out.println(current);
         }
 
-        if (qName.equals("exercise")) exercises.add(exercise.build());
+        if (bExs && qName.equals("exercise")) exercises.add(exercise.build());
         current = "";
+
+        if(qName.equals("exercises")) bExs = false;
     }
 
     @Override
@@ -65,29 +73,29 @@ class ExerciseHandler extends DefaultHandler {
         current += new String(ch, start, length);
     }
 
-    private int getWhitespace(String objective) {
-        int counter = 0;
-        int length = objective.length();
+    private String getWhitespace() {
+        String whitespace = "";
+        int length = current.length();
         for (int i = 0; i < length; i++) {
-            char test = objective.charAt(i);
+            char test = current.charAt(i);
             if (test != ' ' && test != '\n') {
                 break;
             }
-            if (test == '\n') counter = 0;
-            counter++;
+            if (test == '\n'){
+                current = current.substring(i+1);
+                length = current.length();
+            }
+            whitespace += " ";
         }
-        return (counter / 4) * 4;
+        return whitespace;
     }
 
-    private void trim(int spaces) {
-        String whitespaces = "";
-        for (int i = 0; i < spaces; i++) {
-            whitespaces += " ";
-        }
+    private void trim() {
+        String whitespaces = getWhitespace();
         String[] parts = current.split(whitespaces);
         current = "";
-        for (int i = 1; i < parts.length; i++) {
-            current += parts[i];
+        for (String part : parts) {
+            current += part;
         }
     }
 
@@ -104,5 +112,9 @@ class ExerciseHandler extends DefaultHandler {
             dTime = Duration.parse("PT"+timeSections[0]+"M"+timeSections[1]+"S");
         }
         return dTime;
+    }
+
+    List<Exercise> getExercises(){
+        return exercises;
     }
 }
