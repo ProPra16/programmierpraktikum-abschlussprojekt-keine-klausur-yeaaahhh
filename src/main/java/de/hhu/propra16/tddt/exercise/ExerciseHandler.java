@@ -50,22 +50,19 @@ class ExerciseHandler extends DefaultHandler {
         if (bExs && qName.equals("description")) {
             exercise.setDescription(current);
             System.out.println(current);
-
         }
-        if (bExs && qName.equals("class")) {
+        else if (bExs && qName.equals("class")) {
             exercise.setClassCode(current);
             System.out.println(current);
         }
-
-        if (bExs && qName.equals("test")) {
+        else if (bExs && qName.equals("test")) {
             exercise.setTestCode(current);
             System.out.println(current);
         }
+        else if (bExs && qName.equals("exercise")) exercises.add(exercise.build());
+        else if(qName.equals("exercises")) bExs = false;
 
-        if (bExs && qName.equals("exercise")) exercises.add(exercise.build());
         current = "";
-
-        if(qName.equals("exercises")) bExs = false;
     }
 
     @Override
