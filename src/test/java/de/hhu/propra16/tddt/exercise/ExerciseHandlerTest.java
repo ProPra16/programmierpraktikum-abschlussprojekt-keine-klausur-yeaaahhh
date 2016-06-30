@@ -9,6 +9,7 @@ import static org.mockito.Mockito.*;
 public class ExerciseHandlerTest {
     private ExerciseBuilder builder;
     private ExerciseHandler handler;
+    private Attributes exerciseAtts;
 
     @Before
     public void setupTest1() {
@@ -38,5 +39,26 @@ public class ExerciseHandlerTest {
         handler.startElement("", "", "exercises", null);
         handler.startElement("", "", "exercise", atts);
         verify(builder, times(1)).setName("Test");
+    }
+
+    @Before
+    public void setupEnd() {
+        builder = mock(ExerciseBuilder.class);
+        handler = new ExerciseHandler(() -> builder);
+
+        exerciseAtts = mock(Attributes.class);
+        when(exerciseAtts.getLocalName(0)).thenReturn("name");
+        when(exerciseAtts.getValue(0)).thenReturn("Test");
+        when(exerciseAtts.getLength()).thenReturn(1);
+    }
+
+    @Test
+    public void test_characters() {
+        char[] sequence = {'H', 'a', 'l', 'l', 'o'};
+        handler.characters(sequence, 0, 5);
+        handler.startElement("", "", "exercises", null);
+        handler.startElement("", "", "exercise", exerciseAtts);
+        handler.endElement("", "", "description");
+        verify(builder, times(1)).setDescription("Hallo");
     }
 }
