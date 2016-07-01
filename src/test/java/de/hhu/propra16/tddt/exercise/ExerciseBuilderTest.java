@@ -10,6 +10,8 @@ import org.junit.runner.RunWith;
 import java.time.Duration;
 import java.util.function.BiConsumer;
 
+import static org.junit.Assert.assertEquals;
+
 @RunWith(Theories.class)
 public class ExerciseBuilderTest {
 
@@ -54,6 +56,17 @@ public class ExerciseBuilderTest {
     @Test(expected = NullPointerException.class)
     public void setTestCodeNullFail() {
         builder.setTestName("Foo").setTestCode(null);
+    }
+
+    @Test
+    public void testDescription() {
+        builder.setDescription("Bar");
+        assertEquals("Bar", builder.build().getDescription());
+    }
+
+    @Test
+    public void testName() {
+        assertEquals("Name", builder.build().getName());
     }
 
 
