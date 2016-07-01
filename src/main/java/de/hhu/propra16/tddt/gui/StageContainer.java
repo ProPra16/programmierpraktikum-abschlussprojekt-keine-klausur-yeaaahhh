@@ -1,4 +1,4 @@
-package de.hhu.propra16.tddt.gui;
+package main.java.de.hhu.propra16.tddt.gui;
 
 import javafx.stage.Stage;
 
