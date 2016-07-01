@@ -1,6 +1,8 @@
 package de.hhu.propra16.tddt.sourcecode;
 
 import vk.core.api.CompilationUnit;
+import vk.core.api.CompilerResult;
+import vk.core.api.TestResult;
 
 import java.util.List;
 
@@ -14,6 +16,14 @@ public class SourceCode {
 
     SourceCode(List<CompilationUnit> units) {
         this.units = units;
+    }
+
+    public List<CompilerResult> compileCode() {
+        return null;
+    }
+
+    public List<TestResult> compileTest() {
+        return null;
     }
 
 }
