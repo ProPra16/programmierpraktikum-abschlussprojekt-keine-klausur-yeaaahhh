@@ -29,14 +29,26 @@ public class SourceCodeTest {
     }
     @Test
     public void testgetStringCode() {
-        assertEquals("public class bla{}", SC.getStringCode("Test2"));
+        assertEquals("public class bla{}", SC.getStringCode("bla"));
     }
+
     @Test
     public void testgetNameTest() {
         assertEquals("Test1", SC.getNameTest().get(0));
     }
+
     @Test
     public void testgetNameCode() {
         assertEquals("blubb", SC.getNameCode().get(1));
+    }
+
+    @Test
+    public void testcompileCode() {
+        SC.compileCode();
+    }
+
+    @Test
+    public void testcompileTest() {
+        SC.compileTest();
     }
 }

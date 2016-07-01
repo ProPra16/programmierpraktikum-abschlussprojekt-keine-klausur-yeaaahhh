@@ -1,10 +1,8 @@
 package de.hhu.propra16.tddt.sourcecode;
 
+import org.junit.Test;
 import vk.core.api.*;
-import vk.core.internal.InternalResult;
-import java.time.Duration;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -32,20 +30,26 @@ public class SourceCode{
     }
 
     // CompilerResult
-    public List<CompilerResult> compile() {
+    public List<CompilerResult> compileCode() {
         List<CompilerResult> result = new ArrayList<>();
         synchronized (units) {
-            CompilationUnit[] array = (CompilationUnit[]) units.toArray();
+            CompilationUnit[] array = (CompilationUnit[]) units.toArray(new CompilationUnit[units.size()]);
             JavaStringCompiler JSC = CompilerFactory.getCompiler(array);
             JSC.compileAndRunTests();
             result.add(JSC.getCompilerResult());
         }
         return result;
     }
-
-    //
-    public List<String> getTestResult() {
-        return null;
+    // TestResult
+    public List<TestResult> compileTest() {
+        List<TestResult> result = new ArrayList<>();
+        synchronized (units) {
+            CompilationUnit[] array = (CompilationUnit[]) units.toArray(new CompilationUnit[units.size()]);
+            JavaStringCompiler JSC = CompilerFactory.getCompiler(array);
+            JSC.compileAndRunTests();
+            result.add(JSC.getTestResult());
+        }
+        return result;
     }
 
     //Methode bekommt einen Klassennamen und gibt den SourceCode als String zurück
@@ -86,7 +90,8 @@ public class SourceCode{
         liste.add(b);
         liste.add(c);
         SourceCode sc = new SourceCode(liste);
-        sc.compile();
+        sc.compileCode();
+        sc.compileTest();
     }
 
 }

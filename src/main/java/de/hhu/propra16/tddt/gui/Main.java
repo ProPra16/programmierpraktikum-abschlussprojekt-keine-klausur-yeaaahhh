@@ -1,4 +1,4 @@
-package main.java.de.hhu.propra16.tddt.gui;
+package de.hhu.propra16.tddt.gui;
 
 import java.io.IOException;
 
