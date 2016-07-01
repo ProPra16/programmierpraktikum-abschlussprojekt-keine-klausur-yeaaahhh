@@ -15,11 +15,11 @@ import static org.junit.Assert.assertEquals;
 @RunWith(Theories.class)
 public class ExerciseBuilderTest {
 
-    private ExerciseBuilder builder = new ExerciseBuilder("Name");
+    private ExerciseBuilder builder = new ExerciseBuilder();
 
     @Before
     public void setUp() {
-        builder = new ExerciseBuilder("Name");
+        builder = new ExerciseBuilder();
     }
 
     @DataPoint
@@ -66,6 +66,7 @@ public class ExerciseBuilderTest {
 
     @Test
     public void testName() {
+        builder.setName("Name");
         assertEquals("Name", builder.build().getName());
     }
 
