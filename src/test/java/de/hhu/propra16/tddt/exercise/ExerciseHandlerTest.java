@@ -13,6 +13,8 @@ public class ExerciseHandlerTest {
     private ExerciseBuilder builder;
     private ExerciseHandler handler;
     private Attributes exerciseAtts;
+    private char[][] input;
+    private String[] expected;
 
     @Before
     public void setup() {
@@ -25,6 +27,12 @@ public class ExerciseHandlerTest {
         when(exerciseAtts.getLength()).thenReturn(1);
 
         handler.startElement("", "", "exercises", exerciseAtts);
+
+        input = new char[][]{{'H', 'a', 'l', 'l', 'o'},
+                {' ', '\n', ' ', '\n', '\n'},
+                {'\n', ' ', ' ', '\n', 'o'},
+                {' ', ' ', 'l', ' ', 'o'}};
+        expected = new String[]{"Hallo", "", "o", "l o"};
     }
 
     @Test
@@ -65,14 +73,6 @@ public class ExerciseHandlerTest {
         verify(builder, times(1)).setTime(Duration.parse("PT5M0S"));
     }
 
-    @Test
-    public void characters_regular() {
-        char[] sequence = {'H', 'a', 'l', 'l', 'o'};
-        handler.startElement("", "", "exercise", exerciseAtts);
-        handler.characters(sequence, 0, 5);
-        handler.endElement("", "", "description");
-        verify(builder, times(1)).setDescription("Hallo");
-    }
 
     @Test
     public void end_Code() {
@@ -97,30 +97,13 @@ public class ExerciseHandlerTest {
     }
 
     @Test
-    public void characters_withSpaces() {
-        char[] sequence = {' ', ' ', 'l', ' ', 'o'};
+    public void whitespaceHandling() {
         handler.startElement("", "", "exercise", exerciseAtts);
-        handler.characters(sequence, 0, 5);
-        handler.endElement("", "", "description");
-        verify(builder, times(1)).setDescription("l o");
-    }
 
-    @Test
-    public void characters_onlyWhitespace() {
-        char[] sequence = {' ', '\n', ' ', '\n', '\n'};
-        handler.startElement("", "", "exercise", exerciseAtts);
-        handler.characters(sequence, 0, 5);
-        handler.endElement("", "", "description");
-        verify(builder, times(1)).setDescription("");
+        for (int i = 0; i < input.length; i++) {
+            handler.characters(input[i], 0, 5);
+            handler.endElement("", "", "description");
+            verify(builder, times(1)).setDescription(expected[i]);
+        }
     }
-
-    @Test
-    public void characters_withSpacesAndNewLines() {
-        char[] sequence = {'\n', ' ', ' ', '\n', 'o'};
-        handler.startElement("", "", "exercise", exerciseAtts);
-        handler.characters(sequence, 0, 5);
-        handler.endElement("", "", "description");
-        verify(builder, times(1)).setDescription("o");
-    }
-
 }
