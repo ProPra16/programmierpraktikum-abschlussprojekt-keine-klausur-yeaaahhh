@@ -18,11 +18,11 @@ public class SourceCode {
         this.units = units;
     }
 
-    public List<CompilerResult> compileCode() {
+    public CompilerResult compileCode() {
         return null;
     }
 
-    public List<TestResult> compileTest() {
+    public TestResult compileTest() {
         return null;
     }
 
