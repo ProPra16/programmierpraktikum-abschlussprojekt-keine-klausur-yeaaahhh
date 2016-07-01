@@ -29,6 +29,7 @@ public class ExerciseBuilderTest {
     @DataPoint
     public static BiConsumer<ExerciseBuilder, Duration> timeSetter = ExerciseBuilder::setTime;
 
+    @SuppressWarnings("unchecked")
     @Theory
     @Test(expected = NullPointerException.class)
     public void setterFailWithNull(BiConsumer setter) {
@@ -36,7 +37,7 @@ public class ExerciseBuilderTest {
     }
 
     @Test(expected = IllegalStateException.class)
-    public void classCodeWihoutName() {
+    public void classCodeWithoutName() {
         builder.setClassCode("public class foo { }");
     }
 
