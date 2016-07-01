@@ -6,6 +6,7 @@ import org.xml.sax.Attributes;
 
 import java.time.Duration;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
 public class ExerciseHandlerTest {
@@ -23,18 +24,12 @@ public class ExerciseHandlerTest {
         when(exerciseAtts.getValue(0)).thenReturn("Test");
         when(exerciseAtts.getLength()).thenReturn(1);
 
-        handler.startElement("", "", "exercises", null);
+        handler.startElement("", "", "exercises", exerciseAtts);
     }
 
     @Test
     public void start_withExercises() {
         verify(builder, times(0)).setName("Test");
-    }
-
-    @Test
-    public void start_withExercise_withAttsGreater0() {
-        handler.startElement("", "", "exercise", exerciseAtts);
-        verify(builder, times(1)).setName("Test");
     }
 
     @Test
@@ -45,16 +40,13 @@ public class ExerciseHandlerTest {
     }
 
     @Test
-    public void start_withExercise_withClassName() {
+    public void start_withExercise_withCode() {
         handler.startElement("", "", "exercise", exerciseAtts);
         handler.startElement("", "", "class", exerciseAtts);
-        verify(builder, times(1)).setClassName("Test");
-    }
-
-    @Test
-    public void start_withExercise_withTestName() {
-        handler.startElement("", "", "exercise", exerciseAtts);
         handler.startElement("", "", "test", exerciseAtts);
+
+        verify(builder, times(1)).setName("Test");
+        verify(builder, times(1)).setClassName("Test");
         verify(builder, times(1)).setTestName("Test");
     }
 
@@ -83,6 +75,28 @@ public class ExerciseHandlerTest {
     }
 
     @Test
+    public void end_Code() {
+        handler.startElement("", "", "exercise", exerciseAtts);
+        handler.endElement("", "", "class");
+        handler.endElement("", "", "test");
+
+        verify(builder, times(1)).setClassCode("");
+        verify(builder, times(1)).setTestCode("");
+    }
+    @Test
+    public void end_Exercise() {
+        handler.startElement("", "", "exercise", exerciseAtts);
+        handler.endElement("", "", "exercise");
+        assertEquals(1, handler.getExercises().size());
+    }
+    @Test
+    public void end_Exercises() {
+        handler.endElement("", "", "exercises");
+        handler.startElement("", "", "exercise", exerciseAtts);
+        verify(builder, times(0)).setName("Test");
+    }
+
+    @Test
     public void characters_withSpaces() {
         char[] sequence = {' ', ' ', 'l', ' ', 'o'};
         handler.startElement("", "", "exercise", exerciseAtts);
@@ -108,4 +122,5 @@ public class ExerciseHandlerTest {
         handler.endElement("", "", "description");
         verify(builder, times(1)).setDescription("o");
     }
+
 }

@@ -56,7 +56,6 @@ class ExerciseHandler extends DefaultHandler {
             exerciseBuilder.setTestCode(current);
         } else if (hasExercises && qName.equals("exercise")) exercises.add(exerciseBuilder.build());
         else if (qName.equals("exercises")) hasExercises = false;
-
         current = "";
     }
 
