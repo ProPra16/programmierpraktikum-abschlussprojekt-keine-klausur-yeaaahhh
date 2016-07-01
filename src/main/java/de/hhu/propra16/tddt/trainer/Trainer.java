@@ -12,7 +12,7 @@ import java.util.Timer;
  */
 public class Trainer{
     // bekomme Sourcecode von Interface
-    private Boolean nextPhaseaccepted;
+    private boolean nextPhaseaccepted;
     Exercise excersise;
     CheckCompile checkcompile;
     Editor editor;
@@ -24,7 +24,7 @@ public class Trainer{
         this.checkcompile = checkcompile;
         this.editor = editor;
     }
-    public Boolean checkPhaseRed(){
+    public boolean checkPhaseRed(){
         nextPhaseaccepted = false;
         if (checkcompile.check(editor.get(), Phase.RED) == false){
             previousSorcecode = editor.get();
@@ -33,7 +33,7 @@ public class Trainer{
         return nextPhaseaccepted;
     }
 
-    public Boolean checkPhaseGreen(){
+    public boolean checkPhaseGreen(){
         nextPhaseaccepted = false;
         if (checkcompile.check(editor.get(), Phase.GREEN) == true){
             previousSorcecode = editor.get();
@@ -42,7 +42,7 @@ public class Trainer{
         return nextPhaseaccepted;
     }
 
-    public Boolean checkPhaseRefactor(){
+    public boolean checkPhaseRefactor(){
         nextPhaseaccepted = false;
         if (checkcompile.check(editor.get(), Phase.BLACK) == true){
             previousSorcecode = editor.get();

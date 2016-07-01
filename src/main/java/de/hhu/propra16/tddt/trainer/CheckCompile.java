@@ -7,5 +7,5 @@ import de.hhu.propra16.tddt.sourcecode.SourceCode;
  */
 public interface CheckCompile {
 
-    public Boolean check(SourceCode sc, Phase phase);
+    public boolean check(SourceCode sc, Phase phase);
 }
