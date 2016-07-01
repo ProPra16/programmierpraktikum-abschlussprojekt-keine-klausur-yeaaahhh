@@ -1,15 +1,10 @@
 package de.hhu.propra16.tddt.trainer;
 
-import com.sun.jmx.snmp.tasks.Task;
 import de.hhu.propra16.tddt.exercise.Exercise;
 import de.hhu.propra16.tddt.sourcecode.SourceCode;
 import de.hhu.propra16.tddt.userinterface.Editor;
 
-
 import java.util.Timer;
-import java.util.TimerTask;
-
-import static de.hhu.propra16.tddt.userinterface.Editor.*;
 
 
 /**
