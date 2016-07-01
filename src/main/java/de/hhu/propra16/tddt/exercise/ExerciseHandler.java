@@ -27,10 +27,8 @@ class ExerciseHandler extends DefaultHandler {
         qName = qName.toLowerCase();
         if (qName.equals("exercises")) hasExercises = true;
         else if (hasExercises && qName.equals("exercise")) {
-            String name = null;
-            if(atts.getLength() > 0) name = getAttribute(atts, "name", 0);
             exerciseBuilder = exerciseBuilderFactory.get();
-            exerciseBuilder.setName(name);
+            exerciseBuilder.setName(getAttribute(atts, "name", 0));
         } else if (hasExercises && qName.equals("class")) {
             exerciseBuilder.setClassName(getAttribute(atts, "name", 0));
         } else if (hasExercises && qName.equals("test")) {
@@ -52,13 +50,10 @@ class ExerciseHandler extends DefaultHandler {
         trim();
         if (hasExercises && qName.equals("description")) {
             exerciseBuilder.setDescription(current);
-            System.out.println(current);
         } else if (hasExercises && qName.equals("class")) {
             exerciseBuilder.setClassCode(current);
-            System.out.println(current);
         } else if (hasExercises && qName.equals("test")) {
             exerciseBuilder.setTestCode(current);
-            System.out.println(current);
         } else if (hasExercises && qName.equals("exercise")) exercises.add(exerciseBuilder.build());
         else if (qName.equals("exercises")) hasExercises = false;
 
@@ -97,9 +92,9 @@ class ExerciseHandler extends DefaultHandler {
     }
 
     private String getAttribute(Attributes atts, String equation, int index) {
-        String result = "";
-        if (atts.getLocalName(index).equals(equation)) result = atts.getValue(index);
-        return result;
+        if (atts.getLength() == 0) return null;
+        boolean condition = atts.getLocalName(index).equals(equation);
+        return condition ? atts.getValue(index) : null;
     }
 
     private Duration parseTime(String time){
