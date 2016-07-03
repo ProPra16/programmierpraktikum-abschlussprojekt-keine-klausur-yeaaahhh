@@ -15,21 +15,21 @@ public class Main extends Application {
 		launch(args);
 	}
 
-	@Override
-	public void start(Stage redStage) throws Exception {
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/resources/GuiRed.fxml"));     
-		Parent root = (Parent)fxmlLoader.load();          
-		GuiController controller = fxmlLoader.<GuiController>getController();
-		redStage.setTitle("TDDT");
+    @Override
+    public void start(Stage redStage) throws Exception {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/GuiRed.fxml"));
+        Parent root = loader.load();
+        GuiController controller = loader.getController();
+        redStage.setTitle("TDDT");
 		redStage.setScene(new Scene(root,600, 600));
 		redStage.show();
-		
-		StageContainer greenSC = createStage("/resources/GuiGreen.fxml");
-		StageContainer refactorCodeSC = createStage("/resources/GuiRefactorCode.fxml");
-		StageContainer refactorTestSC = createStage("/resources/GuiRefactorTest.fxml");
-		
-		
-		greenSC.c.setStages(refactorCodeSC.s, redStage);
+
+        StageContainer greenSC = createStage("/GuiGreen.fxml");
+        StageContainer refactorCodeSC = createStage("/GuiRefactorCode.fxml");
+        StageContainer refactorTestSC = createStage("/GuiRefactorTest.fxml");
+
+
+        greenSC.c.setStages(refactorCodeSC.s, redStage);
 		refactorCodeSC.c.setStages(refactorTestSC.s, greenSC.s);
 		refactorTestSC.c.setStages(redStage,refactorCodeSC.s);
 		controller.setStages(greenSC.s, null);
