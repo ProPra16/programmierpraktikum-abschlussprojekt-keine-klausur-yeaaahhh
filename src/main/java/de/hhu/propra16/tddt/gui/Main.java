@@ -10,10 +10,9 @@ import java.io.IOException;
 
 public class Main extends Application {
 
-	Stage redstage;
-	public static void main(String[] args) {
-		launch(args);
-	}
+    public static void main(String[] args) {
+        launch(args);
+    }
 
     @Override
     public void start(Stage redStage) throws Exception {
@@ -38,12 +37,11 @@ public class Main extends Application {
 	
 	public StageContainer createStage(String fxml) throws IOException{
 		Stage s = new Stage();
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxml));     
-		Parent root = (Parent)fxmlLoader.load();   
-		GuiController controller = fxmlLoader.<GuiController>getController();
-		s.setTitle("TDDT");
-		s.setScene(new Scene(root,600, 600));
-		StageContainer sc = new StageContainer(s,controller);
-		return sc;
-	}
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxml));
+        Parent root = fxmlLoader.load();
+        GuiController controller = fxmlLoader.getController();
+        s.setTitle("TDDT");
+        s.setScene(new Scene(root,600, 600));
+        return new StageContainer(s, controller);
+    }
 }

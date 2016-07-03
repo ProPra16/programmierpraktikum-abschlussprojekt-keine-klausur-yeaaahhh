@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<BorderPane fx:id="tddt" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="de.hhu.propra16.tddt.gui.Controller">
+    <right>
+        <Region maxWidth="50.0" minWidth="25.0" BorderPane.alignment="CENTER"/>
+    </right>
+    <center>
+        <SplitPane dividerPositions="0.7" orientation="VERTICAL" BorderPane.alignment="CENTER">
+            <AnchorPane>
+                <TextArea fx:id="code" prefHeight="223.0" prefWidth="548.0" promptText="Code here"
+                          AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                          AnchorPane.topAnchor="0.0"/>
+            </AnchorPane>
+            <AnchorPane>
+                <TextArea fx:id="errors" editable="false" prefHeight="77.0" prefWidth="487.0" promptText="Errors"
+                          AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                          AnchorPane.topAnchor="0.0"/>
+            </AnchorPane>
+        </SplitPane>
+    </center>
+    <left>
+        <Region maxWidth="50.0" minWidth="25.0" BorderPane.alignment="CENTER"/>
+    </left>
+    <bottom>
+        <AnchorPane BorderPane.alignment="CENTER">
+            <Label fx:id="phase" prefHeight="40.0" prefWidth="600.0" text="Test Phase" textFill="RED" translateX="25.0"
+                   AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                   AnchorPane.topAnchor="0.0"/>
+            <Button fx:id="check" defaultButton="true" layoutX="392.0" layoutY="7.0" mnemonicParsing="false"
+                    onAction="#checkCode" text="Check"/>
+            <Button fx:id="next" disable="true" layoutX="514.0" layoutY="7.0" mnemonicParsing="false" onAction="#goNext"
+                    text="Weiter"/>
+            <Button fx:id="back" layoutX="450.0" layoutY="7.0" mnemonicParsing="false" onAction="#goBack" text="Zurück"
+                    visible="false"/>
+        </AnchorPane>
+    </bottom>
+    <top>
+        <AnchorPane BorderPane.alignment="CENTER">
+            <TextField fx:id="description" editable="false" prefHeight="26.0" promptText="Exercise Description"
+                       AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0"
+                       AnchorPane.topAnchor="0.0"/>
+        </AnchorPane>
+    </top>
+</BorderPane>
