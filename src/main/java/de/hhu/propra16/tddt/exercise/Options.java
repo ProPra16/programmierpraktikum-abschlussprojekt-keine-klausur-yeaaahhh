@@ -15,4 +15,16 @@ public class Options {
         this.tracking = tracking;
         this.time = time;
     }
+
+    public Duration getTime() {
+        return time;
+    }
+
+    public boolean getBabySteps() {
+        return babySteps;
+    }
+
+    public boolean getTracking() {
+        return tracking;
+    }
 }
