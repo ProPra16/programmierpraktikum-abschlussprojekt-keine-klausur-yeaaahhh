@@ -14,19 +14,19 @@ public class DisplayerGroup {
         this.time = time;
     }
 
-    public MessageDisplay messageDisplay() {
+    public MessageDisplay getMessageDisplay() {
         return messages;
     }
 
-    public PhaseDisplay PhaseDisplay() {
+    public PhaseDisplay getPhaseDisplay() {
         return phases;
     }
 
-    public ErrorDisplay ErrorDisplay() {
+    public ErrorDisplay getErrorDisplay() {
         return errors;
     }
 
-    public TimeDisplay TimeDisplay() {
+    public TimeDisplay getTimeDisplay() {
         return time;
     }
 
