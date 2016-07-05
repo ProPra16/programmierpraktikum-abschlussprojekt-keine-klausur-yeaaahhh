@@ -2,16 +2,13 @@ package de.hhu.propra16.tddt.trainer;
 
 import de.hhu.propra16.tddt.exercise.Exercise;
 import de.hhu.propra16.tddt.sourcecode.SourceCode;
-import de.hhu.propra16.tddt.userinterface.Editor;
-
-import java.util.Timer;
 
 
 /**
  * Created by tim on 30.06.2016.
  */
 public class Trainer{
-    // bekomme Sourcecode von Interface
+    /*// bekomme Sourcecode von Interface
     private boolean nextPhaseaccepted;
     Exercise excersise;
     CheckCompile checkcompile;
@@ -50,9 +47,39 @@ public class Trainer{
         }
         return nextPhaseaccepted;
     }
-
     public void returntoPhaseRED(){
         editor.show(previousSorcecode);
     }
+    */
+    private Exercise exercise;
+    private Phase phase;
+    private CheckCompile checker;
+    SourceCode current;
+    SourceCode previous;
 
+    public Trainer(Exercise exercise) {
+        this.exercise = exercise;
+        phase = Phase.RED;
+        checker = new ConditionChecker();
+    }
+
+    public void nextPhase() {
+        if (checker.check(exercise.getSources(), phase)) {
+            cycle(true);
+        }
+    }
+
+    public void previousPhase() {
+        cycle(false);
+    }
+
+    private void cycle(boolean forward) {
+        if (forward) {
+            if (phase == Phase.RED) phase = Phase.GREEN;
+            if (phase == Phase.GREEN) phase = Phase.BLACK;
+            if (phase == Phase.BLACK) phase = Phase.RED;
+        } else {
+            if (phase == Phase.GREEN) phase = Phase.RED;
+        }
+    }
 }
