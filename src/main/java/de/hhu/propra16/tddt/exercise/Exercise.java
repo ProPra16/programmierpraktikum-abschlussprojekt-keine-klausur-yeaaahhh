@@ -16,6 +16,10 @@ public class Exercise {
         return description;
     }
 
+    public Options getOptions() {
+        return options;
+    }
+
     private final SourceCode sources;
     private final String name;
     private final String description;
