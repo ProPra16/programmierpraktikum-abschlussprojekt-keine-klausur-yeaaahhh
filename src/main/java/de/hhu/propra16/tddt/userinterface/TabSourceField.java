@@ -14,7 +14,7 @@ public class TabSourceField extends TabPane implements SourceField {
     private Map<String, TextArea> codeAreas;
 
     @Override
-    public void setEditable(boolean editable) {
+    public void setEditable(boolean value) {
     }
 
     @Override

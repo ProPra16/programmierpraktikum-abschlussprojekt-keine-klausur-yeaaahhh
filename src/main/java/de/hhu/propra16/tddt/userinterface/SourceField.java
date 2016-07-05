@@ -5,7 +5,7 @@ package de.hhu.propra16.tddt.userinterface;
  */
 public interface SourceField {
 
-    void setEditable(boolean editable);
+    void setEditable(boolean value);
 
     void showText(String name, String text);
 
