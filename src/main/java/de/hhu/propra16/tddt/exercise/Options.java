@@ -15,8 +15,4 @@ public class Options {
         this.tracking = tracking;
         this.time = time;
     }
-
-    public Options(boolean tracking, boolean babySteps) {
-        this(tracking, babySteps, DEFAULT_TIME);
-    }
 }
