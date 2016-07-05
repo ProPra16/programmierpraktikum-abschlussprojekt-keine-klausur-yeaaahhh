@@ -19,11 +19,18 @@ public class Trainer{
     public Trainer(Exercise exercise, Editor editor, DisplayerGroup display) {
         this.exercise = exercise;
         this.editor = editor;
-        error = display.getErrorDisplay();
+        error = display.errorDisplay();
         current = exercise.getSources();
         previous = current;
         phase = Phase.RED;
         checker = new ConditionChecker();
+    }
+
+    public void checkPhase() {
+        current = editor.get();
+        if (checker.check(current, phase)) {
+
+        }
     }
 
     public void nextPhase() {

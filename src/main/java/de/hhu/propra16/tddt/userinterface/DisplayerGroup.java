@@ -18,15 +18,15 @@ public class DisplayerGroup {
         return messages;
     }
 
-    public PhaseDisplay PhaseDisplay() {
+    public PhaseDisplay phaseDisplay() {
         return phases;
     }
 
-    public ErrorDisplay getErrors() {
+    public ErrorDisplay errorDisplay() {
         return errors;
     }
 
-    public TimeDisplay getTime() {
+    public TimeDisplay timeDisplay() {
         return time;
     }
 }
