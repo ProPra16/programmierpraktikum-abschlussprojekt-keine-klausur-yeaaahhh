@@ -23,7 +23,6 @@ public class Trainer{
         previous = current;
         phase = Phase.RED;
         checker = new ConditionChecker();
-
         errorDisplay = display.errorDisplay();
         messageDisplay = display.messageDisplay();
         phaseDisplay = display.phaseDisplay();
@@ -31,6 +30,10 @@ public class Trainer{
 
     }
 
+    /**
+     * Checks if the actual Code runs, if so it'll let the user go to the next Phase
+     * It shows in both cases the compilation result.
+     */
     public void checkPhaseStatus() {
         current = editor.get();
         String compilationMessage = "";
@@ -40,6 +43,11 @@ public class Trainer{
         } else errorDisplay.show(compilationMessage);
     }
 
+
+    /**
+     * Manages Phase to go to the Next Phase, so phase goes a step further
+     * and the actual Sourcecode becomes the previous one.
+     */
     public void nextPhase() {
         cycle(true);
         previous = current;
@@ -49,6 +57,10 @@ public class Trainer{
                     phase == Phase.RED || phase == Phase.BLACK);
     }
 
+    /**
+     * Manages Phase to go to the previous Phase, so phase goes a step back
+     * and the previous Sourcecode becomes the actual one.
+     */
     public void previousPhase() {
         cycle(false);
         current = previous;
@@ -57,6 +69,13 @@ public class Trainer{
                 phase == Phase.RED || phase == Phase.BLACK);
     }
 
+    /**
+     * Changes Phase (counter) clockwise
+     *
+     * @param forward determines the direction in which the Phase cycles
+     * @value true to go clockwise
+     * @value false to go counterclockwise
+     */
 
     private void cycle(boolean forward) {
         if (forward) {
