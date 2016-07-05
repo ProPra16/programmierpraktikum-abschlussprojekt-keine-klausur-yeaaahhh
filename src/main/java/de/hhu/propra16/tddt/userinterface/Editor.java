@@ -7,7 +7,7 @@ import de.hhu.propra16.tddt.sourcecode.SourceCode;
  */
 public interface Editor {
 
-    void show(SourceCode code);
+    void show(SourceCode code, boolean sourceEditable, boolean testEditable);
 
     SourceCode get();
 }
