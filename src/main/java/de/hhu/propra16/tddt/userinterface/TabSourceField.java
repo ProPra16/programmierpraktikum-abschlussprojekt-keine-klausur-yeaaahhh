@@ -32,6 +32,7 @@ public class TabSourceField extends TabPane implements SourceField {
 
     @Override
     public String getTextOf(String name) {
-        return null;
+        TextArea area = codeAreas.get(name);
+        return area == null ? "" : area.getText();
     }
 }
