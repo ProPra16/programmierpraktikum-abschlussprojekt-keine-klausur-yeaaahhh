@@ -2,36 +2,40 @@ package de.hhu.propra16.tddt.trainer;
 
 import de.hhu.propra16.tddt.exercise.Exercise;
 import de.hhu.propra16.tddt.sourcecode.SourceCode;
-import de.hhu.propra16.tddt.sourcecode.SourceCodeBuilder;
+import de.hhu.propra16.tddt.userinterface.Editor;
 
-
-/**
- * Created by tim on 30.06.2016.
- */
 public class Trainer{
     private Exercise exercise;
     private Phase phase;
     private CheckCompile checker;
-    SourceCode current;
-    SourceCode previous;
+    private Editor editor;
+    private SourceCode current;
+    private SourceCode previous;
 
     public Trainer(Exercise exercise) {
         this.exercise = exercise;
+        current = exercise.getSources();
+        previous = current;
         phase = Phase.RED;
         checker = new ConditionChecker();
     }
 
     public void nextPhase() {
-        if (checker.check(exercise.getSources(), phase)) {
-            cycle(true);
+        current = editor.get();
+        if (checker.check(current, phase)) {
             previous = current;
-            SourceCodeBuilder scBuilder = new SourceCodeBuilder();
+            editor.show(current,
+                    phase == Phase.GREEN || phase == Phase.BLACK,
+                    phase == Phase.RED || phase == Phase.BLACK);
         }
     }
 
     public void previousPhase() {
         cycle(false);
         current = previous;
+        editor.show(current,
+                phase == Phase.GREEN || phase == Phase.BLACK,
+                phase == Phase.RED || phase == Phase.BLACK);
     }
 
     private void cycle(boolean forward) {
@@ -43,4 +47,6 @@ public class Trainer{
             if (phase == Phase.GREEN) phase = Phase.RED;
         }
     }
+
+
 }
