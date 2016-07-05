@@ -22,4 +22,11 @@ public class DisplayerGroup {
         return phases;
     }
 
+    public ErrorDisplay getErrors() {
+        return errors;
+    }
+
+    public TimeDisplay getTime() {
+        return time;
+    }
 }
