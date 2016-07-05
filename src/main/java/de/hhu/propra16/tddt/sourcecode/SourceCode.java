@@ -26,8 +26,9 @@ public class SourceCode{
     }
 
     public int NumberOfFailedTests() {
-        if (compileTest()==null)
-            return 0;
+        if (compileTest()==null) {
+            return 100;
+        }
         return this.compileTest().getNumberOfFailedTests();
     }
 
@@ -53,12 +54,12 @@ public class SourceCode{
                 Collection<CompileError> error = this.compileCode().getCompilerErrorsForCompilationUnit(list.get(i));
                 CompilationUnit CUtmp = list.get(i);
                 error.forEach((e) -> {
-                    tmp.add("\nKlasse "+CUtmp.getClassName()+": Line " + e.getLineNumber() + ": " + e.getMessage()+"\n");
+                    tmp.add("\nKlasse "+CUtmp.getClassName()+": Line " + e.getLineNumber() + ": " + e.getMessage()+" ");
                 });
             }
-            String t = tmp.toString() + " ";
-            String tt = Fehler.concat(t);
-            return Fehler.concat(t).substring(1, tt.length()-2);
+            String t = Fehler.concat(tmp.toString() + " ");
+            String tt = t.substring(1, t.length()-2);
+            return "### ERROR ###".concat(tt);
         }
     }
 
@@ -86,7 +87,6 @@ public class SourceCode{
         });
         return stringCode;
     }
-
 
     // private methods:
     private void split() {
@@ -125,32 +125,17 @@ public class SourceCode{
         return list;
     } // gibt List<CU> zurück, die ComilerErros haben
 
-
     public static void main(String[] args) {
-        CompilationUnit a = new CompilationUnit("bla", "import org.junit.*;public class bla{@Test public void test(){}}", true);
+        CompilationUnit a = new CompilationUnit("bla", "import org.junit.*;public class bla{@Test public void test(){blubb.dat();}}", true);
         CompilationUnit b = new CompilationUnit("blubb",
-                "public class blubb{public static int get(int i) {return i}} ", false);
-        CompilationUnit c = new CompilationUnit("bsp", "public class bsp{ ", false);
+                "public class blubb{public static void dot() {}} ", false);
+        CompilationUnit c = new CompilationUnit("bsp", "public class bsp{} ", false);
         List<CompilationUnit> liste = new ArrayList<>();
         liste.add(a);
         liste.add(b);
         liste.add(c);
         SourceCode sc = new SourceCode(liste);
-        System.out.println("Fehler?:" + sc.compileCode().hasCompileErrors());
-//        System.out.println("DurationCode: "+ sc.compileCode().getCompileDuration());
-//        System.out.println("Duration:" + sc.compileTest().getTestDuration());
-//        Collection<CompileError> error = sc.compileCode().getCompilerErrorsForCompilationUnit(a);
-//        error.forEach((e)->{
-//            System.out.println(e.getMessage());
-//        });
-//        System.out.println("FailedTest: " + sc.compileTest().getNumberOfFailedTests());
-//        Collection<TestFailure> test = sc.compileTest().getTestFailures();
-//        test.forEach((e) -> {
-//            System.out.println(e.getMethodName()+" "+e.getTestClassName()+" "+e.getMessage());
-//        });
-//        System.out.println(sc.ResultTest());
+        System.out.println("Fehler?:" + sc.compileCode().hasCompileErrors() +" Anzahl:"+sc.NumberOfFailedTests());
         System.out.println(sc.getResult());
-
-
     }
 }
