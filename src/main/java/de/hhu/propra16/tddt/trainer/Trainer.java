@@ -2,9 +2,7 @@ package de.hhu.propra16.tddt.trainer;
 
 import de.hhu.propra16.tddt.exercise.Exercise;
 import de.hhu.propra16.tddt.sourcecode.SourceCode;
-import de.hhu.propra16.tddt.userinterface.DisplayerGroup;
-import de.hhu.propra16.tddt.userinterface.Editor;
-import de.hhu.propra16.tddt.userinterface.ErrorDisplay;
+import de.hhu.propra16.tddt.userinterface.*;
 
 public class Trainer{
     private Exercise exercise;
@@ -13,38 +11,42 @@ public class Trainer{
     private Editor editor;
     private SourceCode current;
     private SourceCode previous;
-    private ErrorDisplay error;
-
+    private ErrorDisplay errorDisplay;
+    private MessageDisplay messageDisplay;
+    private PhaseDisplay phaseDisplay;
+    private TimeDisplay timeDisplay;
 
     public Trainer(Exercise exercise, Editor editor, DisplayerGroup display) {
         this.exercise = exercise;
         this.editor = editor;
-        error = display.errorDisplay();
         current = exercise.getSources();
         previous = current;
         phase = Phase.RED;
         checker = new ConditionChecker();
+
+        errorDisplay = display.errorDisplay();
+        messageDisplay = display.messageDisplay();
+        phaseDisplay = display.phaseDisplay();
+        timeDisplay = display.timeDisplay();
+
     }
 
-    public void checkPhase() {
+    public void checkPhaseStatus() {
         current = editor.get();
+        String compilationMessage = "";
         if (checker.check(current, phase)) {
-
-        }
+            phaseDisplay.showNext(phase);
+            errorDisplay.show(compilationMessage);
+        } else errorDisplay.show(compilationMessage);
     }
 
     public void nextPhase() {
+        cycle(true);
+        previous = current;
         current = editor.get();
-        String compilationMessage = " ";
-        if (checker.check(current, phase)) {
-            previous = current;
-            editor.show(current,
+        editor.show(current,
                     phase == Phase.GREEN || phase == Phase.BLACK,
                     phase == Phase.RED || phase == Phase.BLACK);
-            error.show(compilationMessage);
-        } else {
-            error.show(compilationMessage);
-        }
     }
 
     public void previousPhase() {
@@ -54,6 +56,7 @@ public class Trainer{
                 phase == Phase.GREEN || phase == Phase.BLACK,
                 phase == Phase.RED || phase == Phase.BLACK);
     }
+
 
     private void cycle(boolean forward) {
         if (forward) {

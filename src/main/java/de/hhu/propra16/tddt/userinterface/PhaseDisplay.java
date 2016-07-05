@@ -5,4 +5,6 @@ import de.hhu.propra16.tddt.trainer.Phase;
 public interface PhaseDisplay {
 
     void show(Phase phase);
+
+    void showNext(Phase phase);
 }
