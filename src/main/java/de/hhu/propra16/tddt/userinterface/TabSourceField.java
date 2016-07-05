@@ -22,12 +22,13 @@ public class TabSourceField extends TabPane implements SourceField {
 
     @Override
     public void showText(String name, String text) {
-        if (!codeAreas.keySet().contains(name)) {
-            TextArea area = new TextArea();
+        TextArea area = codeAreas.get(name);
+        if (area == null) {
+            area = new TextArea();
             codeAreas.put(name, area);
             getChildren().add(area);
         }
-        codeAreas.get(name).setText(text);
+        area.setText(text);
     }
 
     @Override
