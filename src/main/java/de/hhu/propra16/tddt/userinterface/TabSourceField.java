@@ -1,8 +1,10 @@
 package de.hhu.propra16.tddt.userinterface;
 
+import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -10,8 +12,8 @@ import java.util.Map;
  */
 public class TabSourceField extends TabPane implements SourceField {
 
-    // Every value in codeAreas must be a child!
-    private Map<String, TextArea> codeAreas;
+    // Every value in codeAreas must be a child in a tab of this!
+    private final Map<String, TextArea> codeAreas = new HashMap<>();
 
     @Override
     public void setEditable(boolean value) {
@@ -26,7 +28,9 @@ public class TabSourceField extends TabPane implements SourceField {
         if (area == null) {
             area = new TextArea();
             codeAreas.put(name, area);
-            getChildren().add(area);
+            Tab tab = new Tab(name);
+            tab.setContent(area);
+            getTabs().add(tab);
         }
         area.setText(text);
     }
