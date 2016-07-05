@@ -4,6 +4,9 @@ import de.hhu.propra16.tddt.exercise.Exercise;
 import de.hhu.propra16.tddt.sourcecode.SourceCode;
 import de.hhu.propra16.tddt.userinterface.*;
 
+/**
+ * Manages the different Phases
+ */
 public class Trainer{
     private Exercise exercise;
     private Phase phase;
@@ -28,15 +31,18 @@ public class Trainer{
         private static TimeDisplay timeDisplay;
 
         public Builder(Exercise exercise) {
+            if (exercise == null) throw new NullPointerException("There has to be an Exercise to work with!");
             Builder.exercise = exercise;
         }
 
         public Builder editor(Editor editor) {
+            if (exercise == null) throw new NullPointerException("There has to be an Instance of Editor Class");
             Builder.editor = editor;
             return this;
         }
 
         public Builder displayerGroup(DisplayerGroup group) {
+            if (group == null) throw new NullPointerException("There has to be an Instance of DisplayerGroup Class");
             errorDisplay = group.errorDisplay();
             messageDisplay = group.messageDisplay();
             phaseDisplay = group.phaseDisplay();
