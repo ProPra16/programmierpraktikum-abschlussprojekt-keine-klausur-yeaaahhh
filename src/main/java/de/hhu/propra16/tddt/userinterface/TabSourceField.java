@@ -15,6 +15,10 @@ public class TabSourceField extends TabPane implements SourceField {
     // Every value in codeAreas must be a child in a tab of this!
     private final Map<String, TextArea> codeAreas = new HashMap<>();
 
+    {
+        setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
+    }
+
     @Override
     public void setEditable(boolean value) {
         for (TextArea area : codeAreas.values()) {
