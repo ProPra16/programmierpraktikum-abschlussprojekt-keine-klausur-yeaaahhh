@@ -16,18 +16,59 @@ public class Trainer{
     private PhaseDisplay phaseDisplay;
     private TimeDisplay timeDisplay;
 
-    public Trainer(Exercise exercise, Editor editor, DisplayerGroup display) {
-        this.exercise = exercise;
-        this.editor = editor;
+    /**
+     * Builder Class for building a Trainer instance;
+     */
+    public static class Builder {
+        private static Exercise exercise;
+        private static Editor editor;
+        private static ErrorDisplay errorDisplay;
+        private static MessageDisplay messageDisplay;
+        private static PhaseDisplay phaseDisplay;
+        private static TimeDisplay timeDisplay;
+
+        public Builder(Exercise exercise) {
+            Builder.exercise = exercise;
+        }
+
+        public Builder editor(Editor editor) {
+            Builder.editor = editor;
+            return this;
+        }
+
+        public Builder displayerGroup(DisplayerGroup group) {
+            errorDisplay = group.errorDisplay();
+            messageDisplay = group.messageDisplay();
+            phaseDisplay = group.phaseDisplay();
+            timeDisplay = group.timeDisplay();
+            return this;
+        }
+
+        public Trainer build() {
+            return new Trainer(this);
+        }
+    }
+
+    /**
+     * Constructor for Trainer instance. Access is private.
+     * Trainer instance has to be made by using the Builder
+     *
+     * @param builder contains the necessary Informations.
+     */
+    private Trainer(Builder builder) {
+        exercise = Builder.exercise;
+        editor = Builder.editor;
+
+        messageDisplay = Builder.messageDisplay;
+        errorDisplay = Builder.errorDisplay;
+        phaseDisplay = Builder.phaseDisplay;
+        timeDisplay = Builder.timeDisplay;
+
         current = exercise.getSources();
         previous = current;
         phase = Phase.RED;
-        checker = new ConditionChecker();
-        errorDisplay = display.errorDisplay();
-        messageDisplay = display.messageDisplay();
-        phaseDisplay = display.phaseDisplay();
-        timeDisplay = display.timeDisplay();
 
+        checker = new ConditionChecker();
     }
 
     /**
