@@ -2,9 +2,6 @@ package de.hhu.propra16.tddt.trainer;
 
 import de.hhu.propra16.tddt.sourcecode.SourceCode;
 
-/**
- * Created by felix on 7/1/16.
- */
 public class ConditionChecker implements CheckCompile {
 
     @Override
