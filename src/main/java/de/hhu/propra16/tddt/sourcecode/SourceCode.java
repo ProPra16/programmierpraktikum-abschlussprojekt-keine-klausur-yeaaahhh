@@ -1,8 +1,8 @@
 package de.hhu.propra16.tddt.sourcecode;
 
-import org.junit.Test;
 import vk.core.api.*;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -17,10 +17,10 @@ public class SourceCode{
 
     public SourceCode(List<CompilationUnit> units) {
         this.units = units;
+        slit();
     }
 
-    // Methode splittet units in ArrayList aus Tests und Codes
-    private void split() {
+    private void slit() {
         units.forEach((element) -> {
             if (element.isATest())
                 tests.add(element);
@@ -30,26 +30,32 @@ public class SourceCode{
     }
 
     // CompilerResult
-    public List<CompilerResult> compileCode() {
-        List<CompilerResult> result = new ArrayList<>();
+    public CompilerResult compileCode() {
         synchronized (units) {
-            CompilationUnit[] array = (CompilationUnit[]) units.toArray(new CompilationUnit[units.size()]);
+            CompilationUnit[] array = units.toArray(new CompilationUnit[units.size()]);
             JavaStringCompiler JSC = CompilerFactory.getCompiler(array);
             JSC.compileAndRunTests();
-            result.add(JSC.getCompilerResult());
+            return JSC.getCompilerResult();
         }
-        return result;
     }
     // TestResult
-    public List<TestResult> compileTest() {
-        List<TestResult> result = new ArrayList<>();
+    public TestResult compileTest() {
         synchronized (units) {
-            CompilationUnit[] array = (CompilationUnit[]) units.toArray(new CompilationUnit[units.size()]);
+            CompilationUnit[] array = units.toArray(new CompilationUnit[units.size()]);
             JavaStringCompiler JSC = CompilerFactory.getCompiler(array);
             JSC.compileAndRunTests();
-            result.add(JSC.getTestResult());
+            return JSC.getTestResult();
         }
-        return result;
+    }
+
+    public String ResultTests() {
+        String Fehler = String.valueOf(this.compileTest().getNumberOfFailedTests());
+        Collection<TestFailure> test = this.compileTest().getTestFailures();
+        test.forEach((e)-> {
+            String tmp = e.getMethodName() + " " + e.getMessage();
+            Fehler.concat(tmp);
+        });
+        return Fehler;
     }
 
     //Methode bekommt einen Klassennamen und gibt den SourceCode als String zurück
@@ -63,7 +69,6 @@ public class SourceCode{
 
     //Methode gibt Klassenname der Tests aus
     public List<String> getNameTest() {
-        split();
         List<String> stringTest = new ArrayList<>();
         tests.forEach((t) -> {
             stringTest.add(t.getClassName());
@@ -73,7 +78,6 @@ public class SourceCode{
 
     //Methode gibt Klassenname der Programme aus
     public List<String> getNameCode() {
-        split();
         List<String> stringCode = new ArrayList<>();
         code.forEach((c) -> {
             stringCode.add(c.getClassName());
@@ -82,16 +86,27 @@ public class SourceCode{
     }
 
     public static void main(String[] args) {
-        CompilationUnit a = new CompilationUnit("bla", "public class bla{static void blaa{Beispiel2.do(2)}}", true);
-        CompilationUnit b = new CompilationUnit("blubb", "public class blubb{ static void blub{}} ", false);
-        CompilationUnit c = new CompilationUnit("bsp", "public bsp{} ", true);
+        CompilationUnit a = new CompilationUnit("bla", "import org.junit.*; public class bla{@Test public void dot(){}}", true);
+        CompilationUnit b = new CompilationUnit("blubb", "public class blubb{ } ", false);
+        CompilationUnit c = new CompilationUnit("bsp", "import org.junit.*; public class bsp{} ", true);
         List<CompilationUnit> liste = new ArrayList<>();
         liste.add(a);
         liste.add(b);
         liste.add(c);
         SourceCode sc = new SourceCode(liste);
-        sc.compileCode();
-        sc.compileTest();
-    }
+        System.out.println("Fehler?:" + sc.compileCode().hasCompileErrors());
+        System.out.println("DurationCode: "+ sc.compileCode().getCompileDuration());
+//        System.out.println("Duration:" + sc.compileTest().getTestDuration());
+        Collection<CompileError> error = sc.compileCode().getCompilerErrorsForCompilationUnit(a);
+        error.forEach((e)->{
+            System.out.println(e.getMessage());
+        });
+        System.out.println("FailedTest: " + sc.compileTest().getNumberOfFailedTests());
+        Collection<TestFailure> test = sc.compileTest().getTestFailures();
+        test.forEach((e) -> {
+            System.out.println(e.getMethodName()+" "+e.getTestClassName()+" "+e.getMessage());
+        });
+        System.out.println("##" + sc.ResultTests());
 
+    }
 }

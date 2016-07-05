@@ -16,9 +16,9 @@ public class SourceCodeTest {
     SourceCode SC;
     @Before
     public void setUp() throws Exception {
-        CompilationUnit a = new CompilationUnit("Test1", "public class Test1 {do some stuff}", true);
+        CompilationUnit a = new CompilationUnit("Test1", "import org.junit.*; public class Test1 {@Test public void dat(){}}", true);
         CompilationUnit b = new CompilationUnit("bla", "public class bla{}", false);
-        CompilationUnit c = new CompilationUnit("Test3", "public Test2 {do something}", true);
+        CompilationUnit c = new CompilationUnit("Test3", "import org.junit.*; public Test2 {@Test public void dot(){}}", true);
         CompilationUnit d = new CompilationUnit("blubb", "public class blubb{}", false);
         List<CompilationUnit> liste = new ArrayList<>();
         liste.add(a);
@@ -50,5 +50,6 @@ public class SourceCodeTest {
     @Test
     public void testcompileTest() {
         SC.compileTest();
+
     }
 }
