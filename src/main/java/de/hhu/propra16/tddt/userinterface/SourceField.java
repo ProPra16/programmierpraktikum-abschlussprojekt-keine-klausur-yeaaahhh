@@ -9,5 +9,5 @@ public interface SourceField {
 
     void showText(String name, String text);
 
-    void getTextOf(String name);
+    String getTextOf(String name);
 }
