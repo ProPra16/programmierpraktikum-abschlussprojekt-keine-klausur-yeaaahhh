@@ -138,7 +138,11 @@ public class Trainer{
         }
     }
 
+    /**
+     * Set up a Timer with the Time corresponding to the Exercise and do some work.
+     */
     public void babyStepTimer() {
+        if (!exercise.getOptions().getBabySteps()) return;
         LocalTime now = LocalTime.now();
         LocalTime b = LocalTime.now().plusSeconds(exercise.getOptions().getTime().getSeconds());
         Timer timer = new Timer();

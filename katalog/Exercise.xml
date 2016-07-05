@@ -16,9 +16,9 @@
                 import org.junit.Test;
 
                 public class RomanNumbersTest {
-                    @Test
-                    public void testSomething() {
-                    }
+                @Test
+                public void testSomething() {
+                }
                 }
             </test>
         </tests>
