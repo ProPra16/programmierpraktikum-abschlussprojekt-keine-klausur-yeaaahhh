@@ -4,11 +4,15 @@ import de.hhu.propra16.tddt.exercise.Exercise;
 import de.hhu.propra16.tddt.sourcecode.SourceCode;
 import de.hhu.propra16.tddt.userinterface.*;
 
+import java.time.LocalTime;
+import java.util.Timer;
+import java.util.TimerTask;
+
 /**
  * Manages the different Phases
  */
 public class Trainer{
-    private Exercise exercise;
+    private static Exercise exercise;
     private Phase phase;
     private CheckCompile checker;
     private Editor editor;
@@ -132,5 +136,17 @@ public class Trainer{
         } else {
             if (phase == Phase.GREEN) phase = Phase.RED;
         }
+    }
+
+    public void babyStepTimer() {
+        LocalTime now = LocalTime.now();
+        LocalTime b = LocalTime.now().plusSeconds(exercise.getOptions().getTime().getSeconds());
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            public void run() {
+                System.out.println(b.getSecond() + " " + now.getSecond() + " " + LocalTime.now().getSecond());
+                if (b.toSecondOfDay() == LocalTime.now().toSecondOfDay()) timer.cancel();
+            }
+        }, 0, 1000);
     }
 }
