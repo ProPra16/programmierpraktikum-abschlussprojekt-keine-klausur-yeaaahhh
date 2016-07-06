@@ -18,7 +18,7 @@ public class SourceCode {
     private boolean hasErrors;
 
     public SourceCode(List<CompilationUnit> units) {
-        this.units = units;
+        this.units = new ArrayList<>(units);
         split();
     }
 
