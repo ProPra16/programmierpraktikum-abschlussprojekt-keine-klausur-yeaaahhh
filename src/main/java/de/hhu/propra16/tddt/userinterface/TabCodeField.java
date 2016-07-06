@@ -10,7 +10,7 @@ import java.util.Map;
 /**
  * Created by felix on 7/5/16.
  */
-public class TabSourceField extends TabPane implements SourceField {
+public class TabCodeField extends TabPane implements CodeField {
 
     // Every value in codeAreas must be a child in a tab of this!
     private final Map<String, TextArea> codeAreas = new HashMap<>();

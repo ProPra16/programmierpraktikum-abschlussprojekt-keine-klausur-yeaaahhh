@@ -3,7 +3,7 @@ package de.hhu.propra16.tddt.userinterface;
 /**
  * Created by felix on 7/5/16.
  */
-public interface SourceField {
+public interface CodeField {
 
     void setEditable(boolean value);
 
