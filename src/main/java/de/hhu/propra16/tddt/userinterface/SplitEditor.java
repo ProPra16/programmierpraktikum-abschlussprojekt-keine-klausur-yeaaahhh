@@ -16,6 +16,9 @@ public class SplitEditor implements Editor {
 
     @Override
     public void show(SourceCode code, boolean sourceEditable, boolean testEditable) {
+        if (code == null) throw new NullPointerException("code must not be null.");
+        sourceField.setEditable(sourceEditable);
+        testField.setEditable(testEditable);
     }
 
     @Override
