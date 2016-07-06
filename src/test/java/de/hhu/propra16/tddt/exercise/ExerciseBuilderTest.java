@@ -10,14 +10,16 @@ import org.junit.runner.RunWith;
 import java.time.Duration;
 import java.util.function.BiConsumer;
 
+import static org.junit.Assert.assertEquals;
+
 @RunWith(Theories.class)
 public class ExerciseBuilderTest {
 
-    private ExerciseBuilder builder = new ExerciseBuilder("Name");
+    private ExerciseBuilder builder = new ExerciseBuilder();
 
     @Before
     public void setUp() {
-        builder = new ExerciseBuilder("Name");
+        builder = new ExerciseBuilder();
     }
 
     @DataPoint
@@ -29,6 +31,7 @@ public class ExerciseBuilderTest {
     @DataPoint
     public static BiConsumer<ExerciseBuilder, Duration> timeSetter = ExerciseBuilder::setTime;
 
+    @SuppressWarnings("unchecked")
     @Theory
     @Test(expected = NullPointerException.class)
     public void setterFailWithNull(BiConsumer setter) {
@@ -36,7 +39,7 @@ public class ExerciseBuilderTest {
     }
 
     @Test(expected = IllegalStateException.class)
-    public void classCodeWihoutName() {
+    public void classCodeWithoutName() {
         builder.setClassCode("public class foo { }");
     }
 
@@ -53,6 +56,18 @@ public class ExerciseBuilderTest {
     @Test(expected = NullPointerException.class)
     public void setTestCodeNullFail() {
         builder.setTestName("Foo").setTestCode(null);
+    }
+
+    @Test
+    public void testDescription() {
+        builder.setDescription("Bar");
+        assertEquals("Bar", builder.build().getDescription());
+    }
+
+    @Test
+    public void testName() {
+        builder.setName("Name");
+        assertEquals("Name", builder.build().getName());
     }
 
 

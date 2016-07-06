@@ -1,4 +1,4 @@
-package Gui;
+package de.hhu.propra16.tddt.gui;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,7 +17,6 @@ public class GuiController implements Initializable  {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
 	}
 	
 	public void setStages(Stage nextStage, Stage previousStage){
@@ -40,9 +39,8 @@ public class GuiController implements Initializable  {
 	
 		Button b = (Button) event.getSource();
 		Stage s = (Stage) b.getScene().getWindow();
-		previousStage.show();
-		s.hide();
-	}
-	
-	
+        previousStage.show();
+        s.hide();
+    }
+
 }

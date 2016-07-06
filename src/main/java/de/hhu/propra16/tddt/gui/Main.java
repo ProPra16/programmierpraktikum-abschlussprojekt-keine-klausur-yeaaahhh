@@ -1,4 +1,4 @@
-package Gui;
+package de.hhu.propra16.tddt.gui;
 
 import java.io.IOException;
 
@@ -18,16 +18,16 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage redStage) throws Exception {
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/resources/GuiRed.fxml"));     
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/main/resources/GuiRed.fxml"));     
 		Parent root = (Parent)fxmlLoader.load();          
 		GuiController controller = fxmlLoader.<GuiController>getController();
 		redStage.setTitle("TDDT");
 		redStage.setScene(new Scene(root,600, 600));
 		redStage.show();
 		
-		StageContainer greenSC = createStage("/resources/GuiGreen.fxml");
-		StageContainer refactorCodeSC = createStage("/resources/GuiRefactorCode.fxml");
-		StageContainer refactorTestSC = createStage("/resources/GuiRefactorTest.fxml");
+		StageContainer greenSC = createStage("/main/resources/GuiGreen.fxml");
+		StageContainer refactorCodeSC = createStage("/main/resources/GuiRefactorCode.fxml");
+		StageContainer refactorTestSC = createStage("/main/resources/GuiRefactorTest.fxml");
 		
 		
 		greenSC.c.setStages(refactorCodeSC.s, redStage);
