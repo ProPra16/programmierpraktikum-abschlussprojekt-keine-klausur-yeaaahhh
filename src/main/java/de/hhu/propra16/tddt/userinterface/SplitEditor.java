@@ -3,13 +3,13 @@ package de.hhu.propra16.tddt.userinterface;
 import de.hhu.propra16.tddt.sourcecode.SourceCode;
 import javafx.scene.control.TextArea;
 
-public class TextAreaEditor implements Editor {
+public class SplitEditor implements Editor {
 
     private final TextArea sourceField;
     private final TextArea testField;
 
 
-    public TextAreaEditor(TextArea sourceField, TextArea testField) {
+    public SplitEditor(TextArea sourceField, TextArea testField) {
         this.sourceField = sourceField;
         this.testField = testField;
     }
