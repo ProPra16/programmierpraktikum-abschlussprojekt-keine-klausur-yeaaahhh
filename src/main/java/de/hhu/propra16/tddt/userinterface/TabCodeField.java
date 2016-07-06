@@ -19,11 +19,13 @@ public class TabCodeField extends TabPane implements CodeField {
         setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
     }
 
+    private boolean editable = true;
     @Override
     public void setEditable(boolean value) {
         for (TextArea area : codeAreas.values()) {
             area.setEditable(value);
         }
+        editable = value;
     }
 
     @Override
@@ -31,6 +33,7 @@ public class TabCodeField extends TabPane implements CodeField {
         TextArea area = codeAreas.get(name);
         if (area == null) {
             area = new TextArea();
+            area.setEditable(editable);
             codeAreas.put(name, area);
             Tab tab = new Tab(name);
             tab.setContent(area);
