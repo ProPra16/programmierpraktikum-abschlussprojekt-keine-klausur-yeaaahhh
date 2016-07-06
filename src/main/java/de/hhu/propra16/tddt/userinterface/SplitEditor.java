@@ -5,11 +5,11 @@ import javafx.scene.control.TextArea;
 
 public class SplitEditor implements Editor {
 
-    private final TextArea sourceField;
-    private final TextArea testField;
+    private final CodeField sourceField;
+    private final CodeField testField;
 
 
-    public SplitEditor(TextArea sourceField, TextArea testField) {
+    public SplitEditor(CodeField sourceField, CodeField testField) {
         this.sourceField = sourceField;
         this.testField = testField;
     }
