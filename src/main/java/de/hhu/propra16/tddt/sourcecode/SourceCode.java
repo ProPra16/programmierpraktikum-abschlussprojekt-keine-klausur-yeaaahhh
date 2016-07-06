@@ -130,15 +130,9 @@ public class SourceCode {
 
     // gibt List<CU> zurück, die ComilerErros haben
     private List<CompilationUnit> cuHasError() {
-        List<CompilationUnit> list = new ArrayList<>();
-        units.forEach(e -> {
-            JavaStringCompiler jsc = CompilerFactory.getCompiler(e);
-            jsc.compileAndRunTests();
-            CompilerResult cr = jsc.getCompilerResult();
-            if (cr.hasCompileErrors())
-                list.add(e);
-        });
-        return list;
+        return units.stream()
+                .filter(cu -> compileCode().getCompilerErrorsForCompilationUnit(cu) != null)
+                .collect(Collectors.toList());
     }
 
     public static void main(String[] args) {
