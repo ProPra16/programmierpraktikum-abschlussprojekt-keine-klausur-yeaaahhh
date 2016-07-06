@@ -5,6 +5,7 @@ import vk.core.api.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Contains test classes as well as normal classes
@@ -102,21 +103,28 @@ public class SourceCode {
         });
     }
 
+    private CompilerResult compilerResult;
     private CompilerResult compileCode() {
-        synchronized (units) {
-            CompilationUnit[] array = units.toArray(new CompilationUnit[units.size()]);
-            JavaStringCompiler JSC = CompilerFactory.getCompiler(array);
-            JSC.compileAndRunTests();
-            return JSC.getCompilerResult();
+        if (compilerResult == null) {
+            compilerResult = compile().getCompilerResult();
         }
+        return compilerResult;
     }
 
+    private TestResult testResult;
     private TestResult compileTest() {
+        if (testResult == null) {
+            testResult = compile().getTestResult();
+        }
+        return testResult;
+    }
+
+    private JavaStringCompiler compile() {
         synchronized (units) {
             CompilationUnit[] array = units.toArray(new CompilationUnit[units.size()]);
-            JavaStringCompiler JSC = CompilerFactory.getCompiler(array);
-            JSC.compileAndRunTests();
-            return JSC.getTestResult();
+            JavaStringCompiler jsc = CompilerFactory.getCompiler(array);
+            jsc.compileAndRunTests();
+            return jsc;
         }
     }
 
