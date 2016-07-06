@@ -48,7 +48,7 @@ public class SourceCodeTest {
     @Test
     public void FailedTest() {
         System.out.println(SC1.getResult());
-//        assertEquals(1,SC1.NumberOfFailedTests());
+//        assertEquals(1,SC1.numberOfFailedTests());
     }
 
     @Test
