@@ -28,7 +28,7 @@ public class SourceCode {
 
     public int numberOfFailedTests() {
         if (compileTest() == null) {
-            return 100;
+            return 0;
         }
         return this.compileTest().getNumberOfFailedTests();
     }
