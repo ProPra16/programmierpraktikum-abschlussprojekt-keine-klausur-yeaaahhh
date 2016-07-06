@@ -30,9 +30,9 @@ public class ConditionCheckerTest {
     @Before
     public void setUp() throws Exception {
         checker = new ConditionChecker();
-        source = mock(SourceCode.class, RETURNS_DEEP_STUBS);
-        when(source.compileCode().hasCompileErrors()).thenReturn(hasCompileErrors);
-        when(source.compileTest().getNumberOfFailedTests()).thenReturn(numberOfTestFailed);
+        source = mock(SourceCode.class);
+        when(source.hasCompileErrors()).thenReturn(hasCompileErrors);
+        when(source.numberOfFailedTests()).thenReturn(numberOfTestFailed);
     }
 
     @Parameterized.Parameters
