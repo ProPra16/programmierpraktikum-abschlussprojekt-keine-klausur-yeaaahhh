@@ -3,17 +3,13 @@ package de.hhu.propra16.tddt.trainer;
 import de.hhu.propra16.tddt.sourcecode.SourceCode;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.experimental.theories.Theories;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import vk.core.api.CompilerResult;
-import vk.core.api.TestResult;
 
 import java.util.Arrays;
 import java.util.Collection;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.RETURNS_DEEP_STUBS;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 

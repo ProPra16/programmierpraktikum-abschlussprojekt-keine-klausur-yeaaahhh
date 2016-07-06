@@ -2,8 +2,6 @@ package de.hhu.propra16.tddt.userinterface;
 
 import de.hhu.propra16.tddt.sourcecode.SourceCode;
 import de.hhu.propra16.tddt.sourcecode.SourceCodeBuilder;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TextArea;
 import vk.core.api.CompilationUnit;
 
 import java.util.ArrayList;
