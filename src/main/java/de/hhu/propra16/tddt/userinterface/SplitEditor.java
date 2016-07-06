@@ -1,13 +1,21 @@
 package de.hhu.propra16.tddt.userinterface;
 
 import de.hhu.propra16.tddt.sourcecode.SourceCode;
+import de.hhu.propra16.tddt.sourcecode.SourceCodeBuilder;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextArea;
+import vk.core.api.CompilationUnit;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SplitEditor implements Editor {
 
     private final CodeField sourceField;
     private final CodeField testField;
 
+    private List<String> sourceNames = new ArrayList<>();
+    private List<String> testNames = new ArrayList<>();
 
     public SplitEditor(CodeField sourceField, CodeField testField) {
         this.sourceField = sourceField;
@@ -20,16 +28,27 @@ public class SplitEditor implements Editor {
         sourceField.setEditable(sourceEditable);
         testField.setEditable(testEditable);
 
-        for (String sourceName : code.getNameCode()) {
+        sourceNames = code.getNameCode();
+        for (String sourceName : sourceNames) {
             sourceField.showText(sourceName, code.getStringCode(sourceName));
         }
-        for (String testName : code.getNameTest()) {
+        testNames = code.getNameTest();
+        for (String testName : testNames) {
             testField.showText(testName, code.getStringCode(testName));
         }
     }
 
     @Override
     public SourceCode get() {
-        return null;
+        SourceCodeBuilder builder = new SourceCodeBuilder();
+        for (String sourceName : sourceNames) {
+            String sourceCode = sourceField.getTextOf(sourceName);
+            builder.add(new CompilationUnit(sourceName, sourceCode, false));
+        }
+        for (String testName : testNames) {
+            String testCode = testField.getTextOf(testName);
+            builder.add(new CompilationUnit(testName, testCode, true));
+        }
+        return builder.build();
     }
 }
