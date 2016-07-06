@@ -4,6 +4,8 @@ import de.hhu.propra16.tddt.sourcecode.SourceCode;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Arrays;
+
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
@@ -34,5 +36,29 @@ public class SplitEditorTest {
         verify(sourceField, never()).setEditable(false);
         verify(testField).setEditable(false);
         verify(testField, never()).setEditable(true);
+    }
+
+    @Test
+    public void showTest() {
+        String fooClass = "public class Foo { }";
+        String barClass = "public class Bar { }";
+        when(code.getNameTest()).thenReturn(Arrays.asList("Foo", "Bar"));
+        when(code.getStringCode("Foo")).thenReturn(fooClass);
+        when(code.getStringCode("Bar")).thenReturn(barClass);
+        editor.show(code, true, true);
+        verify(testField).showText("Foo", fooClass);
+        verify(testField).showText("Bar", barClass);
+    }
+
+    @Test
+    public void showSource() {
+        String fooClass = "public class Foo { }";
+        String barClass = "public class Bar { }";
+        when(code.getNameCode()).thenReturn(Arrays.asList("Foo", "Bar"));
+        when(code.getStringCode("Foo")).thenReturn(fooClass);
+        when(code.getStringCode("Bar")).thenReturn(barClass);
+        editor.show(code, false, false);
+        verify(sourceField).showText("Foo", fooClass);
+        verify(sourceField).showText("Bar", barClass);
     }
 }
