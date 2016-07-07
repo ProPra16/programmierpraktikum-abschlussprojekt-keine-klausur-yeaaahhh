@@ -92,7 +92,7 @@ public class Trainer{
         boolean check = checker.check(current, phase);
         phaseOkay.setValue(check);
         if (check) {
-            phaseDisplay.showNext(phase);
+            phaseDisplay.showNextButton(phase);
             errorDisplay.show(compilationMessage);
         } else errorDisplay.show(compilationMessage);
     }
@@ -109,6 +109,7 @@ public class Trainer{
         editor.show(current,
                     phase == Phase.GREEN || phase == Phase.BLACK,
                     phase == Phase.RED || phase == Phase.BLACK);
+        if (!(phase == Phase.BLACK)) babyStepTimer();
     }
 
     /**
@@ -138,6 +139,7 @@ public class Trainer{
             if (phase == Phase.BLACK) phase = Phase.RED;
         } else {
             if (phase == Phase.GREEN) phase = Phase.RED;
+            if (phase == Phase.RED) phase = Phase.BLACK;
         }
     }
 
@@ -147,17 +149,17 @@ public class Trainer{
     }
 
     private StringProperty time = new SimpleStringProperty(this, "");
+
     public StringProperty timeProperty() {
         return time;
     }
 
     private void setTimeLeft(Duration duration) {
-        time.setValue("Time left: " + duration.toMillis()/1000);
+        time.setValue("Time left: " + duration.toMillis() / 1000);
     }
 
-    // TODO Resets phase if time is up
     private synchronized void reset() {
-
+        previousPhase();
     }
 
     /**
