@@ -23,7 +23,6 @@ public class Trainer{
     private MessageDisplay messageDisplay;
     private PhaseDisplay phaseDisplay;
     private TimeDisplay timeDisplay;
-
     /**
      * Builder Class for building a Trainer instance;
      */
@@ -144,7 +143,7 @@ public class Trainer{
     /**
      * Set up a Timer with the Time corresponding to the Exercise and do some work.
      */
-    public void babyStepTimer() {
+    private void babyStepTimer() {
         if (!exercise.getOptions().getBabySteps()) return;
         LocalTime start = LocalTime.now();
         LocalTime end = LocalTime.now().plusSeconds(exercise.getOptions().getTime().getSeconds());
