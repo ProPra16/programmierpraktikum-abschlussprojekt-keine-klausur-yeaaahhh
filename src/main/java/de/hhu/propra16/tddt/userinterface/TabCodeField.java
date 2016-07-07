@@ -1,5 +1,7 @@
 package de.hhu.propra16.tddt.userinterface;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
@@ -34,6 +36,7 @@ public class TabCodeField extends TabPane implements CodeField {
         if (area == null) {
             area = new TextArea();
             area.setEditable(editable);
+            area.textProperty().addListener(e -> editNumber.setValue(editNumber.getValue() +1 ));
             codeAreas.put(name, area);
             Tab tab = new Tab(name);
             tab.setContent(area);
@@ -46,5 +49,11 @@ public class TabCodeField extends TabPane implements CodeField {
     public String getTextOf(String name) {
         TextArea area = codeAreas.get(name);
         return area == null ? "" : area.getText();
+    }
+
+    private final IntegerProperty editNumber = new SimpleIntegerProperty(this, "Edit number", 0);
+    @Override
+    public IntegerProperty editNumber() {
+        return editNumber;
     }
 }
