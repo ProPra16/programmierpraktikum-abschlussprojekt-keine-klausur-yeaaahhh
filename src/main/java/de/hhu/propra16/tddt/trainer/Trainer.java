@@ -4,6 +4,7 @@ import de.hhu.propra16.tddt.exercise.Exercise;
 import de.hhu.propra16.tddt.sourcecode.SourceCode;
 import de.hhu.propra16.tddt.userinterface.*;
 
+import java.time.Duration;
 import java.time.LocalTime;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -143,13 +144,13 @@ public class Trainer{
      */
     public void babyStepTimer() {
         if (!exercise.getOptions().getBabySteps()) return;
-        LocalTime now = LocalTime.now();
-        LocalTime b = LocalTime.now().plusSeconds(exercise.getOptions().getTime().getSeconds());
+        LocalTime start = LocalTime.now();
+        LocalTime end = LocalTime.now().plusSeconds(exercise.getOptions().getTime().getSeconds());
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             public void run() {
-                System.out.println(b.getSecond() + " " + now.getSecond() + " " + LocalTime.now().getSecond());
-                if (b.toSecondOfDay() == LocalTime.now().toSecondOfDay()) timer.cancel();
+                timeDisplay.show(Duration.parse("PT" + (LocalTime.now().toSecondOfDay() - start.toSecondOfDay()) + "S"));
+                if (end.toSecondOfDay() == LocalTime.now().toSecondOfDay()) timer.cancel();
             }
         }, 0, 1000);
     }
