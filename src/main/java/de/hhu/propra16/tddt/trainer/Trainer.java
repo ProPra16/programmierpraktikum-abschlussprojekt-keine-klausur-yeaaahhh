@@ -3,12 +3,13 @@ package de.hhu.propra16.tddt.trainer;
 import de.hhu.propra16.tddt.exercise.Exercise;
 import de.hhu.propra16.tddt.sourcecode.SourceCode;
 import de.hhu.propra16.tddt.userinterface.*;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.time.LocalTime;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -88,7 +89,9 @@ public class Trainer{
     public void checkPhaseStatus() {
         current = editor.get();
         String compilationMessage = "";
-        if (checker.check(current, phase)) {
+        boolean check = checker.check(current, phase);
+        phaseOkay.setValue(check);
+        if (check) {
             phaseDisplay.showNext(phase);
             errorDisplay.show(compilationMessage);
         } else errorDisplay.show(compilationMessage);
@@ -136,6 +139,11 @@ public class Trainer{
         } else {
             if (phase == Phase.GREEN) phase = Phase.RED;
         }
+    }
+
+    private BooleanProperty phaseOkay = new SimpleBooleanProperty(this, "Ability to move to next phase", false);
+    public BooleanProperty phaseAcceptedProperty() {
+        return phaseOkay;
     }
 
     private StringProperty time = new SimpleStringProperty(this, "");
