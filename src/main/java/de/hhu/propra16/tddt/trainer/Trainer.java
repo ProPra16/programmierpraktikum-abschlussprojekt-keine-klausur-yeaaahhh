@@ -90,7 +90,7 @@ public class Trainer{
         current = editor.get();
         String compilationMessage = "";
         if (checker.check(current, phase)) {
-            phaseDisplay.showNext(phase);
+            phaseDisplay.showNextButton(phase);
             errorDisplay.show(compilationMessage);
         } else errorDisplay.show(compilationMessage);
     }

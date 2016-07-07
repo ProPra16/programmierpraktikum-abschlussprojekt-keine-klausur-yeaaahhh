@@ -6,5 +6,5 @@ public interface PhaseDisplay {
 
     void show(Phase phase);
 
-    void showNext(Phase phase);
+    void showNextButton(Phase phase);
 }
