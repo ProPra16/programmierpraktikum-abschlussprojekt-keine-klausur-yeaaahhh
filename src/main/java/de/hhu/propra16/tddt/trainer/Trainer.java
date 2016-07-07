@@ -150,7 +150,10 @@ public class Trainer{
         timer.scheduleAtFixedRate(new TimerTask() {
             public void run() {
                 timeDisplay.show(Duration.parse("PT" + (LocalTime.now().toSecondOfDay() - start.toSecondOfDay()) + "S"));
-                if (end.toSecondOfDay() == LocalTime.now().toSecondOfDay()) timer.cancel();
+                if (end.toSecondOfDay() == LocalTime.now().toSecondOfDay()) {
+                    previousPhase();
+                    timer.cancel();
+                }
             }
         }, 0, 1000);
     }
