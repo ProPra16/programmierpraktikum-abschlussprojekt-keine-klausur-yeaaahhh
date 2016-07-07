@@ -3,8 +3,11 @@ package de.hhu.propra16.tddt.trainer;
 import de.hhu.propra16.tddt.exercise.Exercise;
 import de.hhu.propra16.tddt.sourcecode.SourceCode;
 import de.hhu.propra16.tddt.userinterface.*;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalTime;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -22,7 +25,7 @@ public class Trainer{
     private ErrorDisplay errorDisplay;
     private MessageDisplay messageDisplay;
     private PhaseDisplay phaseDisplay;
-    private TimeDisplay timeDisplay;
+
     /**
      * Builder Class for building a Trainer instance;
      */
@@ -32,7 +35,6 @@ public class Trainer{
         private static ErrorDisplay errorDisplay;
         private static MessageDisplay messageDisplay;
         private static PhaseDisplay phaseDisplay;
-        private static TimeDisplay timeDisplay;
 
         public Builder(Exercise exercise) {
             if (exercise == null) throw new NullPointerException("There has to be an Exercise to work with!");
@@ -50,7 +52,6 @@ public class Trainer{
             errorDisplay = group.errorDisplay();
             messageDisplay = group.messageDisplay();
             phaseDisplay = group.phaseDisplay();
-            timeDisplay = group.timeDisplay();
             return this;
         }
 
@@ -72,7 +73,6 @@ public class Trainer{
         messageDisplay = Builder.messageDisplay;
         errorDisplay = Builder.errorDisplay;
         phaseDisplay = Builder.phaseDisplay;
-        timeDisplay = Builder.timeDisplay;
 
         current = exercise.getSources();
         previous = current;
@@ -89,7 +89,7 @@ public class Trainer{
         current = editor.get();
         String compilationMessage = "";
         if (checker.check(current, phase)) {
-            phaseDisplay.showNextButton(phase);
+            phaseDisplay.showNext(phase);
             errorDisplay.show(compilationMessage);
         } else errorDisplay.show(compilationMessage);
     }
@@ -106,7 +106,6 @@ public class Trainer{
         editor.show(current,
                     phase == Phase.GREEN || phase == Phase.BLACK,
                     phase == Phase.RED || phase == Phase.BLACK);
-        babyStepTimer();
     }
 
     /**
@@ -119,7 +118,6 @@ public class Trainer{
         editor.show(current,
                 phase == Phase.GREEN || phase == Phase.BLACK,
                 phase == Phase.RED || phase == Phase.BLACK);
-        babyStepTimer();
     }
 
     /**
@@ -140,21 +138,38 @@ public class Trainer{
         }
     }
 
+    private StringProperty time = new SimpleStringProperty(this, "");
+    public StringProperty timeProperty() {
+        return time;
+    }
+
+    private void setTimeLeft(Duration duration) {
+        time.setValue("Time left: " + duration.toMillis()/1000);
+    }
+
+    // TODO Resets phase if time is up
+    private synchronized void reset() {
+
+    }
+
     /**
      * Set up a Timer with the Time corresponding to the Exercise and do some work.
      */
-    private void babyStepTimer() {
+    public void babyStepTimer() {
         if (!exercise.getOptions().getBabySteps()) return;
-        LocalTime start = LocalTime.now();
-        LocalTime end = LocalTime.now().plusSeconds(exercise.getOptions().getTime().getSeconds());
+        Duration duration = exercise.getOptions().getTime();
         Timer timer = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
+        timer.schedule(new TimerTask() {
             public void run() {
-                timeDisplay.show(Duration.parse("PT" + (LocalTime.now().toSecondOfDay() - start.toSecondOfDay()) + "S"));
-                if (end.toSecondOfDay() == LocalTime.now().toSecondOfDay()) {
-                    previousPhase();
-                    timer.cancel();
-                }
+                reset();
+            }
+        }, duration.toMillis());
+
+        Instant finishTime = Instant.now().plus(duration);
+        Timer timerDisplay = new Timer();
+        timerDisplay.scheduleAtFixedRate(new TimerTask() {
+            public void run() {
+                setTimeLeft(Duration.between(Instant.now(), finishTime));
             }
         }, 0, 1000);
     }
