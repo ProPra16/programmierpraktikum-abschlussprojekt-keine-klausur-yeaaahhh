@@ -2,10 +2,10 @@ package de.hhu.propra16.tddt.exercise;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.xml.sax.InputSource;
 
-import java.io.Reader;
-import java.io.StringReader;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 import static org.junit.Assert.assertEquals;
 
@@ -24,20 +24,20 @@ public class ExerciseLoaderTest {
                 "<exercise name=\"Test3\"></exercise>",
 
                 "<exercises>" +
-                        "<exercise name=\"Test4\">" +
+                        "<exercise name=\"Test4\"></exercise>" +
                         "</exercises>"
         };
-        expected = new int[]{2, 0, 0};
+        expected = new int[]{2, 1, 1};
     }
 
     @Test
-    public void loadFile() throws Exception {
+    public void loadFile() {
 
-        for (int i = 0; i < input.length; i++) {
+        for (int i = 2; i < 3; i++) {
             String string = input[i];
-            Reader reader = new StringReader(string);
-            InputSource in = new InputSource(reader);
-            assertEquals(expected[i], ExerciseLoader.loadFile(in).size());
+            ExerciseLoader loader = new ExerciseLoader(null);
+            InputStream in = new ByteArrayInputStream(string.getBytes(StandardCharsets.UTF_8));
+            assertEquals(expected[i], loader.load(in).size());
         }
     }
 }
