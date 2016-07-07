@@ -122,6 +122,7 @@ public class Trainer{
         editor.show(current,
                 phase == Phase.GREEN || phase == Phase.BLACK,
                 phase == Phase.RED || phase == Phase.BLACK);
+        if (!(phase == Phase.BLACK)) babyStepTimer();
     }
 
     /**
