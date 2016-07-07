@@ -21,7 +21,6 @@ public class Trainer{
     private ErrorDisplay errorDisplay;
     private MessageDisplay messageDisplay;
     private PhaseDisplay phaseDisplay;
-    private TimeDisplay timeDisplay;
 
     /**
      * Builder Class for building a Trainer instance;
@@ -32,7 +31,6 @@ public class Trainer{
         private static ErrorDisplay errorDisplay;
         private static MessageDisplay messageDisplay;
         private static PhaseDisplay phaseDisplay;
-        private static TimeDisplay timeDisplay;
 
         public Builder(Exercise exercise) {
             if (exercise == null) throw new NullPointerException("There has to be an Exercise to work with!");
@@ -50,7 +48,6 @@ public class Trainer{
             errorDisplay = group.errorDisplay();
             messageDisplay = group.messageDisplay();
             phaseDisplay = group.phaseDisplay();
-            timeDisplay = group.timeDisplay();
             return this;
         }
 
@@ -72,7 +69,6 @@ public class Trainer{
         messageDisplay = Builder.messageDisplay;
         errorDisplay = Builder.errorDisplay;
         phaseDisplay = Builder.phaseDisplay;
-        timeDisplay = Builder.timeDisplay;
 
         current = exercise.getSources();
         previous = current;
