@@ -3,7 +3,10 @@ package de.hhu.propra16.tddt.trainer;
 import de.hhu.propra16.tddt.exercise.Exercise;
 import de.hhu.propra16.tddt.sourcecode.SourceCode;
 import de.hhu.propra16.tddt.userinterface.*;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
+import java.time.Duration;
 import java.time.LocalTime;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -132,6 +135,15 @@ public class Trainer{
         } else {
             if (phase == Phase.GREEN) phase = Phase.RED;
         }
+    }
+
+    private StringProperty time = new SimpleStringProperty(this, "");
+    public StringProperty timeProperty() {
+        return time;
+    }
+
+    private void setTimeLeft(Duration duration) {
+        time.setValue("Time left: " + duration.toMillis()/1000);
     }
 
     /**
