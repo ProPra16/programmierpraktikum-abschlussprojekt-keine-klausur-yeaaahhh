@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+<Pane prefHeight="600.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="de.hhu.propra16.tddt.gui.GuiController">
+  <children>
+    <TabPane layoutX="0.0" layoutY="72.0" prefHeight="514.0" prefWidth="245.99990000000253" tabClosingPolicy="UNAVAILABLE">
+      <tabs>
+        <Tab text="Test.sh">
+          <content>
+            <Pane prefHeight="483.0" prefWidth="256.0">
+              <children>
+                <TextArea fx:id="leftText" layoutX="14.0" layoutY="14.0" prefHeight="469.0" prefWidth="218.0" wrapText="true" />
+              </children>
+            </Pane>
+          </content>
+        </Tab>
+      </tabs>
+    </TabPane>
+    <Text fx:id="phaseid" fill="#cc3100" layoutX="346.0" layoutY="126.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Red Phase">
+      <font>
+        <Font size="24.0" />
+      </font>
+    </Text>
+    <Button layoutX="464.0" layoutY="191.0" mnemonicParsing="false" onAction="#nextPhase" text="Next" />
+    <Button layoutX="291.0" layoutY="191.0" mnemonicParsing="false" text="back" />
+    <TabPane fx:id="codeTabs" disable="true" layoutX="548.0" layoutY="72.0" prefHeight="514.0" prefWidth="245.99990000000253" tabClosingPolicy="UNAVAILABLE">
+      <tabs>
+        <Tab text="Unnamed.java">
+          <content>
+            <Pane prefHeight="520.0" prefWidth="285.0">
+              <children>
+                <TextArea fx:id="codeText" disable="false" editable="true" layoutX="14.0" layoutY="14.0" prefHeight="469.0" prefWidth="218.0" wrapText="true" />
+              </children>
+            </Pane>
+          </content>
+        </Tab>
+        <Tab content="$null" onSelectionChanged="#addTab" text="+" />
+      </tabs>
+    </TabPane>
+    <TextArea editable="false" layoutX="291.0" layoutY="224.0" prefHeight="362.0" prefWidth="218.0" wrapText="true" />
+    <Button layoutX="373.0" layoutY="191.0" mnemonicParsing="false" text="Check" />
+  </children>
+</Pane>
