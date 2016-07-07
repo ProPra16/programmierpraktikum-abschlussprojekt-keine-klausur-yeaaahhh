@@ -25,6 +25,7 @@ public interface Editor {
 
     /**
      * Indicates, whether the code has changed since the last {@link #get()}
+     *
      * @return a BooleanProperty indicating change
      */
     BooleanProperty changed();
