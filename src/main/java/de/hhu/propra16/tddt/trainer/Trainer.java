@@ -107,6 +107,7 @@ public class Trainer{
         editor.show(current,
                     phase == Phase.GREEN || phase == Phase.BLACK,
                     phase == Phase.RED || phase == Phase.BLACK);
+        babyStepTimer();
     }
 
     /**
@@ -119,6 +120,7 @@ public class Trainer{
         editor.show(current,
                 phase == Phase.GREEN || phase == Phase.BLACK,
                 phase == Phase.RED || phase == Phase.BLACK);
+        babyStepTimer();
     }
 
     /**
