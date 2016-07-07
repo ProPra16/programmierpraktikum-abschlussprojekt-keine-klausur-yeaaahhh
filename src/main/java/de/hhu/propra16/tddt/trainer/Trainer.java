@@ -7,6 +7,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalTime;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -146,18 +147,29 @@ public class Trainer{
         time.setValue("Time left: " + duration.toMillis()/1000);
     }
 
+    // TODO Resets phase if time is up
+    private synchronized void reset() {
+
+    }
+
     /**
      * Set up a Timer with the Time corresponding to the Exercise and do some work.
      */
     public void babyStepTimer() {
         if (!exercise.getOptions().getBabySteps()) return;
-        LocalTime now = LocalTime.now();
-        LocalTime b = LocalTime.now().plusSeconds(exercise.getOptions().getTime().getSeconds());
+        Duration duration = exercise.getOptions().getTime();
         Timer timer = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
+        timer.schedule(new TimerTask() {
             public void run() {
-                System.out.println(b.getSecond() + " " + now.getSecond() + " " + LocalTime.now().getSecond());
-                if (b.toSecondOfDay() == LocalTime.now().toSecondOfDay()) timer.cancel();
+                reset();
+            }
+        }, duration.toMillis());
+
+        Instant finishTime = Instant.now().plus(duration);
+        Timer timerDisplay = new Timer();
+        timerDisplay.scheduleAtFixedRate(new TimerTask() {
+            public void run() {
+                setTimeLeft(Duration.between(Instant.now(), finishTime));
             }
         }, 0, 1000);
     }
