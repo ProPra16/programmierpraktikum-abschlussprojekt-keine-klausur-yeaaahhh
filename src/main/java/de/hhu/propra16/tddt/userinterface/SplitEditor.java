@@ -2,6 +2,8 @@ package de.hhu.propra16.tddt.userinterface;
 
 import de.hhu.propra16.tddt.sourcecode.SourceCode;
 import de.hhu.propra16.tddt.sourcecode.SourceCodeBuilder;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import vk.core.api.CompilationUnit;
 
 import java.util.ArrayList;
@@ -18,6 +20,9 @@ public class SplitEditor implements Editor {
     public SplitEditor(CodeField sourceField, CodeField testField) {
         this.sourceField = sourceField;
         this.testField = testField;
+
+        sourceField.editNumber().addListener(e -> changedProperty.setValue(true));
+        testField.editNumber().addListener(e -> changedProperty.setValue(true));
     }
 
     @Override
@@ -38,6 +43,7 @@ public class SplitEditor implements Editor {
 
     @Override
     public SourceCode get() {
+        changedProperty.setValue(false);
         SourceCodeBuilder builder = new SourceCodeBuilder();
         for (String sourceName : sourceNames) {
             String sourceCode = sourceField.getTextOf(sourceName);
@@ -48,5 +54,11 @@ public class SplitEditor implements Editor {
             builder.add(new CompilationUnit(testName, testCode, true));
         }
         return builder.build();
+    }
+
+    private final BooleanProperty changedProperty = new SimpleBooleanProperty(this, "Change of code", false);
+    @Override
+    public BooleanProperty changed() {
+        return changedProperty;
     }
 }
