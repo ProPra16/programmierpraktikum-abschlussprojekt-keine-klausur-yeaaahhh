@@ -127,11 +127,11 @@ public class Trainer{
     private void cycle(boolean forward) {
         if (forward) {
             if (getPhase() == Phase.RED) setPhase(Phase.GREEN);
-            if (getPhase() == Phase.GREEN) setPhase(Phase.BLACK);
-            if (getPhase() == Phase.BLACK) setPhase(Phase.RED);
+            else if (getPhase() == Phase.GREEN) setPhase(Phase.BLACK);
+            else if (getPhase() == Phase.BLACK) setPhase(Phase.RED);
         } else {
             if (getPhase() == Phase.GREEN) setPhase(Phase.RED);
-            if (getPhase() == Phase.RED) setPhase(Phase.BLACK);
+            else if (getPhase() == Phase.RED) setPhase(Phase.BLACK);
         }
     }
 
