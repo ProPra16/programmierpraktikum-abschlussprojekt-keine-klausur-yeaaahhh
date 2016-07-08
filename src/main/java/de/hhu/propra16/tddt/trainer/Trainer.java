@@ -169,7 +169,7 @@ public class Trainer{
     /**
      * Set up a Timer with the Time corresponding to the Exercise and do some work.
      */
-    public void babyStepTimer() {
+    private void babyStepTimer() {
         if (!exercise.getOptions().getBabySteps()) return;
         Duration duration = exercise.getOptions().getTime();
         Timer timer = new Timer();
