@@ -2,7 +2,8 @@ package de.hhu.propra16.tddt.trainer;
 
 import de.hhu.propra16.tddt.exercise.Exercise;
 import de.hhu.propra16.tddt.sourcecode.SourceCode;
-import de.hhu.propra16.tddt.userinterface.*;
+import de.hhu.propra16.tddt.userinterface.Editor;
+import de.hhu.propra16.tddt.userinterface.MessageDisplay;
 import javafx.beans.property.*;
 
 import java.time.Duration;
@@ -134,22 +135,22 @@ public class Trainer{
         }
     }
 
-    private BooleanProperty phaseOkay = new SimpleBooleanProperty(this, "Ability to move to next phase", false);
+    private final BooleanProperty phaseOkay = new SimpleBooleanProperty(this, "Ability to move to next phase", false);
     public BooleanProperty phaseAcceptedProperty() {
         return phaseOkay;
     }
 
-    private StringProperty time = new SimpleStringProperty(this, "String representation of the remaining time", "");
+    private final StringProperty time = new SimpleStringProperty(this, "String representation of the remaining time", "");
     public StringProperty timeProperty() {
         return time;
     }
 
-    private StringProperty errorField = new SimpleStringProperty(this, "Content of the error field", "");
+    private final StringProperty errorField = new SimpleStringProperty(this, "Content of the error field", "");
     public StringProperty errorMessageProperty() {
         return errorField;
     }
 
-    private ObjectProperty<Phase> phaseProperty = new SimpleObjectProperty<>(this, "Phase of the trainer");
+    private final ObjectProperty<Phase> phaseProperty = new SimpleObjectProperty<>(this, "Phase of the trainer");
     public ObjectProperty<Phase> phaseProperty() {
         return phaseProperty;
     }
