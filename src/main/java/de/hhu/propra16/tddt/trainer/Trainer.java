@@ -135,7 +135,7 @@ public class Trainer{
         return phaseOkay;
     }
 
-    private StringProperty time = new SimpleStringProperty(this, "");
+    private StringProperty time = new SimpleStringProperty(this, "String representation of the remaining time", "");
     public StringProperty timeProperty() {
         return time;
     }
