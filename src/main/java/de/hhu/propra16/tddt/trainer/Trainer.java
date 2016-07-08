@@ -14,7 +14,7 @@ import java.util.TimerTask;
  * Manages the different Phases
  */
 public class Trainer{
-    private static Exercise exercise;
+    private Exercise exercise;
     private CheckCompile checker;
     private Editor editor;
     private SourceCode current;
