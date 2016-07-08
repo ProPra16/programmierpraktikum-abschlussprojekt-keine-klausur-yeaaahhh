@@ -19,8 +19,8 @@ public class SplitEditorTest {
 
     @Before
     public void setUp() {
-        sourceField = mock(CodeField.class, RETURNS_DEEP_STUBS);
-        testField = mock(CodeField.class, RETURNS_DEEP_STUBS);
+        sourceField = mock(CodeField.class);
+        testField = mock(CodeField.class);
         code = mock(SourceCode.class);
         editor = new SplitEditor(sourceField, testField);
     }
