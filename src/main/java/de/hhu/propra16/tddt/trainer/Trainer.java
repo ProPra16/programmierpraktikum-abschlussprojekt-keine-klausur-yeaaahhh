@@ -5,6 +5,7 @@ import de.hhu.propra16.tddt.sourcecode.SourceCode;
 import de.hhu.propra16.tddt.userinterface.Editor;
 import de.hhu.propra16.tddt.userinterface.MessageDisplay;
 import javafx.beans.property.*;
+import javafx.scene.control.Label;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -63,7 +64,7 @@ public class Trainer{
         editor = Builder.editor;
         // If the editor code changes, mark phase as not accepted
         editor.changed().addListener((observable, oldV, newV) -> {
-            if (newV) phaseAcceptedProperty().setValue(false);
+            if (newV) setPhaseAccepted(false);
         });
 
         messageDisplay = Builder.messageDisplay;
@@ -84,8 +85,8 @@ public class Trainer{
         // TODO Replace with actual SourceCode message, once the SourceCode branch is finished and merged
         String compilationMessage = "";
         boolean check = checker.check(current, getPhase());
-        phaseOkay.setValue(check);
-        errorField.setValue(compilationMessage);
+        setPhaseAccepted(check);
+        setErrorField(compilationMessage);
     }
 
 
@@ -140,6 +141,10 @@ public class Trainer{
         return phaseOkay;
     }
 
+    private void setPhaseAccepted(boolean value) {
+        phaseOkay.setValue(value);
+    }
+
     private final StringProperty time = new SimpleStringProperty(this, "String representation of the remaining time", "");
     public StringProperty timeProperty() {
         return time;
@@ -148,6 +153,10 @@ public class Trainer{
     private final StringProperty errorField = new SimpleStringProperty(this, "Content of the error field", "");
     public StringProperty errorMessageProperty() {
         return errorField;
+    }
+
+    private void setErrorField(String value) {
+        errorField.setValue(value);
     }
 
     private final ObjectProperty<Phase> phaseProperty = new SimpleObjectProperty<>(this, "Phase of the trainer");
