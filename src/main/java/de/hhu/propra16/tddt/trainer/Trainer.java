@@ -3,10 +3,7 @@ package de.hhu.propra16.tddt.trainer;
 import de.hhu.propra16.tddt.exercise.Exercise;
 import de.hhu.propra16.tddt.sourcecode.SourceCode;
 import de.hhu.propra16.tddt.userinterface.*;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -18,14 +15,11 @@ import java.util.TimerTask;
  */
 public class Trainer{
     private static Exercise exercise;
-    private Phase phase;
     private CheckCompile checker;
     private Editor editor;
     private SourceCode current;
     private SourceCode previous;
-    private ErrorDisplay errorDisplay;
     private MessageDisplay messageDisplay;
-    private PhaseDisplay phaseDisplay;
 
     /**
      * Builder Class for building a Trainer instance;
@@ -33,9 +27,7 @@ public class Trainer{
     public static class Builder {
         private static Exercise exercise;
         private static Editor editor;
-        private static ErrorDisplay errorDisplay;
         private static MessageDisplay messageDisplay;
-        private static PhaseDisplay phaseDisplay;
 
         public Builder(Exercise exercise) {
             if (exercise == null) throw new NullPointerException("There has to be an Exercise to work with!");
@@ -48,11 +40,9 @@ public class Trainer{
             return this;
         }
 
-        public Builder displayerGroup(DisplayerGroup group) {
-            if (group == null) throw new NullPointerException("There has to be an Instance of DisplayerGroup Class");
-            errorDisplay = group.errorDisplay();
-            messageDisplay = group.messageDisplay();
-            phaseDisplay = group.phaseDisplay();
+        public Builder messageDisplay(MessageDisplay message) {
+            if (message == null) throw new NullPointerException("There has to be an Instance of MessageDisplay Class");
+            messageDisplay = message;
             return this;
         }
 
@@ -72,12 +62,10 @@ public class Trainer{
         editor = Builder.editor;
 
         messageDisplay = Builder.messageDisplay;
-        errorDisplay = Builder.errorDisplay;
-        phaseDisplay = Builder.phaseDisplay;
 
         current = exercise.getSources();
         previous = current;
-        phase = Phase.RED;
+        setPhase(Phase.RED);
 
         checker = new ConditionChecker();
     }
@@ -88,13 +76,11 @@ public class Trainer{
      */
     public void checkPhaseStatus() {
         current = editor.get();
+        // TODO Replace with actual SourceCode message, once the SourceCode branch is finished and merged
         String compilationMessage = "";
-        boolean check = checker.check(current, phase);
+        boolean check = checker.check(current, getPhase());
         phaseOkay.setValue(check);
-        if (check) {
-            phaseDisplay.showNextButton(phase);
-            errorDisplay.show(compilationMessage);
-        } else errorDisplay.show(compilationMessage);
+        errorField.setValue(compilationMessage);
     }
 
 
@@ -107,9 +93,9 @@ public class Trainer{
         previous = current;
         current = editor.get();
         editor.show(current,
-                    phase == Phase.GREEN || phase == Phase.BLACK,
-                    phase == Phase.RED || phase == Phase.BLACK);
-        if (!(phase == Phase.BLACK)) babyStepTimer();
+                    getPhase() == Phase.GREEN || getPhase() == Phase.BLACK,
+                    getPhase() == Phase.RED || getPhase() == Phase.BLACK);
+        if (!(getPhase() == Phase.BLACK)) babyStepTimer();
     }
 
     /**
@@ -120,9 +106,9 @@ public class Trainer{
         cycle(false);
         current = previous;
         editor.show(current,
-                phase == Phase.GREEN || phase == Phase.BLACK,
-                phase == Phase.RED || phase == Phase.BLACK);
-        if (!(phase == Phase.BLACK)) babyStepTimer();
+                getPhase() == Phase.GREEN || getPhase() == Phase.BLACK,
+                getPhase() == Phase.RED || getPhase() == Phase.BLACK);
+        if (!(getPhase() == Phase.BLACK)) babyStepTimer();
     }
 
     /**
@@ -135,12 +121,12 @@ public class Trainer{
 
     private void cycle(boolean forward) {
         if (forward) {
-            if (phase == Phase.RED) phase = Phase.GREEN;
-            if (phase == Phase.GREEN) phase = Phase.BLACK;
-            if (phase == Phase.BLACK) phase = Phase.RED;
+            if (getPhase() == Phase.RED) setPhase(Phase.GREEN);
+            if (getPhase() == Phase.GREEN) setPhase(Phase.BLACK);
+            if (getPhase() == Phase.BLACK) setPhase(Phase.RED);
         } else {
-            if (phase == Phase.GREEN) phase = Phase.RED;
-            if (phase == Phase.RED) phase = Phase.BLACK;
+            if (getPhase() == Phase.GREEN) setPhase(Phase.RED);
+            if (getPhase() == Phase.RED) setPhase(Phase.BLACK);
         }
     }
 
@@ -150,9 +136,26 @@ public class Trainer{
     }
 
     private StringProperty time = new SimpleStringProperty(this, "");
-
     public StringProperty timeProperty() {
         return time;
+    }
+
+    private StringProperty errorField = new SimpleStringProperty(this, "Content of the error field", "");
+    public StringProperty errorMessageProperty() {
+        return errorField;
+    }
+
+    private ObjectProperty<Phase> phaseProperty = new SimpleObjectProperty<>(this, "Phase of the trainer");
+    public ObjectProperty<Phase> phaseProperty() {
+        return phaseProperty;
+    }
+
+    private void setPhase(Phase phase) {
+        phaseProperty.setValue(phase);
+    }
+
+    private Phase getPhase() {
+        return phaseProperty.getValue();
     }
 
     private void setTimeLeft(Duration duration) {
