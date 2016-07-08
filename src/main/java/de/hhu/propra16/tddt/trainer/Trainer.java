@@ -60,6 +60,10 @@ public class Trainer{
     private Trainer(Builder builder) {
         exercise = Builder.exercise;
         editor = Builder.editor;
+        // If the editor code changes, mark phase as not accepted
+        editor.changed().addListener((observable, oldV, newV) -> {
+            if (newV) phaseAcceptedProperty().setValue(false);
+        });
 
         messageDisplay = Builder.messageDisplay;
 
