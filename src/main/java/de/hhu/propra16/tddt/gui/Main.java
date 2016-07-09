@@ -21,6 +21,9 @@ public class Main extends Application {
         GuiController controller = loader.getController();
         redStage.setTitle("TDDT");
         redStage.setScene(new Scene(root, 800, 600));
+        controller.loadExList();
+
+
         redStage.show();
 
     }

@@ -1,5 +1,6 @@
 package de.hhu.propra16.tddt.gui;
 
+import de.hhu.propra16.tddt.exercise.ExerciseLoader;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -8,18 +9,33 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
+import org.xml.sax.InputSource;
+import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.ComboBoxListCell;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+
 
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ResourceBundle;
 
 public class GuiController implements Initializable {
+
+	private ExerciseLoader e;
 	@FXML
 	private ResourceBundle resources;
 
@@ -32,11 +48,31 @@ public class GuiController implements Initializable {
 	@FXML
 	void GuiController() {
 	}
+	@FXML
+	private TextArea descriptionField;
 
+	@FXML
+	void loadDescription(MouseEvent event) {
+		if (excersislist.getSelectionModel().getSelectedItem()!=null)
+			descriptionField.setText(e.ExDescriptions.get(excersislist.getSelectionModel().getSelectedIndex()).toString());
+
+	}
+	@FXML
+	private ListView<?> excersislist;
+
+	public static final ObservableList data = FXCollections.observableArrayList();
 	@FXML
 	public void initialize(URL location, ResourceBundle resources) {
 
 
+
+	}
+
+	public void loadExList(){
+		Path p = Paths.get("katalog/Exercise.xml");
+		InputSource in = new InputSource(p.toString());
+		e = new ExerciseLoader(in);
+		excersislist.setItems(e.ExTitles);
 	}
 	@FXML
 	void addTab(Event event) {
@@ -49,14 +85,10 @@ public class GuiController implements Initializable {
 		tabs.getTabs().add(t);
 		TextArea ta = new TextArea();
 		ta.setPrefSize(218, 469);
-
 		Pane p = new Pane();
 		p.setPrefSize(285,520);
 		p.getChildren().add(ta);
-
 		tab.setContent(p);
-
-
 	}
 
 	@FXML
@@ -72,7 +104,6 @@ public class GuiController implements Initializable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 
@@ -98,13 +129,7 @@ public class GuiController implements Initializable {
 			text.setFill(Color.BLACK);
 		}
 
-
 	}
-
-
-
 }
-
-
 
 
