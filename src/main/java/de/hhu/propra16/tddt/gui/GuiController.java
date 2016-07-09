@@ -52,6 +52,22 @@ public class GuiController implements Initializable {
 	private TextArea descriptionField;
 
 	@FXML
+	void backbutton(ActionEvent event) {
+		Button b = (Button) event.getSource();
+		Stage s = (Stage) b.getScene().getWindow();
+		Text text = (Text) s.getScene().lookup("#phaseid");
+		TextArea left = (TextArea) s.getScene().lookup("#leftText");
+		TabPane right = (TabPane) s.getScene().lookup("#codeTabs");
+		if(text.getText().contains("Green Phase")){
+			left.setDisable(false);
+			right.setDisable(true);
+			text.setText("Red Phase");
+			text.setFill(Color.RED);
+		}
+	}
+
+
+	@FXML
 	void loadDescription(MouseEvent event) {
 		if (excersislist.getSelectionModel().getSelectedItem()!=null)
 			descriptionField.setText(e.ExDescriptions.get(excersislist.getSelectionModel().getSelectedIndex()).toString());
@@ -93,7 +109,7 @@ public class GuiController implements Initializable {
 
 	@FXML
 	void loadExcersise(ActionEvent event) {
-		/// Ladeprozedur der Uebung hier
+
 		try {
 			Button b = (Button) event.getSource();
 			Stage s = (Stage) b.getScene().getWindow();
