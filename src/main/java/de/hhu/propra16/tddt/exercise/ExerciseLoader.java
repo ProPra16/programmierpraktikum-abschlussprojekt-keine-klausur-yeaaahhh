@@ -1,33 +1,31 @@
 package de.hhu.propra16.tddt.exercise;
 
-import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import javafx.collections.ObservableList;
-import javafx.collections.FXCollections;
 
 public class ExerciseLoader {
 
+    private final URL catalog;
 
-    private static List<Exercise> list;
-    public ObservableList ExTitles;
-    public ObservableList ExDescriptions;
-
-
-    public ExerciseLoader(InputSource is){
-        this.list = loadFile(is);
+    public ExerciseLoader(URL catalog) {
+        this.catalog = catalog;
     }
 
-    public List<Exercise> loadFile(InputSource is) {
+    public List<Exercise> load() throws IOException {
+        return load(catalog.openStream());
+    }
+
+    List<Exercise> load(InputStream is) {
         List<Exercise> list = new ArrayList<>();
         try {
             SAXParserFactory factory = SAXParserFactory.newInstance();
@@ -37,26 +35,18 @@ public class ExerciseLoader {
             list = handler.getExercises();
 
         } catch (ParserConfigurationException | SAXException | IOException e) {
-            System.out.println("Input has to be in correct format!");
+            e.printStackTrace();
         }
-
-        this.ExTitles = FXCollections.observableArrayList();
-        this.ExDescriptions = FXCollections.observableArrayList();
-        for (Exercise i: list) {
-            ExTitles.add(i.getName());
-            ExDescriptions.add(i.getDescription());
-        }
-
         return list;
     }
 
-
-
-
-    }
-  /*  public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) throws Exception {
         Path p = Paths.get("katalog/Exercise.xml");
-        InputSource in = new InputSource(p.toString());
-        loadFile(in);
-    }*/
-
+        ExerciseLoader loader = new ExerciseLoader(p.toUri().toURL());
+        List<Exercise> list = loader.load();
+        for (Exercise exercise : list) {
+            System.out.println(exercise.getName());
+            System.out.println(exercise.getDescription());
+        }
+    }
+}
