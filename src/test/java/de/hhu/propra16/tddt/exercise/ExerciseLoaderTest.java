@@ -24,10 +24,10 @@ public class ExerciseLoaderTest {
                 "<exercise name=\"Test3\"></exercise>",
 
                 "<exercises>" +
-                        "<exercise name=\"Test4\">" +
+                        "<exercise name=\"Test4\"></exercise>" +
                         "</exercises>"
         };
-        expected = new int[]{2, 0, 0};
+        expected = new int[]{2, 0, 1};
     }
 
     @Test
