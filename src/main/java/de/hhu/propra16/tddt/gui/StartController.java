@@ -6,6 +6,7 @@ import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
@@ -17,10 +18,10 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.List;
 
-/**
- * Created by felix on 7/10/16.
- */
 public class StartController {
+
+    @FXML
+    private Parent root;
 
     @FXML
     private ListView<Exercise> excersislist;
@@ -63,16 +64,14 @@ public class StartController {
 
     @FXML
     void loadExcersise(ActionEvent event) {
-
+        Stage stage = (Stage) root.getScene().getWindow();
+        Pane myPane = null;
         try {
-            Button b = (Button) event.getSource();
-            Stage s = (Stage) b.getScene().getWindow();
-            Pane myPane = null;
             myPane = FXMLLoader.load(getClass().getResource("/Scene.fxml"));
-            Scene scene = new Scene(myPane);
-            s.setScene(scene);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        Scene scene = new Scene(myPane);
+        stage.setScene(scene);
     }
 }
