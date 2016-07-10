@@ -32,7 +32,7 @@ public class StartController {
     @FXML
     private TextArea descriptionField;
 
-    public void initialize(int n) {
+    public void initialize() {
         ExerciseLoader loader = new ExerciseLoader(getClass().getResource("/Exercise.xml"));
         List<Exercise> exercises = null;
         try {
@@ -65,13 +65,15 @@ public class StartController {
     @FXML
     void loadExcersise(ActionEvent event) {
         Stage stage = (Stage) root.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Scene.fxml"));
         Pane myPane = null;
         try {
-            myPane = FXMLLoader.load(getClass().getResource("/Scene.fxml"));
+            myPane = loader.load();
         } catch (IOException e) {
             e.printStackTrace();
         }
         Scene scene = new Scene(myPane);
         stage.setScene(scene);
+        loader.<GuiController>getController().startTrainer(excersislist.getSelectionModel().getSelectedItem());
     }
 }

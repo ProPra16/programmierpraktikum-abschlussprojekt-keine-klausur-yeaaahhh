@@ -1,5 +1,6 @@
 package de.hhu.propra16.tddt.gui;
 
+import de.hhu.propra16.tddt.exercise.Exercise;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -30,9 +31,10 @@ public class GuiController implements Initializable {
 	@FXML
 	private URL location;
 
-	@FXML
-	void GuiController() {
-	}
+    public void startTrainer(Exercise exercise) {
+        // TODO implement all this stuff, once trainer is merged
+        System.out.println("Trainer started with " + exercise.getName());
+    }
 
 	@FXML
 	void backbutton(ActionEvent event) {
