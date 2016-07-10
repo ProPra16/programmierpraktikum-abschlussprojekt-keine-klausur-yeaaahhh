@@ -1,6 +1,10 @@
 package de.hhu.propra16.tddt.gui;
 
 import de.hhu.propra16.tddt.exercise.Exercise;
+import de.hhu.propra16.tddt.userinterface.CodeField;
+import de.hhu.propra16.tddt.userinterface.Editor;
+import de.hhu.propra16.tddt.userinterface.SplitEditor;
+import de.hhu.propra16.tddt.userinterface.TabCodeField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -31,9 +35,18 @@ public class GuiController implements Initializable {
 	@FXML
 	private URL location;
 
+    @FXML
+    private CodeField codeTabs;
+
+    @FXML
+    private CodeField testTabs;
+
     public void startTrainer(Exercise exercise) {
         // TODO implement all this stuff, once trainer is merged
+        // Just a few test lines
         System.out.println("Trainer started with " + exercise.getName());
+        Editor editor = new SplitEditor(codeTabs, testTabs);
+        editor.show(exercise.getSources(), false, true);
     }
 
 	@FXML
