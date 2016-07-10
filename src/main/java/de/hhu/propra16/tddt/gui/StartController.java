@@ -32,7 +32,7 @@ public class StartController {
     @FXML
     private TextArea descriptionField;
 
-    public void loadExList() {
+    public void initialize(int n) {
         ExerciseLoader loader = new ExerciseLoader(getClass().getResource("/Exercise.xml"));
         List<Exercise> exercises = null;
         try {
