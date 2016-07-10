@@ -1,6 +1,8 @@
 package de.hhu.propra16.tddt.gui;
 
+import de.hhu.propra16.tddt.exercise.Exercise;
 import de.hhu.propra16.tddt.exercise.ExerciseLoader;
+import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -31,11 +33,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class GuiController implements Initializable {
 
-	private ExerciseLoader e;
 	@FXML
 	private ResourceBundle resources;
 
@@ -68,13 +70,7 @@ public class GuiController implements Initializable {
 
 
 	@FXML
-	void loadDescription(MouseEvent event) {
-		if (excersislist.getSelectionModel().getSelectedItem()!=null)
-			descriptionField.setText(e.ExDescriptions.get(excersislist.getSelectionModel().getSelectedIndex()).toString());
-
-	}
-	@FXML
-	private ListView<?> excersislist;
+	private ListView<Exercise> excersislist;
 
 	public static final ObservableList data = FXCollections.observableArrayList();
 	@FXML
@@ -84,11 +80,37 @@ public class GuiController implements Initializable {
 
 	}
 
+	@FXML
+	private Button selectButton;
+
 	public void loadExList(){
-		Path p = Paths.get("katalog/Exercise.xml");
-		InputSource in = new InputSource(p.toString());
-		e = new ExerciseLoader(in);
-		excersislist.setItems(e.ExTitles);
+		ExerciseLoader loader = new ExerciseLoader(getClass().getResource("/Exercise.xml"));
+		List<Exercise> exercises = null;
+		try {
+			exercises = loader.load();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		excersislist.getItems().setAll(exercises); // getItems().setAll(...) is okay, because exercises is immutable
+
+		// the CellFactory extracts the names from the exercises
+		excersislist.setCellFactory(lv -> new ListCell<Exercise>() {
+			public void updateItem(Exercise item, boolean empty) {
+				super.updateItem(item, empty);
+				setText(empty ? null : item.getName());
+			}
+		});
+
+		// Bind description field to the description of selected exercise
+		descriptionField.textProperty().bind(Bindings.createStringBinding(() -> {
+			Exercise ex = excersislist.getSelectionModel().getSelectedItem();
+			return ex == null ? "" : ex.getDescription();
+		}, excersislist.getSelectionModel().selectedItemProperty()));
+
+		// Enable the select button only, if an exercise is selected
+		selectButton.disableProperty().bind(Bindings.isNull(excersislist.getSelectionModel().selectedItemProperty()));
+
 	}
 	@FXML
 	void addTab(Event event) {
