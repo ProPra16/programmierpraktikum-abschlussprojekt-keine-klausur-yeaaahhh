@@ -7,7 +7,7 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<Pane prefHeight="600.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="de.hhu.propra16.tddt.gui.GuiController">
+<Pane prefHeight="600.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="de.hhu.propra16.tddt.gui.StartController">
   <children>
     <ListView fx:id="excersislist" layoutX="40.0" layoutY="128.0" prefHeight="403.0" prefWidth="240.0" />
     <TextArea fx:id="descriptionField" editable="false" layoutX="300.0" layoutY="128.0" prefHeight="403.0" prefWidth="448.0" wrapText="true" />

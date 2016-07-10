@@ -18,7 +18,7 @@ public class Main extends Application {
     public void start(Stage redStage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Start.fxml"));
         Parent root = loader.load();
-        GuiController controller = loader.getController();
+        StartController controller = loader.getController();
         redStage.setTitle("TDDT");
         redStage.setScene(new Scene(root, 800, 600));
         controller.loadExList();
