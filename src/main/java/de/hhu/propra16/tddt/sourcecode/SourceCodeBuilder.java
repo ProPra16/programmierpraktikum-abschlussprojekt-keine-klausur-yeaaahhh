@@ -12,8 +12,9 @@ public class SourceCodeBuilder {
 
     private final List<CompilationUnit> units = new ArrayList<>();
 
-    public void add(CompilationUnit unit) {
+    public SourceCodeBuilder add(CompilationUnit unit) {
         units.add(unit);
+        return this;
     }
 
     public SourceCode build() {
