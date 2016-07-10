@@ -177,6 +177,7 @@ public class Trainer{
     }
 
     private synchronized void reset() {
+        messageDisplay.show("Zeit abgelaufen!", "Du hast zu lange gebraucht. Zurück in die letzte Phase mit dir!");
         previousPhase();
     }
 
