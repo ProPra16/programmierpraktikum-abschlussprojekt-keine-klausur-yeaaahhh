@@ -82,8 +82,7 @@ public class Trainer{
      */
     public void checkPhaseStatus() {
         current = editor.get();
-        // TODO Replace with actual SourceCode message, once the SourceCode branch is finished and merged
-        String compilationMessage = "";
+        String compilationMessage = current.getResult();
         boolean check = checker.check(current, getPhase());
         setPhaseAccepted(check);
         setErrorField(compilationMessage);
