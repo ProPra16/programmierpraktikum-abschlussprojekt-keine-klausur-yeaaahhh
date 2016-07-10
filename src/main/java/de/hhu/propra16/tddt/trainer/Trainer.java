@@ -24,56 +24,26 @@ public class Trainer{
     private MessageDisplay messageDisplay;
 
     /**
-     * Builder Class for building a Trainer instance;
-     */
-    public static class Builder {
-        private static Exercise exercise;
-        private static Editor editor;
-        private static MessageDisplay messageDisplay;
-
-        public Builder(Exercise exercise) {
-            if (exercise == null) throw new NullPointerException("There has to be an Exercise to work with!");
-            Builder.exercise = exercise;
-        }
-
-        public Builder editor(Editor editor) {
-            if (exercise == null) throw new NullPointerException("There has to be an Instance of Editor Class");
-            Builder.editor = editor;
-            return this;
-        }
-
-        public Builder messageDisplay(MessageDisplay message) {
-            if (message == null) throw new NullPointerException("There has to be an Instance of MessageDisplay Class");
-            messageDisplay = message;
-            return this;
-        }
-
-        public Trainer build() {
-            return new Trainer(this);
-        }
-    }
-
-    /**
-     * Constructor for Trainer instance. Access is private.
-     * Trainer instance has to be made by using the Builder
+     * Constructs a Trainer instance.
      *
-     * @param builder contains the necessary Informations.
+     * @param exercise       the exercise to use
+     * @param editor         the editor to display code to, and get modified code from
+     * @param messageDisplay used to show certain warnings/messages
+     * @param checker        determines, when a phase condition is satisfied
      */
-    private Trainer(Builder builder) {
-        exercise = Builder.exercise;
-        editor = Builder.editor;
+    public Trainer(Exercise exercise, Editor editor, MessageDisplay messageDisplay, CheckCompile checker) {
+        this.exercise = exercise;
+        this.editor = editor;
+        this.checker = checker;
         // If the editor code changes, mark phase as not accepted
         editor.changed().addListener((observable, oldV, newV) -> {
             if (newV) setPhaseAccepted(false);
         });
-
-        messageDisplay = Builder.messageDisplay;
+        this.messageDisplay = messageDisplay;
 
         current = exercise.getSources();
         previous = current;
         setPhase(Phase.RED);
-
-        checker = new ConditionChecker();
     }
 
     /**
