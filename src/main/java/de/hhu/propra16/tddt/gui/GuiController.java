@@ -1,10 +1,15 @@
 package de.hhu.propra16.tddt.gui;
 
 import de.hhu.propra16.tddt.exercise.Exercise;
+import de.hhu.propra16.tddt.trainer.CheckCompile;
+import de.hhu.propra16.tddt.trainer.ConditionChecker;
+import de.hhu.propra16.tddt.trainer.Phase;
+import de.hhu.propra16.tddt.trainer.Trainer;
 import de.hhu.propra16.tddt.userinterface.CodeField;
 import de.hhu.propra16.tddt.userinterface.Editor;
 import de.hhu.propra16.tddt.userinterface.SplitEditor;
 import de.hhu.propra16.tddt.userinterface.TabCodeField;
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -12,10 +17,7 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -41,27 +43,53 @@ public class GuiController implements Initializable {
     @FXML
     private CodeField testTabs;
 
+    @FXML
+    private Button nextButton;
+
+    @FXML
+    private Button backButton;
+
+    @FXML
+    private TextArea errorField;
+
+    @FXML
+    private Text phaseid;
+
+    private Trainer trainer;
+
     public void startTrainer(Exercise exercise) {
-        // TODO implement all this stuff, once trainer is merged
-        // Just a few test lines
-        System.out.println("Trainer started with " + exercise.getName());
         Editor editor = new SplitEditor(codeTabs, testTabs);
-        editor.show(exercise.getSources(), false, true);
+        // TODO CHANGE MESSAGEDISPLAY TO SOMETHING NOT NULL, REALLY IMPORTANT
+        trainer = new Trainer(exercise, editor, null, new ConditionChecker());
+
+        nextButton.disableProperty().bind(Bindings.not(trainer.phaseAcceptedProperty()));
+        backButton.disableProperty().bind(Bindings.notEqual(Phase.GREEN, trainer.phaseProperty()));
+        errorField.textProperty().bind(trainer.errorMessageProperty());
+
+        trainer.phaseProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue == Phase.RED) {
+                phaseid.setText("Red Phase");
+                phaseid.setFill(Color.RED);
+            }
+            if (newValue == Phase.GREEN) {
+                phaseid.setText("Green Phase");
+                phaseid.setFill(Color.GREEN);
+            }
+            if (newValue == Phase.BLACK) {
+                phaseid.setText("Refactor Phase");
+                phaseid.setFill(Color.BLACK);
+            }
+        });
+    }
+
+    @FXML
+    void checkPhase() {
+        trainer.checkPhaseStatus();
     }
 
 	@FXML
-	void backbutton(ActionEvent event) {
-		Button b = (Button) event.getSource();
-		Stage s = (Stage) b.getScene().getWindow();
-		Text text = (Text) s.getScene().lookup("#phaseid");
-		TextArea left = (TextArea) s.getScene().lookup("#leftText");
-		TabPane right = (TabPane) s.getScene().lookup("#codeTabs");
-		if(text.getText().contains("Green Phase")){
-			left.setDisable(false);
-			right.setDisable(true);
-			text.setText("Red Phase");
-			text.setFill(Color.RED);
-		}
+	void previousPhase(ActionEvent event) {
+        trainer.previousPhase();
 	}
 
 	public static final ObservableList data = FXCollections.observableArrayList();
@@ -93,26 +121,7 @@ public class GuiController implements Initializable {
 
 	@FXML
 	void nextPhase(ActionEvent event) {
-		Button b = (Button) event.getSource();
-		Stage s = (Stage) b.getScene().getWindow();
-		Text text = (Text) s.getScene().lookup("#phaseid");
-		TextArea left = (TextArea) s.getScene().lookup("#leftText");
-		TabPane right = (TabPane) s.getScene().lookup("#codeTabs");
-		if(text.getText().contains("Red Phase")){
-			left.setDisable(true);
-			right.setDisable(false);
-			text.setText("Green Phase");
-			text.setFill(Color.GREEN);
-		}else if(text.getText().contains("Refactor Phase")){
-			right.setDisable(true);
-			text.setText("Red Phase");
-			text.setFill(Color.RED);
-		}else if(text.getText().contains("Green Phase")){
-			left.setDisable(false);
-			text.setText("Refactor Phase");
-			text.setFill(Color.BLACK);
-		}
-
+        trainer.nextPhase();
 	}
 }
 
