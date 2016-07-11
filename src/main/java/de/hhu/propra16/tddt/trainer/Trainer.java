@@ -44,6 +44,7 @@ public class Trainer{
         current = exercise.getSources();
         previous = current;
         setPhase(Phase.RED);
+        showCurrentCode();
     }
 
     /**
@@ -67,10 +68,7 @@ public class Trainer{
         cycle(true);
         previous = current;
         current = editor.get();
-        editor.show(current,
-                    getPhase() == Phase.GREEN || getPhase() == Phase.BLACK,
-                    getPhase() == Phase.RED || getPhase() == Phase.BLACK);
-        if (!(getPhase() == Phase.BLACK)) babyStepTimer();
+        showCurrentCode();
     }
 
     /**
@@ -80,6 +78,10 @@ public class Trainer{
     public void previousPhase() {
         cycle(false);
         current = previous;
+        showCurrentCode();
+    }
+
+    private void showCurrentCode() {
         editor.show(current,
                 getPhase() == Phase.GREEN || getPhase() == Phase.BLACK,
                 getPhase() == Phase.RED || getPhase() == Phase.BLACK);
