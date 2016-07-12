@@ -115,8 +115,9 @@ public class Trainer{
         phaseOkay.setValue(value);
     }
 
-    private final StringProperty time = new SimpleStringProperty(this, "String representation of the remaining time", "");
-    public StringProperty timeProperty() {
+    private final ObjectProperty<Duration> time = new SimpleObjectProperty<>(this, "Duration of remaining time");
+
+    public ObjectProperty<Duration> timeProperty() {
         return time;
     }
 
@@ -143,7 +144,7 @@ public class Trainer{
     }
 
     private void setTimeLeft(Duration duration) {
-        time.setValue("Time left: " + duration.toMillis() / 1000);
+        time.setValue(duration);
     }
 
     private synchronized void reset() {
