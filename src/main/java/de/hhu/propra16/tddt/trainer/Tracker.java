@@ -43,4 +43,9 @@ public class Tracker {
         }
         return total;
     }
+
+    public long numberOfFailedChecks(Phase phase) {
+        return datapoints.stream().filter(tr -> tr.oldPhase == phase && tr.newPhase == phase)
+                .filter(tr -> !checker.check(tr.code, phase)).count();
+    }
 }
