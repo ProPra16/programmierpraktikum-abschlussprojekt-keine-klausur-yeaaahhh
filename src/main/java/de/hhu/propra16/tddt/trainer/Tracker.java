@@ -48,4 +48,9 @@ public class Tracker {
         return datapoints.stream().filter(tr -> tr.oldPhase == phase && tr.newPhase == phase)
                 .filter(tr -> !checker.check(tr.code, phase)).count();
     }
+
+    public long numberOfCycles() {
+        return datapoints.stream().filter(tr -> tr.oldPhase == Phase.BLACK && tr.newPhase == Phase.RED)
+                .count();
+    }
 }
