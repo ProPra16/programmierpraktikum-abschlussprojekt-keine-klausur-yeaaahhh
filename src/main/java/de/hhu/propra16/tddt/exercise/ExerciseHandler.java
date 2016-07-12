@@ -72,8 +72,8 @@ class ExerciseHandler extends DefaultHandler {
             if (test != ' ' && test != '\n') {
                 break;
             }
-            if (test == '\n'){
-                current = current.substring(i+1);
+            if (test == '\n') {
+                current = current.substring(i + 1);
                 length = current.length();
             }
             whitespace += " ";
@@ -105,7 +105,7 @@ class ExerciseHandler extends DefaultHandler {
         return dTime;
     }
 
-    List<Exercise> getExercises(){
+    List<Exercise> getExercises() {
         return exercises;
     }
 }

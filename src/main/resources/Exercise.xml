@@ -28,9 +28,9 @@ public class RomanNumbersTest {
         </config>
     </exercise>
 
-    <exercise name="Römische Zahlen">
+    <exercise name="Römische Zahlen 2">
         <description>
-Konvertiert arabische in römische Zahlen.
+konvertiert arabische Zahlen in Römische 2
         </description>
         <classes>
             <class name="RomanNumberConverter">
