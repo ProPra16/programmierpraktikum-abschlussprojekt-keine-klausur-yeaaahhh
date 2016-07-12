@@ -9,6 +9,7 @@ import de.hhu.propra16.tddt.userinterface.CodeField;
 import de.hhu.propra16.tddt.userinterface.Editor;
 import de.hhu.propra16.tddt.userinterface.SplitEditor;
 import de.hhu.propra16.tddt.userinterface.TabCodeField;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -65,17 +66,23 @@ public class GuiController implements Initializable {
         trainer = new Trainer(exercise,
                 editor,
                 (title, message) -> {
-                    Alert alert = new Alert(Alert.AlertType.WARNING);
-                    alert.setTitle(title);
-                    alert.setContentText(message);
-                    alert.showAndWait();
+                    Platform.runLater(() -> {
+                        Alert alert = new Alert(Alert.AlertType.WARNING);
+                        alert.setTitle(title);
+                        alert.setContentText(message);
+                        alert.showAndWait();
+                    });
                 },
                 new ConditionChecker());
 
         nextButton.disableProperty().bind(Bindings.not(trainer.phaseAcceptedProperty()));
         backButton.disableProperty().bind(Bindings.notEqual(Phase.GREEN, trainer.phaseProperty()));
         errorField.textProperty().bind(trainer.errorMessageProperty());
-        timerLabel.textProperty().bind(trainer.timeProperty());
+
+        trainer.timeProperty().addListener((observable, oldValue, newValue) -> {
+            Platform.runLater(() -> timerLabel.setText(newValue == null ?
+                    "" : Long.toString(newValue.toMillis()/1000)));
+        });
 
         trainer.phaseProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue == Phase.RED) {
