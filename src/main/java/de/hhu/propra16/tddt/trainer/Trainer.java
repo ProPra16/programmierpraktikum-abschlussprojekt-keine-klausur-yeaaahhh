@@ -84,6 +84,7 @@ public class Trainer{
         editor.show(current,
                 getPhase() == Phase.GREEN || getPhase() == Phase.BLACK,
                 getPhase() == Phase.RED || getPhase() == Phase.BLACK);
+        setTimeLeft(null);
         if (!(getPhase() == Phase.BLACK)) babyStepTimer();
     }
 
@@ -95,6 +96,7 @@ public class Trainer{
      * @value false to go counterclockwise
      */
 
+    Timer timerDisplay;
     private void cycle(boolean forward) {
         if (forward) {
             if (getPhase() == Phase.RED) setPhase(Phase.GREEN);
@@ -104,6 +106,7 @@ public class Trainer{
             if (getPhase() == Phase.GREEN) setPhase(Phase.RED);
             else if (getPhase() == Phase.RED) setPhase(Phase.BLACK);
         }
+        if (!(timerDisplay == null)) timerDisplay.cancel();
     }
 
     private final BooleanProperty phaseOkay = new SimpleBooleanProperty(this, "Ability to move to next phase", false);
@@ -160,7 +163,7 @@ public class Trainer{
         Duration duration = exercise.getOptions().getTime();
         Instant finishTime = Instant.now().plus(duration);
 
-        Timer timerDisplay = new Timer();
+        timerDisplay = new Timer();
         timerDisplay.scheduleAtFixedRate(new TimerTask() {
             public void run() {
                 setTimeLeft(Duration.between(Instant.now(), finishTime));
@@ -171,10 +174,7 @@ public class Trainer{
         timer.schedule(new TimerTask() {
             public void run() {
                 reset();
-                timerDisplay.cancel();
             }
         }, duration.toMillis());
-
-
     }
 }
