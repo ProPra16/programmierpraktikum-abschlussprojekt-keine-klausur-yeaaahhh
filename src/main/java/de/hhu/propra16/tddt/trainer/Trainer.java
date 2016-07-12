@@ -5,7 +5,6 @@ import de.hhu.propra16.tddt.sourcecode.SourceCode;
 import de.hhu.propra16.tddt.userinterface.Editor;
 import de.hhu.propra16.tddt.userinterface.MessageDisplay;
 import javafx.beans.property.*;
-import javafx.scene.control.Label;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -85,6 +84,7 @@ public class Trainer{
         editor.show(current,
                 getPhase() == Phase.GREEN || getPhase() == Phase.BLACK,
                 getPhase() == Phase.RED || getPhase() == Phase.BLACK);
+        setTimeLeft(null);
         if (!(getPhase() == Phase.BLACK)) babyStepTimer();
     }
 
@@ -95,7 +95,8 @@ public class Trainer{
      * @value true to go clockwise
      * @value false to go counterclockwise
      */
-
+    private Timer timer;
+    private Timer timerDisplay;
     private void cycle(boolean forward) {
         if (forward) {
             if (getPhase() == Phase.RED) setPhase(Phase.GREEN);
@@ -105,6 +106,8 @@ public class Trainer{
             if (getPhase() == Phase.GREEN) setPhase(Phase.RED);
             else if (getPhase() == Phase.RED) setPhase(Phase.BLACK);
         }
+        if (!(timerDisplay == null)) timerDisplay.cancel();
+        if (!(timer == null)) timer.cancel();
     }
 
     private final BooleanProperty phaseOkay = new SimpleBooleanProperty(this, "Ability to move to next phase", false);
@@ -116,8 +119,9 @@ public class Trainer{
         phaseOkay.setValue(value);
     }
 
-    private final StringProperty time = new SimpleStringProperty(this, "String representation of the remaining time", "");
-    public StringProperty timeProperty() {
+    private final ObjectProperty<Duration> time = new SimpleObjectProperty<>(this, "Duration of remaining time");
+
+    public ObjectProperty<Duration> timeProperty() {
         return time;
     }
 
@@ -144,7 +148,7 @@ public class Trainer{
     }
 
     private void setTimeLeft(Duration duration) {
-        time.setValue("Time left: " + duration.toMillis() / 1000);
+        time.setValue(duration);
     }
 
     private synchronized void reset() {
@@ -158,19 +162,20 @@ public class Trainer{
     private void babyStepTimer() {
         if (!exercise.getOptions().getBabySteps()) return;
         Duration duration = exercise.getOptions().getTime();
-//        Timer timer = new Timer();
-//        timer.schedule(new TimerTask() {
-//            public void run() {
-//                reset();
-//            }
-//        }, duration.toMillis());
-//
-//        Instant finishTime = Instant.now().plus(duration);
-//        Timer timerDisplay = new Timer();
-//        timerDisplay.scheduleAtFixedRate(new TimerTask() {
-//            public void run() {
-//                setTimeLeft(Duration.between(Instant.now(), finishTime));
-//            }
-//        }, 0, 1000);
+        Instant finishTime = Instant.now().plus(duration);
+
+        timerDisplay = new Timer();
+        timerDisplay.scheduleAtFixedRate(new TimerTask() {
+            public void run() {
+                setTimeLeft(Duration.between(Instant.now(), finishTime));
+            }
+        }, 0, 1000);
+
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+            public void run() {
+                reset();
+            }
+        }, duration.toMillis());
     }
 }
