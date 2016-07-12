@@ -8,6 +8,12 @@ import java.util.List;
 
 public class Tracker {
 
+    private final CheckCompile checker;
+
+    public Tracker(CheckCompile checker) {
+        this.checker = checker;
+    }
+
     private static class TrackedObject {
         private final SourceCode code;
         private final Duration timeUsed;
