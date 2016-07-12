@@ -21,6 +21,11 @@ public class Trainer{
     private SourceCode current;
     private SourceCode previous;
     private MessageDisplay messageDisplay;
+    private Tracker tracker;
+    private Duration phaseTime;
+    private Phase prevPhase;
+    private Duration usedTime;
+    private Instant start;
 
     /**
      * Constructs a Trainer instance.
@@ -40,9 +45,11 @@ public class Trainer{
         });
         this.messageDisplay = messageDisplay;
 
+        tracker = new Tracker();
         current = exercise.getSources();
         previous = current;
         setPhase(Phase.RED);
+        start = Instant.now();
         showCurrentCode();
     }
 
@@ -54,6 +61,7 @@ public class Trainer{
         current = editor.get();
         String compilationMessage = current.getResult();
         boolean check = checker.check(current, getPhase());
+        if (!check) tracker.push(current, Duration.between(start, Instant.now()), getPhase(), getPhase());
         setPhaseAccepted(check);
         setErrorField(compilationMessage);
     }
@@ -64,7 +72,10 @@ public class Trainer{
      * and the actual Sourcecode becomes the previous one.
      */
     public void nextPhase() {
+        prevPhase = getPhase();
+        usedTime = Duration.between(start, Instant.now());
         cycle(true);
+        start = Instant.now();
         previous = current;
         current = editor.get();
         showCurrentCode();
@@ -75,7 +86,10 @@ public class Trainer{
      * and the previous Sourcecode becomes the actual one.
      */
     public void previousPhase() {
+        prevPhase = getPhase();
+        usedTime = Duration.between(start, Instant.now());
         cycle(false);
+        start = Instant.now();
         current = previous;
         showCurrentCode();
     }
@@ -85,6 +99,7 @@ public class Trainer{
                 getPhase() == Phase.GREEN || getPhase() == Phase.BLACK,
                 getPhase() == Phase.RED || getPhase() == Phase.BLACK);
         setTimeLeft(null);
+        tracker.push(current, usedTime, prevPhase, getPhase());
         if (!(getPhase() == Phase.BLACK)) babyStepTimer();
     }
 
