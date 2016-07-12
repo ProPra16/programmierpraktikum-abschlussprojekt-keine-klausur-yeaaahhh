@@ -44,6 +44,7 @@ public class Trainer{
         });
         this.messageDisplay = messageDisplay;
 
+
         tracker = new Tracker();
         current = exercise.getSources();
         previous = current;
@@ -191,5 +192,9 @@ public class Trainer{
                 reset();
             }
         }, duration.toMillis());
+    }
+
+    public Tracker getTracker() {
+        return tracker;
     }
 }
