@@ -27,4 +27,14 @@ public class Tracker {
     public void push(SourceCode code, Duration timeUsed, Phase oldPhase, Phase newPhase) {
         datapoints.add(new TrackedObject(code, timeUsed, oldPhase, newPhase));
     }
+
+    public Duration getTotalTime(Phase phase) {
+        Duration total = Duration.ZERO;
+        for (TrackedObject tracked : datapoints) {
+            if (tracked.oldPhase == phase && tracked.oldPhase != tracked.newPhase) {
+                total = total.plus(tracked.timeUsed);
+            }
+        }
+        return total;
+    }
 }
