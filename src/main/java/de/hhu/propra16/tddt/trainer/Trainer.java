@@ -44,13 +44,14 @@ public class Trainer{
         });
         this.messageDisplay = messageDisplay;
 
-
-        tracker = new Tracker();
+        if (exercise.getOptions().getTracking()) {
+            tracker = new Tracker();
+            start = Instant.now();
+        }
         current = exercise.getSources();
         previous = current;
         setPhase(Phase.RED);
-        start = Instant.now();
-        showCurrentCode();
+        showCurrentCode(exercise.getOptions().getTracking());
     }
 
     /**
@@ -73,12 +74,11 @@ public class Trainer{
      */
     public void nextPhase() {
         prevPhase = getPhase();
-        usedTime = Duration.between(start, Instant.now());
+        if (exercise.getOptions().getTracking()) phaseTime();
         cycle(true);
-        start = Instant.now();
         previous = current;
         current = editor.get();
-        showCurrentCode();
+        showCurrentCode(exercise.getOptions().getTracking());
     }
 
     /**
@@ -87,22 +87,25 @@ public class Trainer{
      */
     public void previousPhase() {
         prevPhase = getPhase();
-        usedTime = Duration.between(start, Instant.now());
         cycle(false);
-        start = Instant.now();
+        if (exercise.getOptions().getTracking()) phaseTime();
         current = previous;
-        showCurrentCode();
+        showCurrentCode(exercise.getOptions().getTracking());
     }
 
-    private void showCurrentCode() {
+    private void showCurrentCode(boolean tracking) {
         editor.show(current,
                 getPhase() == Phase.GREEN || getPhase() == Phase.BLACK,
                 getPhase() == Phase.RED || getPhase() == Phase.BLACK);
         setTimeLeft(null);
-        tracker.push(current, usedTime, prevPhase, getPhase());
+        if (tracking) tracker.push(current, usedTime, prevPhase, getPhase());
         if (!(getPhase() == Phase.BLACK)) babyStepTimer();
     }
 
+    private void phaseTime() {
+        usedTime = Duration.between(start, Instant.now());
+        start = Instant.now();
+    }
     /**
      * Changes Phase (counter) clockwise
      *
