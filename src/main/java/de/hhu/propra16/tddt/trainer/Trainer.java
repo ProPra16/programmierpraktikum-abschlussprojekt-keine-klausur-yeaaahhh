@@ -22,7 +22,6 @@ public class Trainer{
     private SourceCode previous;
     private MessageDisplay messageDisplay;
     private Tracker tracker;
-    private Duration phaseTime;
     private Phase prevPhase;
     private Duration usedTime;
     private Instant start;
