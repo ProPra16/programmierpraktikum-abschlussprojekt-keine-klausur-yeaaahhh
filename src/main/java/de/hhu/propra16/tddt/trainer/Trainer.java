@@ -62,7 +62,9 @@ public class Trainer{
         current = editor.get();
         String compilationMessage = current.getResult();
         boolean check = checker.check(current, getPhase());
-        if (!check) tracker.push(current, Duration.between(start, Instant.now()), getPhase(), getPhase());
+        if (!check && exercise.getOptions().getTracking()) {
+            tracker.push(current, Duration.between(start, Instant.now()), getPhase(), getPhase());
+        }
         setPhaseAccepted(check);
         setErrorField(compilationMessage);
     }
