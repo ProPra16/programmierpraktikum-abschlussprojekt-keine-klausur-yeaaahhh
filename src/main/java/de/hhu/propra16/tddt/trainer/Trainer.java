@@ -9,7 +9,6 @@ import javafx.beans.property.*;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * Manages the different Phases
@@ -25,6 +24,7 @@ public class Trainer{
     private Phase prevPhase;
     private Duration usedTime;
     private Instant start;
+    private BabySteps babysteps;
 
     /**
      * Constructs a Trainer instance.
@@ -48,6 +48,7 @@ public class Trainer{
             tracker = new Tracker();
             start = Instant.now();
         }
+        if (exercise.getOptions().getBabySteps()) babysteps = new BabySteps(exercise.getOptions().getTime());
         current = exercise.getSources();
         previous = current;
         setPhase(Phase.RED);
@@ -101,7 +102,7 @@ public class Trainer{
                 getPhase() == Phase.RED || getPhase() == Phase.BLACK);
         setTimeLeft(null);
         if (tracking) tracker.push(current, usedTime, prevPhase, getPhase());
-        if (!(getPhase() == Phase.BLACK)) babyStepTimer();
+        if ((getPhase() != Phase.BLACK) && exercise.getOptions().getBabySteps()) babysteps.timer(this);
     }
 
     private void phaseTime() {
@@ -126,8 +127,7 @@ public class Trainer{
             if (getPhase() == Phase.GREEN) setPhase(Phase.RED);
             else if (getPhase() == Phase.RED) setPhase(Phase.BLACK);
         }
-        if (!(timerDisplay == null)) timerDisplay.cancel();
-        if (!(timer == null)) timer.cancel();
+        if (babysteps != null) babysteps.cancel();
     }
 
     private final BooleanProperty phaseOkay = new SimpleBooleanProperty(this, "Ability to move to next phase", false);
@@ -167,36 +167,13 @@ public class Trainer{
         return phaseProperty.getValue();
     }
 
-    private void setTimeLeft(Duration duration) {
+    void setTimeLeft(Duration duration) {
         time.setValue(duration);
     }
 
-    private synchronized void reset() {
+    synchronized void reset() {
         messageDisplay.show("Zeit abgelaufen!", "Du hast zu lange gebraucht. Zurück in die letzte Phase mit dir!");
         previousPhase();
-    }
-
-    /**
-     * Set up a Timer with the Time corresponding to the Exercise and do some work.
-     */
-    private void babyStepTimer() {
-        if (!exercise.getOptions().getBabySteps()) return;
-        Duration duration = exercise.getOptions().getTime();
-        Instant finishTime = Instant.now().plus(duration);
-
-        timerDisplay = new Timer();
-        timerDisplay.scheduleAtFixedRate(new TimerTask() {
-            public void run() {
-                setTimeLeft(Duration.between(Instant.now(), finishTime));
-            }
-        }, 0, 1000);
-
-        timer = new Timer();
-        timer.schedule(new TimerTask() {
-            public void run() {
-                reset();
-            }
-        }, duration.toMillis());
     }
 
     public Tracker getTracker() {
