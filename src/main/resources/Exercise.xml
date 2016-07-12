@@ -15,7 +15,7 @@ public class RomanNumberConverter{
 import static org.junit.Assert.*;
 import org.junit.Test;
 
-public class RomanNumbersTest {
+                public class RomanNumberTest {
     @Test
     public void testSomething() {
     }
@@ -43,7 +43,7 @@ public class RomanNumberConverter {
                 import static org.junit.Assert.*;
                 import org.junit.Test;
 
-                public class RomanNumbersTest {
+                public class RomanNumberTest {
                     @Test
                     public void testSomething() {
                     }
