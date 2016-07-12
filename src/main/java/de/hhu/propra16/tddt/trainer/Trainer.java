@@ -5,7 +5,6 @@ import de.hhu.propra16.tddt.sourcecode.SourceCode;
 import de.hhu.propra16.tddt.userinterface.Editor;
 import de.hhu.propra16.tddt.userinterface.MessageDisplay;
 import javafx.beans.property.*;
-import javafx.scene.control.Label;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -156,19 +155,23 @@ public class Trainer{
     private void babyStepTimer() {
         if (!exercise.getOptions().getBabySteps()) return;
         Duration duration = exercise.getOptions().getTime();
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            public void run() {
-                reset();
-            }
-        }, duration.toMillis());
-
         Instant finishTime = Instant.now().plus(duration);
+
         Timer timerDisplay = new Timer();
         timerDisplay.scheduleAtFixedRate(new TimerTask() {
             public void run() {
                 setTimeLeft(Duration.between(Instant.now(), finishTime));
             }
         }, 0, 1000);
+
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            public void run() {
+                reset();
+                timerDisplay.cancel();
+            }
+        }, duration.toMillis());
+
+
     }
 }
