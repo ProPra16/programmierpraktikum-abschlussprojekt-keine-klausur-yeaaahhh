@@ -95,8 +95,8 @@ public class Trainer{
      * @value true to go clockwise
      * @value false to go counterclockwise
      */
-
-    Timer timerDisplay;
+    private Timer timer;
+    private Timer timerDisplay;
     private void cycle(boolean forward) {
         if (forward) {
             if (getPhase() == Phase.RED) setPhase(Phase.GREEN);
@@ -107,6 +107,7 @@ public class Trainer{
             else if (getPhase() == Phase.RED) setPhase(Phase.BLACK);
         }
         if (!(timerDisplay == null)) timerDisplay.cancel();
+        if (!(timer == null)) timer.cancel();
     }
 
     private final BooleanProperty phaseOkay = new SimpleBooleanProperty(this, "Ability to move to next phase", false);
@@ -170,7 +171,7 @@ public class Trainer{
             }
         }, 0, 1000);
 
-        Timer timer = new Timer();
+        timer = new Timer();
         timer.schedule(new TimerTask() {
             public void run() {
                 reset();
