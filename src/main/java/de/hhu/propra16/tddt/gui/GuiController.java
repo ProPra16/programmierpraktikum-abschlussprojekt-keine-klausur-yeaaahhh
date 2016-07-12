@@ -55,16 +55,27 @@ public class GuiController implements Initializable {
     @FXML
     private Text phaseid;
 
+    @FXML
+    private Label timerLabel;
+
     private Trainer trainer;
 
     public void startTrainer(Exercise exercise) {
         Editor editor = new SplitEditor(codeTabs, testTabs);
-        // TODO CHANGE MESSAGEDISPLAY TO SOMETHING NOT NULL, REALLY IMPORTANT
-        trainer = new Trainer(exercise, editor, null, new ConditionChecker());
+        trainer = new Trainer(exercise,
+                editor,
+                (title, message) -> {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle(title);
+                    alert.setContentText(message);
+                    alert.showAndWait();
+                },
+                new ConditionChecker());
 
         nextButton.disableProperty().bind(Bindings.not(trainer.phaseAcceptedProperty()));
         backButton.disableProperty().bind(Bindings.notEqual(Phase.GREEN, trainer.phaseProperty()));
         errorField.textProperty().bind(trainer.errorMessageProperty());
+        timerLabel.textProperty().bind(trainer.timeProperty());
 
         trainer.phaseProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue == Phase.RED) {

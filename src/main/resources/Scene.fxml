@@ -7,9 +7,11 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
+<?import javafx.scene.control.Label?>
 <Pane prefHeight="600.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="de.hhu.propra16.tddt.gui.GuiController">
   <children>
     <TabCodeField fx:id="codeTabs" layoutX="0.0" layoutY="72.0" prefHeight="514.0" prefWidth="245.99990000000253"/>
+    <Label fx:id="timerLabel" layoutX="346.0" layoutY="80.0"/>
     <Text fx:id="phaseid" fill="#cc3100" layoutX="346.0" layoutY="126.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Red Phase">
       <font>
         <Font size="24.0" />
