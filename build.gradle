@@ -3,6 +3,13 @@ version '1.0.0'
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
+apply plugin: 'application'
+
+mainClassName = 'de.hhu.propra16.tddt.gui.Main'
+
+defaultTasks 'run'
+
+build.dependsOn 'installDist'
 
 repositories {
     mavenCentral()
