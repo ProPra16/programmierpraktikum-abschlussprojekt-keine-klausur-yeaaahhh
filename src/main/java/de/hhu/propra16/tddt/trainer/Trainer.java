@@ -8,7 +8,6 @@ import javafx.beans.property.*;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Timer;
 
 /**
  * Manages the different Phases
@@ -116,17 +115,9 @@ public class Trainer{
      * @value true to go clockwise
      * @value false to go counterclockwise
      */
-    private Timer timer;
-    private Timer timerDisplay;
     private void cycle(boolean forward) {
-        if (forward) {
-            if (getPhase() == Phase.RED) setPhase(Phase.GREEN);
-            else if (getPhase() == Phase.GREEN) setPhase(Phase.BLACK);
-            else if (getPhase() == Phase.BLACK) setPhase(Phase.RED);
-        } else {
-            if (getPhase() == Phase.GREEN) setPhase(Phase.RED);
-            else if (getPhase() == Phase.RED) setPhase(Phase.BLACK);
-        }
+        if (forward) setPhase(getPhase().next());
+        else if (getPhase() != Phase.BLACK) setPhase(getPhase().previous());
         if (babysteps != null) babysteps.cancel();
     }
 
