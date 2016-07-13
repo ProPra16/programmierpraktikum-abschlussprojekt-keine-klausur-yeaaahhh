@@ -16,6 +16,12 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 public class StartController {
@@ -33,7 +39,7 @@ public class StartController {
     private TextArea descriptionField;
 
     public void initialize() {
-        ExerciseLoader loader = new ExerciseLoader(getClass().getResource("/Exercise.xml"));
+        ExerciseLoader loader = new ExerciseLoader(getExerciseResource());
         List<Exercise> exercises = null;
         try {
             exercises = loader.load();
@@ -75,5 +81,27 @@ public class StartController {
         Scene scene = new Scene(myPane);
         stage.setScene(scene);
         loader.<GuiController>getController().startTrainer(excersislist.getSelectionModel().getSelectedItem());
+    }
+
+    private URL getExerciseResource() {
+        String catalogName = "Exercise.xml";
+        Path installDir = null;
+        try {
+            installDir = Paths.get(getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        Path catalogPath = Paths.get("catalog/"+catalogName);
+        catalogPath = installDir.getParent().getParent().resolve(catalogPath);
+
+        if (Files.isReadable(catalogPath)) {
+            try {
+                return catalogPath.toUri().toURL();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+        }
+        System.err.println("Could not read catalog. Reading from resources.");
+        return getClass().getClassLoader().getResource(catalogName);
     }
 }
