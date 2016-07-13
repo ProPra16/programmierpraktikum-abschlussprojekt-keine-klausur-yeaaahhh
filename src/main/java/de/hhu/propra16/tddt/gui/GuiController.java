@@ -1,14 +1,12 @@
 package de.hhu.propra16.tddt.gui;
 
 import de.hhu.propra16.tddt.exercise.Exercise;
-import de.hhu.propra16.tddt.trainer.CheckCompile;
 import de.hhu.propra16.tddt.trainer.ConditionChecker;
 import de.hhu.propra16.tddt.trainer.Phase;
 import de.hhu.propra16.tddt.trainer.Trainer;
 import de.hhu.propra16.tddt.userinterface.CodeField;
 import de.hhu.propra16.tddt.userinterface.Editor;
 import de.hhu.propra16.tddt.userinterface.SplitEditor;
-import de.hhu.propra16.tddt.userinterface.TabCodeField;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
@@ -22,21 +20,11 @@ import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class GuiController implements Initializable {
-
-	@FXML
-	private ResourceBundle resources;
-
-	@FXML
-	private Parent root;
-
-	@FXML
-	private URL location;
+public class GuiController  {
 
     @FXML
     private CodeField codeTabs;
@@ -110,35 +98,10 @@ public class GuiController implements Initializable {
         trainer.previousPhase();
 	}
 
-	public static final ObservableList data = FXCollections.observableArrayList();
-	@FXML
-	public void initialize(URL location, ResourceBundle resources) {
-
-
-	}
-
-	@FXML
-	void addTab(Event event) {
-		Tab t = (Tab) event.getSource();
-		TabPane tabs = t.getTabPane();
-		final Tab tab = new Tab("Tab " + (tabs.getTabs().size() + 1));
-		tabs.getTabs().add(tab);
-		tabs.getSelectionModel().select(tab);
-		tabs.getTabs().remove(tabs.getTabs().size()-2, tabs.getTabs().size()-1);
-		tabs.getTabs().add(t);
-		TextArea ta = new TextArea();
-		ta.setPrefSize(218, 469);
-		Pane p = new Pane();
-		p.setPrefSize(285,520);
-		p.getChildren().add(ta);
-		tab.setContent(p);
-	}
-
     @FXML
     void quit() {
         Platform.exit();
     }
-
 
 	@FXML
 	void nextPhase(ActionEvent event) {

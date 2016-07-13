@@ -5,7 +5,6 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.*?>
-
 <Pane fx:id="root" prefHeight="600.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="de.hhu.propra16.tddt.gui.StartController">
   <children>
     <ListView fx:id="excersislist" layoutX="40.0" layoutY="128.0" prefHeight="403.0" prefWidth="240.0" />
