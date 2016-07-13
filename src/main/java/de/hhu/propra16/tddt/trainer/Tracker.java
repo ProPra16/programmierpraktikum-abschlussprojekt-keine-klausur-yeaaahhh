@@ -3,6 +3,11 @@ package de.hhu.propra16.tddt.trainer;
 import de.hhu.propra16.tddt.sourcecode.SourceCode;
 import de.hhu.propra16.tddt.sourcecode.SourceCodeComparator;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
@@ -156,5 +161,14 @@ public class Tracker {
             builder.setNewLinesOfTest(codeChangeBetween(previousRaw, raw
                     , SourceCodeComparator::newLinesTest));
         }
+    }
+
+    public void saveTo(Path path) throws IOException {
+        StringBuilder builder = new StringBuilder();
+        for (DataPoint point : getRawData()) {
+            builder.append(point.toString()).append(System.lineSeparator());
+        }
+        byte[] bytes = builder.toString().getBytes(StandardCharsets.UTF_8);
+        Files.write(path, bytes, StandardOpenOption.CREATE);
     }
 }
