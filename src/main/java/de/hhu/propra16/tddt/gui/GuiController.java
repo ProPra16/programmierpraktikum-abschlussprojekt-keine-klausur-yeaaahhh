@@ -134,7 +134,10 @@ public class GuiController implements Initializable {
 		tab.setContent(p);
 	}
 
-
+    @FXML
+    void quit() {
+        Platform.exit();
+    }
 
 
 	@FXML
