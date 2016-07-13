@@ -1,10 +1,13 @@
 package de.hhu.propra16.tddt.trainer;
 
 import de.hhu.propra16.tddt.sourcecode.SourceCode;
+import de.hhu.propra16.tddt.sourcecode.SourceCodeComparator;
 
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class Tracker {
@@ -56,5 +59,27 @@ public class Tracker {
 
     public List<Duration> timeUsedData() {
         return phaseEnds().stream().map(data -> data.timeUsed).collect(Collectors.toList());
+    }
+
+    private int totalCodeChange(BiFunction<SourceCode, SourceCode, List<Integer>> measure) {
+        if (data.size() <= 1) return 0;
+        return measure.apply(data.get(0).code, data.get(data.size() - 1).code)
+                .stream().mapToInt(Integer::valueOf).sum();
+    }
+
+    public int totalNewCodeLines() {
+        return totalCodeChange(SourceCodeComparator::newLinesCode);
+    }
+
+    public int totalNewTestLines() {
+        return totalCodeChange(SourceCodeComparator::newLinesTest);
+    }
+
+    public int totalChangedCodeLines() {
+        return totalCodeChange(SourceCodeComparator::changedLinesCode);
+    }
+
+    public int totalChangedTestLines() {
+        return totalCodeChange(SourceCodeComparator::changedLinesTest);
     }
 }
