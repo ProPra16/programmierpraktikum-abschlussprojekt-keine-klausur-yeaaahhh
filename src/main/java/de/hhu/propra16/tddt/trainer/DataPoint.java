@@ -1,6 +1,5 @@
 package de.hhu.propra16.tddt.trainer;
 
-import javax.xml.crypto.Data;
 import java.time.Duration;
 
 public class DataPoint {
@@ -11,7 +10,8 @@ public class DataPoint {
     private final int checksWithCompilationError;
     private final int newLinesOfCode;
     private final int newLinesOfTest;
-    private final int linesChanged;
+    private final int linesCodeChanged;
+    private final int linesTestChanged;
 
     public static class Builder {
         public void setPhase(Phase phase) {
@@ -38,8 +38,12 @@ public class DataPoint {
             this.newLinesOfTest = newLinesOfTest;
         }
 
-        public void setLinesChanged(int linesChanged) {
-            this.linesChanged = linesChanged;
+        public void setLinesCodeChanged(int linesCodeChanged) {
+            this.linesCodeChanged = linesCodeChanged;
+        }
+
+        public void setLinesTestChanged(int linesTestChanged) {
+            this.linesTestChanged = linesTestChanged;
         }
 
         private Phase phase = Phase.RED;
@@ -48,7 +52,8 @@ public class DataPoint {
         private int checksWithCompilationError = 0;
         private int newLinesOfCode = 0;
         private int newLinesOfTest = 0;
-        private int linesChanged = 0;
+        private int linesCodeChanged = 0;
+        private int linesTestChanged = 0;
 
         public DataPoint build() {
             return new DataPoint(this);
@@ -62,7 +67,8 @@ public class DataPoint {
         this.checksWithCompilationError = builder.checksWithCompilationError;
         this.newLinesOfCode = builder.newLinesOfCode;
         this.newLinesOfTest = builder.newLinesOfTest;
-        this.linesChanged = builder.linesChanged;
+        this.linesCodeChanged = builder.linesCodeChanged;
+        this.linesTestChanged = builder.linesTestChanged;
     }
 
     public Phase getPhase() {
@@ -89,8 +95,8 @@ public class DataPoint {
         return newLinesOfTest;
     }
 
-    public int getLinesChanged() {
-        return linesChanged;
+    public int getLinesCodeChanged() {
+        return linesCodeChanged;
     }
 
     /**
@@ -108,7 +114,7 @@ public class DataPoint {
                 .append(getChecksWithCompilationError()).append('\t')
                 .append(getNewLinesOfCode()).append('\t')
                 .append(getNewLinesOfTest()).append('\t')
-                .append(getLinesChanged()).append('\t')
+                .append(getLinesCodeChanged()).append('\t')
                 .toString();
     }
 }
