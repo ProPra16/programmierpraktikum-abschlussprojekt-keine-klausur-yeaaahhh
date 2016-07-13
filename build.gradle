@@ -1,5 +1,5 @@
 group 'de.hhu.propra16'
-version '1.2.0'
+version '1.2.1'
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
