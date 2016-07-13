@@ -45,12 +45,16 @@ public class Tracker {
     }
 
     public long numberOfFailedChecks(Phase phase) {
-        return datapoints.stream().filter(tr -> tr.phase == phase && tr.newPhase == phase)
+        return datapoints.stream().filter(data -> data.phase == phase && data.newPhase == phase)
                 .filter(data -> !checker.check(data.code, phase)).count();
     }
 
     public long numberOfCycles() {
         return datapoints.stream().filter(data -> data.phase == Phase.BLACK && data.newPhase == Phase.RED)
                 .count();
+    }
+
+    public List<Duration> timeUsedData() {
+        return phaseEnds().stream().map(data -> data.timeUsed).collect(Collectors.toList());
     }
 }
