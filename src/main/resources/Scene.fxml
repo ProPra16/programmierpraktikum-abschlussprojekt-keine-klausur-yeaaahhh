@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import de.hhu.propra16.tddt.userinterface.TabCodeField?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-
-<?import javafx.scene.control.Label?>
 <Pane prefHeight="600.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="de.hhu.propra16.tddt.gui.GuiController">
   <children>
     <TabCodeField fx:id="codeTabs" layoutX="0.0" layoutY="72.0" prefHeight="514.0" prefWidth="245.99990000000253"/>
@@ -19,6 +16,7 @@
     </Text>
     <Button fx:id="nextButton" layoutX="464.0" layoutY="191.0" mnemonicParsing="false" onAction="#nextPhase" text="Next" />
     <Button fx:id="backButton" layoutX="291.0" layoutY="191.0" mnemonicParsing="false" onAction="#previousPhase" text="back" />
+    <Button fx:id="quitButton" layoutX="548.0" layoutY="30.0" text="Beenden" onAction="#quit"/>
     <TabCodeField fx:id="testTabs" layoutX="548.0" layoutY="72.0" prefHeight="514.0" prefWidth="245.99990000000253"/>
     <TextArea fx:id="errorField" editable="false" layoutX="291.0" layoutY="224.0" prefHeight="362.0" prefWidth="218.0" wrapText="true" />
     <Button layoutX="373.0" layoutY="191.0" mnemonicParsing="false" text="Check"  onAction="#checkPhase"/>
