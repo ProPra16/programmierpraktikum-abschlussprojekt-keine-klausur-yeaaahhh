@@ -1,42 +1,29 @@
 package de.hhu.propra16.tddt.gui;
 
 import de.hhu.propra16.tddt.exercise.Exercise;
-import de.hhu.propra16.tddt.trainer.CheckCompile;
 import de.hhu.propra16.tddt.trainer.ConditionChecker;
 import de.hhu.propra16.tddt.trainer.Phase;
 import de.hhu.propra16.tddt.trainer.Trainer;
 import de.hhu.propra16.tddt.userinterface.CodeField;
 import de.hhu.propra16.tddt.userinterface.Editor;
 import de.hhu.propra16.tddt.userinterface.SplitEditor;
-import de.hhu.propra16.tddt.userinterface.TabCodeField;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import java.net.URL;
-import java.util.ResourceBundle;
+public class GuiController {
 
-public class GuiController implements Initializable {
-
-	@FXML
-	private ResourceBundle resources;
-
-	@FXML
-	private Parent root;
-
-	@FXML
-	private URL location;
+    @FXML
+    private Pane root;
 
     @FXML
     private CodeField codeTabs;
@@ -58,6 +45,9 @@ public class GuiController implements Initializable {
 
     @FXML
     private Label timerLabel;
+
+    @FXML
+    private Button quitButton;
 
     private Trainer trainer;
 
@@ -81,7 +71,7 @@ public class GuiController implements Initializable {
 
         trainer.timeProperty().addListener((observable, oldValue, newValue) -> {
             Platform.runLater(() -> timerLabel.setText(newValue == null ?
-                    "" : Long.toString(newValue.toMillis()/1000)));
+                    "" : Long.toString(newValue.toMillis() / 1000)));
         });
 
         trainer.phaseProperty().addListener((observable, oldValue, newValue) -> {
@@ -98,6 +88,11 @@ public class GuiController implements Initializable {
                 phaseid.setFill(Color.BLACK);
             }
         });
+
+        if (exercise.getOptions().getTracking()) {
+            quitButton.setOnAction(this::showGraph);
+            quitButton.setText(quitButton.getText() + " / Chart anzeigen");
+        }
     }
 
     @FXML
@@ -105,42 +100,25 @@ public class GuiController implements Initializable {
         trainer.checkPhaseStatus();
     }
 
-	@FXML
-	void previousPhase(ActionEvent event) {
+    @FXML
+    void previousPhase(ActionEvent event) {
         trainer.previousPhase();
-	}
+    }
 
-	public static final ObservableList data = FXCollections.observableArrayList();
-	@FXML
-	public void initialize(URL location, ResourceBundle resources) {
+    @FXML
+    void quit() {
+        Platform.exit();
+    }
 
-
-	}
-
-	@FXML
-	void addTab(Event event) {
-		Tab t = (Tab) event.getSource();
-		TabPane tabs = t.getTabPane();
-		final Tab tab = new Tab("Tab " + (tabs.getTabs().size() + 1));
-		tabs.getTabs().add(tab);
-		tabs.getSelectionModel().select(tab);
-		tabs.getTabs().remove(tabs.getTabs().size()-2, tabs.getTabs().size()-1);
-		tabs.getTabs().add(t);
-		TextArea ta = new TextArea();
-		ta.setPrefSize(218, 469);
-		Pane p = new Pane();
-		p.setPrefSize(285,520);
-		p.getChildren().add(ta);
-		tab.setContent(p);
-	}
-
-
-
-
-	@FXML
-	void nextPhase(ActionEvent event) {
+    @FXML
+    void nextPhase(ActionEvent event) {
         trainer.nextPhase();
-	}
+    }
+
+    void showGraph(ActionEvent event) {
+        ((Stage) root.getScene().getWindow())
+                .setScene(new BarScene().createBarScene(trainer.getTracker()));
+    }
 }
 
 
