@@ -14,36 +14,44 @@ public class DataPoint {
     private final int linesTestChanged;
 
     public static class Builder {
-        public void setPhase(Phase phase) {
+        public Builder setPhase(Phase phase) {
             this.phase = phase;
+            return this;
         }
 
-        public void setTimeUsed(Duration timeUsed) {
+        public Builder setTimeUsed(Duration timeUsed) {
             this.timeUsed = timeUsed;
+            return this;
         }
 
-        public void setChecksWithFailedTests(int checksWithFailedTests) {
+        public Builder setChecksWithFailedTests(int checksWithFailedTests) {
             this.checksWithFailedTests = checksWithFailedTests;
+            return this;
         }
 
-        public void setChecksWithCompilationError(int checksWithCompilationError) {
+        public Builder setChecksWithCompilationError(int checksWithCompilationError) {
             this.checksWithCompilationError = checksWithCompilationError;
+            return this;
         }
 
-        public void setNewLinesOfCode(int newLinesOfCode) {
+        public Builder setNewLinesOfCode(int newLinesOfCode) {
             this.newLinesOfCode = newLinesOfCode;
+            return this;
         }
 
-        public void setNewLinesOfTest(int newLinesOfTest) {
+        public Builder setNewLinesOfTest(int newLinesOfTest) {
             this.newLinesOfTest = newLinesOfTest;
+            return this;
         }
 
-        public void setLinesCodeChanged(int linesCodeChanged) {
+        public Builder setLinesCodeChanged(int linesCodeChanged) {
             this.linesCodeChanged = linesCodeChanged;
+            return this;
         }
 
-        public void setLinesTestChanged(int linesTestChanged) {
+        public Builder setLinesTestChanged(int linesTestChanged) {
             this.linesTestChanged = linesTestChanged;
+            return this;
         }
 
         private Phase phase = Phase.RED;
@@ -99,6 +107,10 @@ public class DataPoint {
         return linesCodeChanged;
     }
 
+    public int getLinesTestChanged() {
+        return linesTestChanged;
+    }
+
     /**
      * String representation of this datapoint
      *
@@ -115,6 +127,7 @@ public class DataPoint {
                 .append(getNewLinesOfCode()).append('\t')
                 .append(getNewLinesOfTest()).append('\t')
                 .append(getLinesCodeChanged()).append('\t')
+                .append(getLinesTestChanged()).append('\t')
                 .toString();
     }
 }
