@@ -40,10 +40,14 @@ public class SourceCodeComparator {
     // Methoden changedLines Code/Test gibt die Anzahl der geänderten Zeilen zurück
     public static List<Integer> changedLinesCode(SourceCode alt, SourceCode neu) {
         split(alt, neu);
+        return countChangedLines(altCode, neuCode);
+    }
+
+    private static List<Integer> countChangedLines(List<String> altLines, List<String> neuLines) {
         List<Integer> lines = new ArrayList<>();
-        for (int i = 0; i < altCode.size(); i++) {
-            String[] altArray = altCode.get(i).split("\n");
-            String[] neuArray = neuCode.get(i).split("\n");
+        for (int i = 0; i < altLines.size(); i++) {
+            String[] altArray = altLines.get(i).split("\n");
+            String[] neuArray = neuLines.get(i).split("\n");
             List<String> tmp = new ArrayList<>();
             tmp = compare(altArray, neuArray);
             if (altArray.length <= neuArray.length) {
@@ -58,20 +62,7 @@ public class SourceCodeComparator {
 
     public static List<Integer> changedLinesTest(SourceCode alt, SourceCode neu) {
         split(alt, neu);
-        List<Integer> lines = new ArrayList<>();
-        for (int i = 0; i < altTest.size(); i++) {
-            String[] altArray = altTest.get(i).split("\n");
-            String[] neuArray = neuTest.get(i).split("\n");
-            List<String> tmp = new ArrayList<>();
-            tmp = compare(altArray, neuArray);
-            if (altArray.length <= neuArray.length) {
-                for (int j = altArray.length; j < neuArray.length; j++) {
-                    tmp.add(neuArray[j]);
-                }
-            }
-            lines.add(tmp.size());
-        }
-        return lines;
+        return countChangedLines(altTest, neuTest);
     }
 
     private static List<String> compare(String[] altArray, String[] neuArray) {
