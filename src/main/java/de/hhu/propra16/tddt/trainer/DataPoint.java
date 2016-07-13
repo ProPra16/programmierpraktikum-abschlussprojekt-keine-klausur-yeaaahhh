@@ -4,6 +4,7 @@ import javax.xml.crypto.Data;
 import java.time.Duration;
 
 public class DataPoint {
+
     private final Phase phase;
     private final Duration timeUsed;
     private final int checksWithFailedTests;
@@ -62,5 +63,33 @@ public class DataPoint {
         this.newLinesOfCode = builder.newLinesOfCode;
         this.newLinesOfTest = builder.newLinesOfTest;
         this.linesChanged = builder.linesChanged;
+    }
+
+    public Phase getPhase() {
+        return phase;
+    }
+
+    public Duration getTimeUsed() {
+        return timeUsed;
+    }
+
+    public int getChecksWithFailedTests() {
+        return checksWithFailedTests;
+    }
+
+    public int getChecksWithCompilationError() {
+        return checksWithCompilationError;
+    }
+
+    public int getNewLinesOfCode() {
+        return newLinesOfCode;
+    }
+
+    public int getNewLinesOfTest() {
+        return newLinesOfTest;
+    }
+
+    public int getLinesChanged() {
+        return linesChanged;
     }
 }
