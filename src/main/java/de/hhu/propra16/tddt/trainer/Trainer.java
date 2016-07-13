@@ -42,7 +42,7 @@ public class Trainer{
         this.messageDisplay = messageDisplay;
 
         if (exercise.getOptions().getTracking()) {
-            tracker = new Tracker();
+            tracker = new Tracker(checker);
             phaseTime();
         }
         if (exercise.getOptions().getBabySteps()) babysteps = new BabySteps(exercise.getOptions().getTime());
