@@ -55,7 +55,7 @@ public class DataPoint {
         }
     }
 
-    public DataPoint(Builder builder) {
+    private DataPoint(Builder builder) {
         this.phase = builder.phase;
         this.timeUsed = builder.timeUsed;
         this.checksWithFailedTests = builder.checksWithFailedTests;
