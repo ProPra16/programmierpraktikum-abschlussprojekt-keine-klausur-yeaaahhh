@@ -12,6 +12,9 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BarScene {
     final static String rotePhase = "Rote Phase";
     final static String schwarzePhase = "Schwarze Phase";
@@ -25,7 +28,7 @@ public class BarScene {
         final CategoryAxis xAxis = new CategoryAxis();
         final NumberAxis yAxis = new NumberAxis();
         final BarChart<String, Number> bc =
-                new BarChart<String, Number>(xAxis, yAxis);
+                new BarChart<>(xAxis, yAxis);
         bc.setTitle("Tracking Chart");
         xAxis.setLabel("Phase");
         yAxis.setLabel("Zeit in sek.");
@@ -34,23 +37,26 @@ public class BarScene {
         long greenTime = t.getTotalTime(Phase.GREEN).getSeconds();
         long blackTime = t.getTotalTime(Phase.BLACK).getSeconds();
 
-        XYChart.Series series1 = new XYChart.Series();
+        XYChart.Series<String, Number> series1 = new XYChart.Series<>();
         series1.setName("Rote Phase");
-        series1.getData().add(new XYChart.Data(rotePhase, redTime));
+        series1.getData().add(new XYChart.Data<>(rotePhase, redTime));
 
 
-        XYChart.Series series2 = new XYChart.Series();
+        XYChart.Series<String, Number> series2 = new XYChart.Series<>();
         series2.setName("Grüne Phase");
-        series2.getData().add(new XYChart.Data(gruenePhase, greenTime));
+        series2.getData().add(new XYChart.Data<>(gruenePhase, greenTime));
 
 
-        XYChart.Series series3 = new XYChart.Series();
+        XYChart.Series<String, Number> series3 = new XYChart.Series<>();
         series3.setName("Schwarze Phase");
-        series3.getData().add(new XYChart.Data(schwarzePhase, blackTime));
+        series3.getData().add(new XYChart.Data<>(schwarzePhase, blackTime));
 
         Scene scene = new Scene(bc, 800, 600);
         scene.getStylesheets().add("./style.css");
-        bc.getData().addAll(series1, series2, series3);
+        bc.getData().add(series1);
+        bc.getData().add(series2);
+        bc.getData().add(series3);
+
 
         return scene;
     }
