@@ -60,12 +60,22 @@ public class StartController {
         // Bind description field to the description of selected exercise
         descriptionField.textProperty().bind(Bindings.createStringBinding(() -> {
             Exercise ex = excersislist.getSelectionModel().getSelectedItem();
-            return ex == null ? "" : ex.getDescription();
+            return ex == null ? "" : fullDescription(ex);
         }, excersislist.getSelectionModel().selectedItemProperty()));
 
         // Enable the select button only, if an exercise is selected
         selectButton.disableProperty().bind(Bindings.isNull(excersislist.getSelectionModel().selectedItemProperty()));
 
+    }
+
+    private static String fullDescription(Exercise ex) {
+        return ex.getDescription()
+                + System.lineSeparator() + "Tracking: "
+                + (ex.getOptions().getTracking() ? "Ja" : "Nein")
+                + System.lineSeparator() + "Babysteps: "
+                + (ex.getOptions().getBabySteps() ? "Ja" : "Nein")
+                + (!ex.getOptions().getBabySteps() ? ""
+                : ", " + ex.getOptions().getTime().getSeconds() + " Sekunden");
     }
 
     @FXML
@@ -91,7 +101,7 @@ public class StartController {
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
-        Path catalogPath = Paths.get("catalog/"+catalogName);
+        Path catalogPath = Paths.get("catalog/" + catalogName);
         catalogPath = installDir.getParent().getParent().resolve(catalogPath);
 
         if (Files.isReadable(catalogPath)) {
