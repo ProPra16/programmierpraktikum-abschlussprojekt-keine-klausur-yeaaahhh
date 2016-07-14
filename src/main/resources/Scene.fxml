@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import de.hhu.propra16.tddt.userinterface.TabCodeField?>
-<?import javafx.scene.control.*?>
+
 <?import javafx.scene.control.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
+
 <Pane fx:id="root" prefHeight="600.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="de.hhu.propra16.tddt.gui.GuiController">
   <children>
-    <TabCodeField fx:id="codeTabs" layoutX="0.0" layoutY="72.0" prefHeight="514.0" prefWidth="245.99990000000253"/>
+    <TabCodeField fx:id="codeTabs" layoutX="0.0" layoutY="72.0" prefHeight="514.0" prefWidth="245.99990000000253" />
     <Label fx:id="timerLabel" layoutX="380.0" layoutY="27.0" prefHeight="54.0" prefWidth="82.0" text="">
       <effect>
         <DropShadow color="#646464" offsetX="5.0" offsetY="5.0" />
@@ -24,9 +25,15 @@
     </Text>
     <Button fx:id="nextButton" layoutX="464.0" layoutY="191.0" mnemonicParsing="false" onAction="#nextPhase" text="Next" />
     <Button fx:id="backButton" layoutX="291.0" layoutY="191.0" mnemonicParsing="false" onAction="#previousPhase" text="back" />
-    <Button fx:id="quitButton" layoutX="548.0" layoutY="30.0" text="Beenden" onAction="#quit"/>
-    <TabCodeField fx:id="testTabs" layoutX="548.0" layoutY="72.0" prefHeight="514.0" prefWidth="245.99990000000253"/>
+    <Button fx:id="quitButton" layoutX="648.0" layoutY="17.0" onAction="#quit" text="Beenden" />
+    <TabCodeField fx:id="testTabs" layoutX="548.0" layoutY="72.0" prefHeight="514.0" prefWidth="245.99990000000253" />
     <TextArea fx:id="errorField" editable="false" layoutX="291.0" layoutY="224.0" prefHeight="362.0" prefWidth="218.0" wrapText="true" />
-    <Button layoutX="373.0" layoutY="191.0" mnemonicParsing="false" text="Check"  onAction="#checkPhase"/>
+    <Button layoutX="373.0" layoutY="191.0" mnemonicParsing="false" onAction="#checkPhase" text="Check" />
+    <Label layoutX="82.0" layoutY="40.0" prefHeight="39.9609375" prefWidth="108.0" text="Code">
+      <font>
+        <Font name="Arial Black" size="12.0" fx:id="x1" />
+      </font>
+    </Label>
+    <Label font="$x1" layoutX="594.0" layoutY="49.0" prefHeight="20.9609375" prefWidth="95.0" text="TestCode" />
   </children>
 </Pane>
