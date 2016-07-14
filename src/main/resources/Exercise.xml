@@ -7,6 +7,7 @@
         <classes>
             <class name="Calculator">
                 public class Calculator{
+
                 }
             </class>
         </classes>
@@ -18,48 +19,52 @@
                 public class CalculatorTest{
                 @Test
                 public void testSomething(){
+
                 }
                 }
             </test>
         </tests>
+    </exercise>
+
+    <exercise name="Taschenrechner 2">
+        <description>
+            Programmiere eine Konsolenanwendung, die die Grundfunktionen eines Taschenrechners implementiert.
+        </description>
+        <classes>
+            <class name="Calculator">
+                public class Calculator{
+
+                }
+            </class>
+        </classes>
+        <tests>
+            <test name="CalculatorTest">
+                import static org.junit.Assert.*;
+                import org.junit.Test;
+
+                public class CalculatorTest{
+                @Test
+                public void testSomething(){
+
+                }
+                }
+            </test>
+        </tests>
+        <config>
+            <babysteps value="false"/>
+            <timetracking value="true"/>
+        </config>
     </exercise>
 
     <exercise name="Römische Zahlen">
         <description>
-Konvertiert arabische in römische Zahlen.
+            Konvertiert arabische in römische Zahlen.
         </description>
         <classes>
             <class name="RomanNumberConverter">
-public class RomanNumberConverter{
-}
-            </class>
-        </classes>
-        <tests>
-            <test name="RomanNumberConverterTest">
-import static org.junit.Assert.*;
-import org.junit.Test;
+                public class RomanNumberConverter{
 
-                public class RomanNumberConverterTest {
-    @Test
-    public void testSomething() {
-    }
-}
-            </test>
-        </tests>
-        <config>
-            <babysteps value="False" />
-            <timetracking value="True" />
-        </config>
-    </exercise>
-
-    <exercise name="Römische Zahlen 2">
-        <description>
-konvertiert arabische Zahlen in Römische 2
-        </description>
-        <classes>
-            <class name="RomanNumberConverter">
-public class RomanNumberConverter {
-}
+                }
             </class>
         </classes>
         <tests>
@@ -70,6 +75,37 @@ public class RomanNumberConverter {
                 public class RomanNumberConverterTest {
                 @Test
                 public void testSomething() {
+
+                }
+                }
+            </test>
+        </tests>
+        <config>
+            <babysteps value="False" />
+            <timetracking value="True" />
+        </config>
+    </exercise>
+
+    <exercise name="Römische Zahlen 2">
+        <description>
+            konvertiert arabische Zahlen in Römische 2
+        </description>
+        <classes>
+            <class name="RomanNumberConverter">
+                public class RomanNumberConverter {
+
+                }
+            </class>
+        </classes>
+        <tests>
+            <test name="RomanNumberConverterTest">
+                import static org.junit.Assert.*;
+                import org.junit.Test;
+
+                public class RomanNumberConverterTest {
+                @Test
+                public void testSomething() {
+
                 }
                 }
             </test>
