@@ -22,6 +22,6 @@
         <Font name="Arial" size="35.0" />
       </font>
     </Text>
-      <Button fx:id="loadButton" layoutX="40.0" layoutY="555.0" mnemonicParsing="false" text="Load..."/>
+      <Button onAction="#changeCatalog" layoutX="40.0" layoutY="555.0" mnemonicParsing="false" text="Load..."/>
   </children>
 </Pane>

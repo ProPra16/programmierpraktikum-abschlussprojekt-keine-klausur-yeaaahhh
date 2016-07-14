@@ -35,7 +35,7 @@ public class StartController {
     private ListView<Exercise> excersislist;
 
     @FXML
-    private Button selectButton, loadButton;
+    private Button selectButton;
 
     @FXML
     private TextArea descriptionField;
@@ -74,6 +74,7 @@ public class StartController {
         excersislist.getItems().setAll(exercises); // getItems().setAll(...) is okay, because exercises is immutable
     }
 
+    @FXML
     void changeCatalog() {
         FileChooser dialog = new FileChooser();
         dialog.setTitle("Wähle Übungs Katalog");
