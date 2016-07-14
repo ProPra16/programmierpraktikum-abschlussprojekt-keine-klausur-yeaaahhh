@@ -93,6 +93,7 @@
         <classes>
             <class name="RomanNumberConverter">
                 public class RomanNumberConverter {
+
                 }
             </class>
         </classes>
@@ -104,6 +105,7 @@
                 public class RomanNumberConverterTest {
                 @Test
                 public void testSomething() {
+
                 }
                 }
             </test>
