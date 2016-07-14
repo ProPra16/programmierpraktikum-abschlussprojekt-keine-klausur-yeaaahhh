@@ -2,29 +2,45 @@ package de.hhu.propra16.tddt.gui;
 
 import de.hhu.propra16.tddt.trainer.Phase;
 import de.hhu.propra16.tddt.trainer.Tracker;
-import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.paint.Color;
-import javafx.stage.Stage;
+import javafx.scene.control.Button;
+import javafx.scene.layout.Pane;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
 
 public class BarScene {
-    final static String rotePhase = "Rote Phase";
-    final static String schwarzePhase = "Schwarze Phase";
-    final static String gruenePhase = "Grüne Phase";
+    private final static String rotePhase = "Rote Phase";
+    private final static String schwarzePhase = "Schwarze Phase";
+    private final static String gruenePhase = "Grüne Phase";
 
 
     public BarScene(){
 
     }
-    public Scene createBarScene(Tracker t){
+
+    public Scene createBarScene(Tracker t) {
+        Pane root = null;
+        try {
+            root = FXMLLoader.load(getClass().getResource("/Graph.fxml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Node bc = createGraph(t);
+        root.getChildren().add(bc);
+        bc.toBack();
+
+        Scene scene = new Scene(root, 800, 600);
+        scene.getStylesheets().add("./style.css");
+        return scene;
+    }
+
+    private Node createGraph(Tracker t) {
         final CategoryAxis xAxis = new CategoryAxis();
         final NumberAxis yAxis = new NumberAxis();
         final BarChart<String, Number> bc =
@@ -51,13 +67,11 @@ public class BarScene {
         series3.setName("Schwarze Phase");
         series3.getData().add(new XYChart.Data<>(schwarzePhase, blackTime));
 
-        Scene scene = new Scene(bc, 800, 600);
-        scene.getStylesheets().add("./style.css");
         bc.getData().add(series1);
         bc.getData().add(series2);
         bc.getData().add(series3);
 
 
-        return scene;
+        return bc;
     }
 }
