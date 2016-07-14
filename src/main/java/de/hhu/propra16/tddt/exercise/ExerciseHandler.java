@@ -34,9 +34,10 @@ class ExerciseHandler extends DefaultHandler {
         } else if (hasExercises && qName.equals("test")) {
             exerciseBuilder.setTestName(getAttribute(atts, "name", 0));
         } else if (hasExercises && qName.equals("babysteps")) {
-            boolean condition = getAttribute(atts, "value", 0).toLowerCase().equals("true");
-            exerciseBuilder.setBabySteps(condition);
-            if(condition) {
+            boolean hasBabysteps = getAttribute(atts, "value", 0).toLowerCase().equals("true");
+            boolean hasNoTime = getAttribute(atts, "time", 1).equals(null);
+            exerciseBuilder.setBabySteps(hasBabysteps);
+            if (hasBabysteps && !hasNoTime) {
                 exerciseBuilder.setTime(parseTime(getAttribute(atts, "time", 1)));
             }
         } else if (hasExercises && qName.equals("timetracking")) {
@@ -91,7 +92,7 @@ class ExerciseHandler extends DefaultHandler {
     }
 
     private String getAttribute(Attributes atts, String equation, int index) {
-        if (atts.getLength() == 0) return null;
+        if (atts.getLength() == 0 || index > atts.getLength()) return null;
         boolean condition = atts.getLocalName(index).equals(equation);
         return condition ? atts.getValue(index) : null;
     }

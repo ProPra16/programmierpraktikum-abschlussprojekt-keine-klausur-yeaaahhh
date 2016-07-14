@@ -51,8 +51,8 @@
             </test>
         </tests>
         <config>
-            <babysteps value="false"/>
-            <timetracking value="true"/>
+            <babysteps value="true"/>
+            <timetracking value="false"/>
         </config>
     </exercise>
 
