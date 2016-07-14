@@ -48,8 +48,17 @@ public class Tracker {
     }
 
     public Duration getTotalTime(Phase phase) {
-        return phaseEnds().stream().filter(data -> data.phase == phase)
+        Duration time = phaseEnds().stream().filter(data -> data.phase == phase)
                 .map(data -> data.timeUsed).reduce(Duration.ZERO, Duration::plus);
+
+        // Last data point could be intermediate, instead of a phase end
+        // It should be counted anyway
+        if (data.size() > 0) {
+            RawData last = data.get(data.size() - 1);
+            if (last.phase == last.newPhase && last.phase == phase)
+                time = time.plus(last.timeUsed);
+        }
+        return time;
     }
 
     public long numberOfFailedChecks(Phase phase) {
