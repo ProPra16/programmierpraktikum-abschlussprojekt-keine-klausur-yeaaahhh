@@ -2,6 +2,7 @@ package de.hhu.propra16.tddt.gui;
 
 import de.hhu.propra16.tddt.trainer.Phase;
 import de.hhu.propra16.tddt.trainer.Tracker;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -9,28 +10,55 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
+import javafx.stage.FileChooser;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 
 public class BarScene {
+
+    private Tracker tracker;
+
+    @FXML
+    private Pane root;
+
     private final static String rotePhase = "Rote Phase";
     private final static String schwarzePhase = "Schwarze Phase";
     private final static String gruenePhase = "Grüne Phase";
 
+    private Path chooseFile() {
+        FileChooser dialog = new FileChooser();
+        dialog.setTitle("Choose location");
+        dialog.setInitialFileName("tracking.data");
+        File file = dialog.showSaveDialog(root.getScene().getWindow());
+        if (file == null) return null;
+        return file.toPath();
+    }
 
-    public BarScene(){
-
+    public void saveData() {
+        if (tracker == null) return;
+        Path path = chooseFile();
+        if (path != null) {
+            try {
+                tracker.saveTo(path);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public Scene createBarScene(Tracker t) {
         Pane root = null;
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Graph.fxml"));
         try {
-            root = FXMLLoader.load(getClass().getResource("/Graph.fxml"));
+            root = loader.load();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        loader.<BarScene>getController().tracker = t;
+
         Node bc = createGraph(t);
         root.getChildren().add(bc);
         bc.toBack();

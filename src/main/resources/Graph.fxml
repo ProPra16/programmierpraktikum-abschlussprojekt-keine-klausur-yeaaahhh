@@ -5,6 +5,7 @@
 <StackPane fx:id="root" prefHeight="600.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1"
            xmlns="http://javafx.com/javafx/2.2" fx:controller="de.hhu.propra16.tddt.gui.BarScene">
     <Pane>
-        <Button text="Daten speichern" layoutX="15.0" layoutY="560"/>
+        <Button text="Daten speichern" layoutX="15.0" layoutY="560"
+        onAction="#saveData"/>
     </Pane>
 </StackPane>
