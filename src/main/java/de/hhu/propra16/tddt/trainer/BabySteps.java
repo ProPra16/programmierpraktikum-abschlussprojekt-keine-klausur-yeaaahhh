@@ -18,14 +18,14 @@ class BabySteps {
     void timer(Trainer trainer) {
         Instant finishTime = Instant.now().plus(duration);
 
-        timerDisplay = new Timer();
+        timerDisplay = new Timer(true);
         timerDisplay.scheduleAtFixedRate(new TimerTask() {
             public void run() {
                 trainer.setTimeLeft(Duration.between(Instant.now(), finishTime));
             }
         }, 0, 1000);
 
-        timer = new Timer();
+        timer = new Timer(true);
         timer.schedule(new TimerTask() {
             public void run() {
                 trainer.reset();
