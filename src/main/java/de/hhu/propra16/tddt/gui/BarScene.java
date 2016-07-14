@@ -64,7 +64,7 @@ public class BarScene {
         bc.toBack();
 
         Scene scene = new Scene(root, 800, 600);
-        scene.getStylesheets().add("./style.css");
+        scene.getStylesheets().add("/style.css");
         return scene;
     }
 
