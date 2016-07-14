@@ -33,7 +33,7 @@ public class StartController {
     private ListView<Exercise> excersislist;
 
     @FXML
-    private Button selectButton;
+    private Button selectButton, loadButton;
 
     @FXML
     private TextArea descriptionField;
