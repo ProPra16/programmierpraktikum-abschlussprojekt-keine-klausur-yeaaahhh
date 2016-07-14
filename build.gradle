@@ -1,5 +1,5 @@
 group 'de.hhu.propra16'
-version '1.1.1'
+version '1.2.2'
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
@@ -14,6 +14,12 @@ build.dependsOn 'installDist'
 repositories {
     mavenCentral()
 }
+
+applicationDistribution.from('src/main/resources') {
+    include 'Exercise.xml'
+    into 'catalog'
+}
+
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.8.2'

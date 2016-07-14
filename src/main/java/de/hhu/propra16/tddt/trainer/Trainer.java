@@ -8,7 +8,6 @@ import javafx.beans.property.*;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Timer;
 
 /**
  * Manages the different Phases
@@ -21,8 +20,6 @@ public class Trainer{
     private SourceCode previous;
     private MessageDisplay messageDisplay;
     private Tracker tracker;
-    private Phase prevPhase;
-    private Duration usedTime;
     private Instant start;
     private BabySteps babysteps;
 
@@ -45,14 +42,17 @@ public class Trainer{
         this.messageDisplay = messageDisplay;
 
         if (exercise.getOptions().getTracking()) {
-            tracker = new Tracker();
-            start = Instant.now();
+            tracker = new Tracker(checker);
+            phaseTime();
         }
-        if (exercise.getOptions().getBabySteps()) babysteps = new BabySteps(exercise.getOptions().getTime());
+        if (exercise.getOptions().getBabySteps()) {
+            babysteps = new BabySteps(exercise.getOptions().getTime());
+            babysteps.timer(this);
+        }
         current = exercise.getSources();
         previous = current;
         setPhase(Phase.RED);
-        showCurrentCode(exercise.getOptions().getTracking());
+        showCurrentCode();
     }
 
     /**
@@ -64,7 +64,7 @@ public class Trainer{
         String compilationMessage = current.getResult();
         boolean check = checker.check(current, getPhase());
         if (!check && exercise.getOptions().getTracking()) {
-            tracker.push(current, Duration.between(start, Instant.now()), getPhase(), getPhase());
+            tracker.push(current, usedTime(), getPhase(), getPhase());
         }
         setPhaseAccepted(check);
         setErrorField(compilationMessage);
@@ -76,12 +76,10 @@ public class Trainer{
      * and the actual Sourcecode becomes the previous one.
      */
     public void nextPhase() {
-        prevPhase = getPhase();
-        if (exercise.getOptions().getTracking()) phaseTime();
         cycle(true);
         previous = current;
         current = editor.get();
-        showCurrentCode(exercise.getOptions().getTracking());
+        showCurrentCode();
     }
 
     /**
@@ -89,25 +87,24 @@ public class Trainer{
      * and the previous Sourcecode becomes the actual one.
      */
     public void previousPhase() {
-        prevPhase = getPhase();
         cycle(false);
-        if (exercise.getOptions().getTracking()) phaseTime();
         current = previous;
-        showCurrentCode(exercise.getOptions().getTracking());
+        showCurrentCode();
     }
 
-    private void showCurrentCode(boolean tracking) {
+    // Shows the current code. Nothing more.
+    private void showCurrentCode() {
         editor.show(current,
                 getPhase() == Phase.GREEN || getPhase() == Phase.BLACK,
                 getPhase() == Phase.RED || getPhase() == Phase.BLACK);
-        setTimeLeft(null);
-        if (tracking) tracker.push(current, usedTime, prevPhase, getPhase());
-        if ((getPhase() != Phase.BLACK) && exercise.getOptions().getBabySteps()) babysteps.timer(this);
     }
 
     private void phaseTime() {
-        usedTime = Duration.between(start, Instant.now());
         start = Instant.now();
+    }
+
+    private Duration usedTime() {
+        return Duration.between(start, Instant.now());
     }
     /**
      * Changes Phase (counter) clockwise
@@ -116,18 +113,20 @@ public class Trainer{
      * @value true to go clockwise
      * @value false to go counterclockwise
      */
-    private Timer timer;
-    private Timer timerDisplay;
     private void cycle(boolean forward) {
-        if (forward) {
-            if (getPhase() == Phase.RED) setPhase(Phase.GREEN);
-            else if (getPhase() == Phase.GREEN) setPhase(Phase.BLACK);
-            else if (getPhase() == Phase.BLACK) setPhase(Phase.RED);
-        } else {
-            if (getPhase() == Phase.GREEN) setPhase(Phase.RED);
-            else if (getPhase() == Phase.RED) setPhase(Phase.BLACK);
-        }
+        Phase prevPhase = getPhase(); // Save for tracking
+
+        if (forward) setPhase(getPhase().next());
+        else if (getPhase() != Phase.BLACK) setPhase(getPhase().previous());
         if (babysteps != null) babysteps.cancel();
+
+        if (exercise.getOptions().getTracking()) {
+            tracker.push(current, usedTime(), prevPhase, getPhase());
+            phaseTime();
+        }
+
+        setTimeLeft(null);
+        if ((getPhase() != Phase.BLACK) && exercise.getOptions().getBabySteps()) babysteps.timer(this);
     }
 
     private final BooleanProperty phaseOkay = new SimpleBooleanProperty(this, "Ability to move to next phase", false);
