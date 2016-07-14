@@ -4,8 +4,6 @@ import java.time.Duration;
 
 public class Options {
 
-    private static final Duration DEFAULT_TIME = Duration.ZERO.plusMinutes(2);
-
     private final boolean babySteps;
     private final boolean tracking;
     private final Duration time;
