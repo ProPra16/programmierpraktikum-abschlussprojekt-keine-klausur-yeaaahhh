@@ -35,7 +35,7 @@ class ExerciseHandler extends DefaultHandler {
             exerciseBuilder.setTestName(getAttribute(atts, "name", 0));
         } else if (hasExercises && qName.equals("babysteps")) {
             boolean hasBabysteps = getAttribute(atts, "value", 0).toLowerCase().equals("true");
-            boolean hasNoTime = getAttribute(atts, "time", 1).equals(null);
+            boolean hasNoTime = getAttribute(atts, "time", 1) == null;
             exerciseBuilder.setBabySteps(hasBabysteps);
             if (hasBabysteps && !hasNoTime) {
                 exerciseBuilder.setTime(parseTime(getAttribute(atts, "time", 1)));
