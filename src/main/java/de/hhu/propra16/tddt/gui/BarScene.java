@@ -2,29 +2,73 @@ package de.hhu.propra16.tddt.gui;
 
 import de.hhu.propra16.tddt.trainer.Phase;
 import de.hhu.propra16.tddt.trainer.Tracker;
-import javafx.application.Application;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.paint.Color;
-import javafx.stage.Stage;
+import javafx.scene.layout.Pane;
+import javafx.stage.FileChooser;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
 
 public class BarScene {
-    final static String rotePhase = "Rote Phase";
-    final static String schwarzePhase = "Schwarze Phase";
-    final static String gruenePhase = "Grüne Phase";
 
+    private Tracker tracker;
 
-    public BarScene(){
+    @FXML
+    private Pane root;
 
+    private final static String rotePhase = "Rote Phase";
+    private final static String schwarzePhase = "Schwarze Phase";
+    private final static String gruenePhase = "Grüne Phase";
+
+    private Path chooseFile() {
+        FileChooser dialog = new FileChooser();
+        dialog.setTitle("Choose location");
+        dialog.setInitialFileName("tracking.data");
+        File file = dialog.showSaveDialog(root.getScene().getWindow());
+        if (file == null) return null;
+        return file.toPath();
     }
-    public Scene createBarScene(Tracker t){
+
+    public void saveData() {
+        if (tracker == null) return;
+        Path path = chooseFile();
+        if (path != null) {
+            try {
+                tracker.saveTo(path);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public Scene createBarScene(Tracker t) {
+        Pane root = null;
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Graph.fxml"));
+        try {
+            root = loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        loader.<BarScene>getController().tracker = t;
+
+        Node bc = createGraph(t);
+        root.getChildren().add(bc);
+        bc.toBack();
+
+        Scene scene = new Scene(root, 800, 600);
+        scene.getStylesheets().add("/style.css");
+        return scene;
+    }
+
+    private Node createGraph(Tracker t) {
         final CategoryAxis xAxis = new CategoryAxis();
         final NumberAxis yAxis = new NumberAxis();
         final BarChart<String, Number> bc =
@@ -51,13 +95,11 @@ public class BarScene {
         series3.setName("Schwarze Phase");
         series3.getData().add(new XYChart.Data<>(schwarzePhase, blackTime));
 
-        Scene scene = new Scene(bc, 800, 600);
-        scene.getStylesheets().add("./style.css");
         bc.getData().add(series1);
         bc.getData().add(series2);
         bc.getData().add(series3);
 
 
-        return scene;
+        return bc;
     }
 }

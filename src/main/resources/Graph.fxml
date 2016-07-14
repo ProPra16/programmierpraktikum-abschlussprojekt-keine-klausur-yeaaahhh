@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.Pane?>
+<StackPane fx:id="root" prefHeight="600.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1"
+           xmlns="http://javafx.com/javafx/2.2" fx:controller="de.hhu.propra16.tddt.gui.BarScene">
+    <Pane>
+        <Button text="Daten speichern" layoutX="15.0" layoutY="560"
+        onAction="#saveData"/>
+    </Pane>
+</StackPane>
