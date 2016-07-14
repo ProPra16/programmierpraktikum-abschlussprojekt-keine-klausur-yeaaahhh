@@ -45,7 +45,10 @@ public class Trainer{
             tracker = new Tracker(checker);
             phaseTime();
         }
-        if (exercise.getOptions().getBabySteps()) babysteps = new BabySteps(exercise.getOptions().getTime());
+        if (exercise.getOptions().getBabySteps()) {
+            babysteps = new BabySteps(exercise.getOptions().getTime());
+            babysteps.timer(this);
+        }
         current = exercise.getSources();
         previous = current;
         setPhase(Phase.RED);
