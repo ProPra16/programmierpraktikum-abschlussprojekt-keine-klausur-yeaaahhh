@@ -5,7 +5,8 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.*?>
-<Pane fx:id="root" prefHeight="600.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="de.hhu.propra16.tddt.gui.StartController">
+<Pane fx:id="root" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.65"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.hhu.propra16.tddt.gui.StartController">
   <children>
     <ListView fx:id="excersislist" layoutX="40.0" layoutY="128.0" prefHeight="403.0" prefWidth="240.0" />
     <TextArea fx:id="descriptionField" editable="false" layoutX="300.0" layoutY="128.0" prefHeight="403.0" prefWidth="448.0" wrapText="true" />
@@ -21,5 +22,6 @@
         <Font name="Arial" size="35.0" />
       </font>
     </Text>
+      <Button fx:id="loadButton" layoutX="40.0" layoutY="555.0" mnemonicParsing="false" text="Load..."/>
   </children>
 </Pane>
