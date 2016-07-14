@@ -130,4 +130,21 @@ public class DataPoint {
                 .append(getLinesTestChanged()).append('\t')
                 .toString();
     }
+
+    /**
+     * Header of the data
+     *
+     * @return a String with names of the contained data types in order
+     */
+    public static String dataHeader() {
+        return "Phase\t"
+                +"timeUsed\t"
+                +"checksWithFailedTests\t"
+                +"checksWithCompilationError\t"
+                +"newLinesOfCode\t"
+                +"newLinesOfTest\t"
+                +"linesOfCodeChanged\t"
+                +"linesOfTestChanged\t";
+
+    }
 }
