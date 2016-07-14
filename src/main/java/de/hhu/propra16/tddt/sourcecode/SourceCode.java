@@ -54,9 +54,7 @@ public class SourceCode {
             for (int i = 0; i < list.size(); i++) {
                 Collection<CompileError> error = this.compileCode().getCompilerErrorsForCompilationUnit(list.get(i));
                 CompilationUnit CUtmp = list.get(i);
-                error.forEach((e) -> {
-                    tmp.add("\nKlasse " + CUtmp.getClassName() + ": Line " + e.getLineNumber() + ": " + e.getMessage() + " ");
-                });
+                error.forEach((e) -> tmp.add("\nKlasse " + CUtmp.getClassName() + ": Line " + e.getLineNumber() + ": " + e.getMessage() + " "));
             }
             String t = Fehler.concat(tmp.toString() + " ");
             String tt = t.substring(1, t.length() - 2);
@@ -76,18 +74,14 @@ public class SourceCode {
     //Methode gibt Klassenname der Tests aus
     public List<String> getNameTest() {
         List<String> stringTest = new ArrayList<>();
-        tests.forEach((t) -> {
-            stringTest.add(t.getClassName());
-        });
+        tests.forEach((t) -> stringTest.add(t.getClassName()));
         return stringTest;
     }
 
     //Methode gibt Klassennamen der Programme aus
     public List<String> getNameCode() {
         List<String> stringCode = new ArrayList<>();
-        code.forEach((c) -> {
-            stringCode.add(c.getClassName());
-        });
+        code.forEach((c) -> stringCode.add(c.getClassName()));
         return stringCode;
     }
 

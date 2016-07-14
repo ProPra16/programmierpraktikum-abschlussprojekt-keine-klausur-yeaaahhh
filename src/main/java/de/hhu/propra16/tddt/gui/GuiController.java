@@ -55,24 +55,20 @@ public class GuiController {
         Editor editor = new SplitEditor(codeTabs, testTabs);
         trainer = new Trainer(exercise,
                 editor,
-                (title, message) -> {
-                    Platform.runLater(() -> {
-                        Alert alert = new Alert(Alert.AlertType.WARNING);
-                        alert.setTitle(title);
-                        alert.setContentText(message);
-                        alert.showAndWait();
-                    });
-                },
+                (title, message) -> Platform.runLater(() -> {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle(title);
+                    alert.setContentText(message);
+                    alert.showAndWait();
+                }),
                 new ConditionChecker());
 
         nextButton.disableProperty().bind(Bindings.not(trainer.phaseAcceptedProperty()));
         backButton.disableProperty().bind(Bindings.notEqual(Phase.GREEN, trainer.phaseProperty()));
         errorField.textProperty().bind(trainer.errorMessageProperty());
 
-        trainer.timeProperty().addListener((observable, oldValue, newValue) -> {
-            Platform.runLater(() -> timerLabel.setText(newValue == null ?
-                    "" : Long.toString(newValue.toMillis() / 1000)));
-        });
+        trainer.timeProperty().addListener((observable, oldValue, newValue) -> Platform.runLater(() -> timerLabel.setText(newValue == null ?
+                "" : Long.toString(newValue.toMillis() / 1000))));
 
         trainer.phaseProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue == Phase.RED) {

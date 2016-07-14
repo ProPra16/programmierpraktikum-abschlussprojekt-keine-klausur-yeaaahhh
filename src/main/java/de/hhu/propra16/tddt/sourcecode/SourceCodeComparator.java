@@ -83,18 +83,10 @@ public class SourceCodeComparator {
         altTest = new ArrayList<>();
         neuCode = new ArrayList<>();
         neuTest = new ArrayList<>();
-        alt.getNameCode().forEach((a) -> {
-            altCode.add(alt.getStringCode(a));
-        });
-        neu.getNameCode().forEach((n) -> {
-            neuCode.add(neu.getStringCode(n));
-        });
-        alt.getNameTest().forEach((aT) -> {
-            altTest.add(alt.getStringCode(aT));
-        });
-        neu.getNameTest().forEach((t) -> {
-            neuTest.add(neu.getStringCode(t));
-        });
+        alt.getNameCode().forEach((a) -> altCode.add(alt.getStringCode(a)));
+        neu.getNameCode().forEach((n) -> neuCode.add(neu.getStringCode(n)));
+        alt.getNameTest().forEach((aT) -> altTest.add(alt.getStringCode(aT)));
+        neu.getNameTest().forEach((t) -> neuTest.add(neu.getStringCode(t)));
     }
 
     public static void main(String[] args) {
