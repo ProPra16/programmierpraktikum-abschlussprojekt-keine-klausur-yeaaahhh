@@ -127,7 +127,7 @@ public class Tracker {
                 if (raw.code.numberOfFailedTests() > 0) checksWithFailedTests++;
             } else {
                 // A new phase point
-                fillBuilder(checksWithFailedTests, checksWithCompilationError, previousRaw, builder, raw);
+                fillBuilder(raw, checksWithFailedTests, checksWithCompilationError, previousRaw, builder);
                 previousRaw = raw;
                 checksWithCompilationError = 0;
                 checksWithFailedTests = 0;
@@ -140,13 +140,13 @@ public class Tracker {
         }
         // Don't forget the last DataPoint...
         if (!builderEmpty) {
-            fillBuilder(checksWithFailedTests, checksWithCompilationError, previousRaw, builder, data.get(data.size() - 1));
+            fillBuilder(data.get(data.size() - 1), checksWithFailedTests, checksWithCompilationError, previousRaw, builder);
             result.add(builder.build());
         }
         return result;
     }
 
-    private void fillBuilder(int checksWithFailedTests, int checksWithCompilationError, RawData previousRaw, DataPoint.Builder builder, RawData raw) {
+    private void fillBuilder(RawData raw, int checksWithFailedTests, int checksWithCompilationError, RawData previousRaw, DataPoint.Builder builder) {
         builder.setChecksWithCompilationError(checksWithCompilationError)
                 .setChecksWithFailedTests(checksWithFailedTests)
                 .setTimeUsed(raw.timeUsed)
@@ -165,6 +165,7 @@ public class Tracker {
 
     public void saveTo(Path path) throws IOException {
         StringBuilder builder = new StringBuilder();
+        builder.append(DataPoint.dataHeader()).append(System.lineSeparator());
         for (DataPoint point : getRawData()) {
             builder.append(point.toString()).append(System.lineSeparator());
         }
