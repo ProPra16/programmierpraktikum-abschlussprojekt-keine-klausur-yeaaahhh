@@ -13,8 +13,10 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.Pane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
@@ -39,15 +41,7 @@ public class StartController {
     private TextArea descriptionField;
 
     public void initialize() {
-        ExerciseLoader loader = new ExerciseLoader(getExerciseResource());
-        List<Exercise> exercises = null;
-        try {
-            exercises = loader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        excersislist.getItems().setAll(exercises); // getItems().setAll(...) is okay, because exercises is immutable
+        loadCatalog(getExerciseResource());
 
         // the CellFactory extracts the names from the exercises
         excersislist.setCellFactory(lv -> new ListCell<Exercise>() {
@@ -66,6 +60,35 @@ public class StartController {
         // Enable the select button only, if an exercise is selected
         selectButton.disableProperty().bind(Bindings.isNull(excersislist.getSelectionModel().selectedItemProperty()));
 
+    }
+
+    private void loadCatalog(URL catalog) {
+        ExerciseLoader loader = new ExerciseLoader(catalog);
+        List<Exercise> exercises = null;
+        try {
+            exercises = loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        excersislist.getItems().setAll(exercises); // getItems().setAll(...) is okay, because exercises is immutable
+    }
+
+    void changeCatalog() {
+        FileChooser dialog = new FileChooser();
+        dialog.setTitle("Wähle Übungs Katalog");
+        dialog.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("xml File", "*.xml"),
+                new FileChooser.ExtensionFilter("All Files", "*.*")
+        );
+        File file = dialog.showOpenDialog(root.getScene().getWindow());
+        if (file != null) {
+            try {
+                loadCatalog(file.toURI().toURL());
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private static String fullDescription(Exercise ex) {
