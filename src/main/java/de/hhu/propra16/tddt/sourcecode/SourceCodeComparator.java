@@ -1,5 +1,7 @@
 package de.hhu.propra16.tddt.sourcecode;
 
+import vk.core.api.CompilationUnit;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +23,7 @@ public class SourceCodeComparator {
         for (int i = 0; i < altCode.size(); i++) {
             String[] altArray = altCode.get(i).split("\n");
             String[] neuArray = neuCode.get(i).split("\n");
-            lines.add(altArray.length - neuArray.length);
+            lines.add(neuArray.length - altArray.length);
         }
         return lines;
     }
@@ -32,7 +34,7 @@ public class SourceCodeComparator {
         for (int i = 0; i < altTest.size(); i++) {
             String[] altArray = altTest.get(i).split("\n");
             String[] neuArray = neuTest.get(i).split("\n");
-            lines.add(altArray.length - neuArray.length);
+            lines.add(neuArray.length - altArray.length);
         }
         return lines;
     }
@@ -68,13 +70,10 @@ public class SourceCodeComparator {
     private static List<String> compare(String[] altArray, String[] neuArray) {
         List<String> diff = new ArrayList<>();
         for (int i = 0; i < altArray.length; i++) {
-            if (altArray[i].equals(neuArray[i]))
-                continue;
-            else {
+            if (!altArray[i].equals(neuArray[i]))
                 diff.add(i + ": " + neuArray[i]);
-            }
+
         }
-//        change = diff.size();
         return diff;
     }
 
@@ -90,8 +89,18 @@ public class SourceCodeComparator {
     }
 
     public static void main(String[] args) {
-//        String string1 = "mimi\nHallo\nWie gehts?\nLass mal was machen";
-//        String string2 = "Hallo\nWie geht es dir?\nLass mal was machen\nheute?";
-//        System.out.println(changedLines(string1, string2));
+        CompilationUnit a = new CompilationUnit("bla", "import org.junit.*;\npublic class bla{@Test public void test(){blubb.dat();\n}}", true);
+        CompilationUnit b = new CompilationUnit("blubb",
+                "public class blubb{\npublic static void dot() {}} ", false);
+        CompilationUnit c = new CompilationUnit("bsp", "public class bsp{} ", false);
+        List<CompilationUnit> liste1 = new ArrayList<>();
+        List<CompilationUnit> liste2 = new ArrayList<>();
+        liste1.add(a);
+        liste1.add(b);
+        liste2.add(c);
+        SourceCode neu = new SourceCode(liste1);
+        SourceCode alt = new SourceCode(liste2);
+        System.out.println(SourceCodeComparator.newLinesCode(alt, neu));
+
     }
 }

@@ -43,8 +43,14 @@ public class SourceCode {
             Collection<TestFailure> test = this.compileTest().getTestFailures();
             ArrayList<String> array = new ArrayList<>();
             test.forEach((e) -> {
-                String tmp = e.getMessage();
+                if (e.getMessage() != null) {
+                String tmp = "Method: "+ e.getMethodName() + " " + e.getMessage();
                 array.add(tmp);
+                }
+                else {
+                    String tmp = "Method: "+ e.getMethodName();
+                    array.add(tmp);
+                }
             });
             String tmp = array.toString() + " ";
             return Fehler.concat(tmp);
