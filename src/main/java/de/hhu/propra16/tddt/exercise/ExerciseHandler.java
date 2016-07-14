@@ -92,7 +92,7 @@ class ExerciseHandler extends DefaultHandler {
     }
 
     private String getAttribute(Attributes atts, String equation, int index) {
-        if (atts.getLength() == 0 || index > atts.getLength()) return null;
+        if (atts.getLength() == 0 || index >= atts.getLength()) return null;
         boolean condition = atts.getLocalName(index).equals(equation);
         return condition ? atts.getValue(index) : null;
     }
