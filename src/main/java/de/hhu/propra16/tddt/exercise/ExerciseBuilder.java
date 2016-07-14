@@ -7,14 +7,18 @@ import java.time.Duration;
 
 public class ExerciseBuilder {
 
-    private String name;
-    private String description = "No description available";
+    private static final Duration DEFAULT_TIME = Duration.ZERO.plusMinutes(2);
+    private static final String DEFAULT_DESCRIPTION = "No description available";
+    private static final String DEFAULT_NAME = "Exercise";
+
+    private String name = DEFAULT_NAME;
+    private String description = DEFAULT_DESCRIPTION;
     private String className;
     private String testName;
     private boolean babySteps = false;
     private boolean tracking = false;
     private final SourceCodeBuilder sourceBuilder = new SourceCodeBuilder();
-    private Duration time;
+    private Duration time = DEFAULT_TIME;
 
     public ExerciseBuilder setDescription(String description) {
         if (description == null) throw new NullPointerException("Description must not be null.");
